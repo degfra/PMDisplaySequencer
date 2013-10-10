@@ -3,12 +3,12 @@
 include_once '../includes/magicquotes.inc.php';
 //include_once $_SERVER['DOCUMENT_ROOT'] . /includes/magicquotes.inc.php';
 
+    /********** PREVIEW CLIP ***********/
+
 if (isset($_GET['action']) and $_GET['action'] == 'Preview')
 {
     include '../includes/db.inc.php';
     // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
-    
-    /********** PREVIEW CLIP ***********/
     
     try 
     {
@@ -54,7 +54,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'Preview')
 }
     
 
-/**************** DISPLAY CLIP *****************/
+/**************** DISPLAY CLIPS LIST *****************/
 
 include '../includes/db.inc.php';
 // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
