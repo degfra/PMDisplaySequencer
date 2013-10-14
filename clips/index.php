@@ -19,10 +19,11 @@ if (isset($_GET['action']) and $_GET['action'] == 'Preview')
                             WHERE clip.id = :clipid
                             GROUP BY clip.id';
        */
-       $sql = 'SELECT header.headercode, footer.footercode, clip.*
+       $sql = 'SELECT header.headercode, footer.footercode, mainarea.mainareacode, clip.*
                             FROM clip
                             JOIN header ON clip.id = header.clipid
                             JOIN footer ON clip.id = footer.clipid
+                            JOIN mainarea ON clip.id = mainarea.clipid
                             WHERE clip.id = :clip_id';
        
        $s = $pdo->prepare($sql);
@@ -41,14 +42,15 @@ if (isset($_GET['action']) and $_GET['action'] == 'Preview')
         $previewedclips[] = array(    
         'id'    => $row['id'],
         'clipname'  => $row['clipname'],
-        'clipcode'  => $row['clipcode'],
+        //'clipcode'  => $row['clipcode'],
         'clipdate' => $row['clipdate'],
         'headercode' => $row['headercode'],
-        'footercode' => $row['footercode']
+        'footercode' => $row['footercode'],
+        'mainareacode' => $row['mainareacode']
       );
     }
     
-    include 'clippreview.html.php';
+    include 'clippreview2.html.php';
     exit();
     
 }

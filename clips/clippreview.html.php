@@ -10,7 +10,7 @@
                 
                 <?php foreach ($previewedclips as $previewedclip): ?>
                 <?php echo $previewedclip['headercode']; ?>
-                <?php echo $previewedclip['clipcode']; ?>
+                <?php echo $previewedclip['mainareacode']; ?>
                 <?php echo $previewedclip['footercode']; ?>
                 <?php endforeach; ?>
                 
