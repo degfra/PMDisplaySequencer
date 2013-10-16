@@ -19,11 +19,15 @@ if (isset($_GET['action']) and $_GET['action'] == 'Preview')
                             WHERE clip.id = :clipid
                             GROUP BY clip.id';
        */
-       $sql = 'SELECT header.headercode, footer.footercode, mainarea.mainareacode, clip.*
+       $sql = 'SELECT header.headercode, footer.footercode, 
+           leftbar.leftbarcode, mainarea.mainareacode, rightbar.rightbarcode,
+           clip.*
                             FROM clip
                             JOIN header ON clip.id = header.clipid
-                            JOIN footer ON clip.id = footer.clipid
+                            JOIN leftbar ON clip.id = leftbar.clipid
                             JOIN mainarea ON clip.id = mainarea.clipid
+                            JOIN rightbar ON clip.id = rightbar.clipid
+                            JOIN footer ON clip.id = footer.clipid
                             WHERE clip.id = :clip_id';
        
        $s = $pdo->prepare($sql);
@@ -45,8 +49,11 @@ if (isset($_GET['action']) and $_GET['action'] == 'Preview')
         //'clipcode'  => $row['clipcode'],
         'clipdate' => $row['clipdate'],
         'headercode' => $row['headercode'],
-        'footercode' => $row['footercode'],
-        'mainareacode' => $row['mainareacode']
+        'leftbarcode' => $row['leftbarcode'],
+        'mainareacode' => $row['mainareacode'],
+        'rightbarcode' => $row['rightbarcode'],    
+        'footercode' => $row['footercode']
+                
       );
     }
     
@@ -89,10 +96,7 @@ while ($row = $result->fetch())
     $clips[] = array(    
         'id'    => $row['id'],
         'clipname'  => $row['clipname'],
-        //'clipcode'  => $row['clipcode'],
         'clipdate' => $row['clipdate'] //,
-        //'headercode' => $row['headercode'],
-        //'footercode' => $row['footercode']
       ); 
     
 }
