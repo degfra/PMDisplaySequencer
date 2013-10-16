@@ -7,7 +7,6 @@
         <title>Clips</title>
     </head>
     <body>
-        
         <p>Create a new Clip :</p>
         <form action="createClip" method="post">
             <label for="clipname">Enter new clip name : </label>
