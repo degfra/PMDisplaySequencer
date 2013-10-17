@@ -1,4 +1,4 @@
-<?php include '../includes/helpers.inc.php'; ?> 
+<?php include '../../includes/helpers.inc.php'; ?> 
 
 <!DOCTYPE html>
 <html>
@@ -7,11 +7,12 @@
         <title>Clips</title>
     </head>
     <body>
-        <p>Create a new Clip :</p>
-        <form action="createClip" method="post">
+        
+        <p>Add a new Clip :</p>
+        <form action="" method="post">
             <label for="clipname">Enter new clip name : </label>
             <input type="text" id="clipname" name="clipname"/>
-            <input type="submit" value="Create a new clip" />
+            <input type="submit" name="action" value="Add" />
         </form>
         
         <h2>Here are all the clips in the database:</h2>

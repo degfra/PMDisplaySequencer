@@ -8,13 +8,6 @@
     </head>
     <body>
         
-        <p>Create a new Clip :</p>
-        <form action="createClip" method="post">
-            <label for="clipname">Enter new clip name : </label>
-            <input type="text" id="clipname" name="clipname"/>
-            <input type="submit" value="Create a new clip" />
-        </form>
-        
         <h2>Here are all the clips in the database:</h2>
         <?php foreach ($clips as $clip): ?>
           <blockquote >

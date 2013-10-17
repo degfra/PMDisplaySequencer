@@ -7,7 +7,7 @@
  * 
  */
 
-include_once '../includes/magicquotes.inc.php';
+include_once '../../includes/magicquotes.inc.php';
 //include_once $_SERVER['DOCUMENT_ROOT'] . /includes/magicquotes.inc.php';
 
 /*
