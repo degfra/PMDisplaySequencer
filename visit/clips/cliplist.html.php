@@ -1,4 +1,4 @@
-<?php include '../includes/helpers.inc.php'; ?> 
+<?php include '../../includes/helpers.inc.php'; ?> 
 
 <!DOCTYPE html>
 <html>
