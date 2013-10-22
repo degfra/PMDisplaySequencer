@@ -1,3 +1,4 @@
+<?php include '../../includes/helpers.inc.php'; ?>
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
@@ -44,7 +45,8 @@
         <link rel="stylesheet" href="../../css/animate.min.css">  -->
         <link rel="stylesheet" href="../../css/base.css">
         <link rel="stylesheet" href="../../css/skeleton_2sidebars_1920.css">
-        <link rel="stylesheet" href="../../css/layout_sidebars_1920.css">
+        <?php echo $clip['cliplayoutcssref']; ?>
+        
 
 
     </head>
@@ -56,4 +58,4 @@
 
         <form name='clipSaveForm' method='post' action='saveClip'>
 
-            <div class="container">  <!-- style="<?php echo $clip['clipbackgroundcolor']; ?> -->
+            <div class="container" style="background-color:<?php echo $clip['clipbackgroundcolor'];?>">  <!-- style="<?php echo $clip['clipbackgroundcolor']; ?> -->

@@ -114,6 +114,11 @@ if (isset($_GET['action']) and $_GET['action'] == 'Preview')
         'id'    => $row['id'],
         'clipname'  => $row['clipname'],
         'cliplayoutcssref' => $row['cliplayoutcssref'],
+        'clipDurationInSeconds' => $row['clipDurationInSeconds'],
+        'clipOrderNumber' => $row['clipOrderNumber'],
+        'nextClipUri' => $row['nextClipUri'],
+        'clipbackgroundcolor' => $row['clipbackgroundcolor'],
+        
         'codehead' => $codehead,
         'headercode' => $headercode,
         'leftbarcode' => $leftbarcode,
@@ -123,22 +128,8 @@ if (isset($_GET['action']) and $_GET['action'] == 'Preview')
         'codefoot' => $codefoot
     );
     
-    /*
-    $clipname  = $s['clipname'];
-    $cliplayoutcssref = $s['cliplayoutcssref'];
-    
-    $clippreviewhtml = $codehead 
-                     . $headercode 
-                     . $leftbarcode
-                     . $mainareacode
-                     . $rightbarcode
-                     . $footercode
-                     . $codefoot 
-                     ; */
-    
     //include 'clippreview.html.php';
    include 'clippreview_styled.html.php';
-    //include 'preview.php';
     exit();
     
 }
