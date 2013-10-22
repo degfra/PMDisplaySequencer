@@ -5,7 +5,7 @@
         <title></title>
     </head>
     <body>
-        <?php foreach ($clips as $previewedclip): ?>
+        <?php foreach ($previewedclips as $previewedclip): ?>
         <table width='100%' border='0' cellspacing='0'>
             <tr  align='center'>
                 <td colspan="3"><?php echo $previewedclip['headercode']; ?></td> 

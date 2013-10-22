@@ -36,6 +36,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'Preview')
     include '../../includes/db.inc.php';
     // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
     
+    /*
     try 
     {
         $sql = 'SELECT 
@@ -51,6 +52,27 @@ if (isset($_GET['action']) and $_GET['action'] == 'Preview')
        $s->bindValue(':clip_id', $_GET['clip_id']);
        $s->execute();
     }
+     */
+    
+    try 
+    {
+        $sql = 'SELECT 
+                section.sectioncode, 
+                sectiontype.id, sectiontype.sectiontypename, sectiontype.sectiontypecode,
+                cliplayout.id, cliplayout.cliplayoutcssref,
+                clip.*
+                            FROM clip
+                            JOIN section ON clip.id = section.clipid
+                            JOIN sectiontype ON sectiontype.id = section.sectiontypeid
+                            JOIN cliplayout ON cliplayout.id = clip.cliplayoutid
+                            WHERE clip.id = :clip_id'
+                            ;
+       
+       $s = $pdo->prepare($sql);
+       $s->bindValue(':clip_id', $_GET['clip_id']);
+       $s->execute();
+    }
+    
     catch (PDOException $error)
     {
        $error = $error->getMessage();   //getTraceAsString();   //'Error removing joke from categories!';
@@ -62,7 +84,11 @@ if (isset($_GET['action']) and $_GET['action'] == 'Preview')
     foreach ($s as $row)
     {  
       
-      if ($row['sectiontypename'] == 'header') {
+      if ($row['sectiontypename'] == 'codehead') {
+            $codehead = $row['sectioncode'];
+      }
+        
+        if ($row['sectiontypename'] == 'header') {
             $headercode = $row['sectioncode'];
       }
       else if ($row['sectiontypename'] == 'left sidebar') {
@@ -78,20 +104,41 @@ if (isset($_GET['action']) and $_GET['action'] == 'Preview')
             $footercode = $row['sectioncode'];
       }
       
+      else if ($row['sectiontypename'] == 'codefoot') {
+            $codefoot = $row['sectioncode'];
+      }
+      
     }
     
-    $clips[] = array(
+    $previewedclips[] = array(
         'id'    => $row['id'],
         'clipname'  => $row['clipname'],
+        'cliplayoutcssref' => $row['cliplayoutcssref'],
+        'codehead' => $codehead,
         'headercode' => $headercode,
         'leftbarcode' => $leftbarcode,
         'mainareacode' => $mainareacode,
         'rightbarcode' => $rightbarcode,
-        'footercode' => $footercode
+        'footercode' => $footercode,
+        'codefoot' => $codefoot
     );
     
-    include 'clippreview.html.php';
-    //include '../../clippreview/clippreview.html.php';
+    /*
+    $clipname  = $s['clipname'];
+    $cliplayoutcssref = $s['cliplayoutcssref'];
+    
+    $clippreviewhtml = $codehead 
+                     . $headercode 
+                     . $leftbarcode
+                     . $mainareacode
+                     . $rightbarcode
+                     . $footercode
+                     . $codefoot 
+                     ; */
+    
+    //include 'clippreview.html.php';
+   include 'clippreview_styled.html.php';
+    //include 'preview.php';
     exit();
     
 }
