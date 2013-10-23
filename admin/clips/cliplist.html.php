@@ -28,10 +28,12 @@
         <h2>Here are all the clips in the database:</h2>
         <?php foreach ($clips as $clip): ?>
             <blockquote >
-
+                 
                 <form action="" method="get">
+                    <?php echo $clip['id']; ?> : 
+                    <?php htmlout($clip['cliplayoutid']) ?> : 
                     <?php echo htmlout($clip['clipname'], ENT_QUOTES, 'UTF-8'); ?>
-<?php echo $clip['id']; ?>
+
                     (submitted on : <?php echo htmlout($clip['clipdate'], ENT_QUOTES, 'UTF-8'); ?> ) 
                     <input type="hidden" name="clip_id" value="<?php echo $clip['id']; ?>">
 
