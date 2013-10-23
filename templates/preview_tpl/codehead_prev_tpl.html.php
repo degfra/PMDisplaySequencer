@@ -11,7 +11,7 @@
         <!-- Basic Page Needs
   ================================================== -->
         <meta charset="utf-8" />
-        <title><?php echo $clip['clipname'] ?></title>
+        <title>Preview : <?php echo $clip['clipname'] ?></title>
         <!--[if lt IE 9]>
                 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -30,7 +30,7 @@
         <script>
             function countDown() {
                 if (count <= 0) {
-                    document.clipForm.submit();
+                    document.clipSaveForm.submit();
                 } else {
                     count--;
                     //document.getElementById("timer").innerHTML = " Il reste : " + count
