@@ -36,19 +36,19 @@ if (isset($_GET['action']) and $_GET['action'] == 'Preview')
     foreach ($s as $row)
     {  
       
-      if ($row['sectiontypename'] == 'header') {
+      if ($row['sectiontypename'] == 'Header') {
             $headercode = $row['sectioncode'];
       }
-      else if ($row['sectiontypename'] == 'left sidebar') {
+      else if ($row['sectiontypename'] == 'Left sidebar') {
             $leftbarcode = $row['sectioncode'];
       }
-      else if ($row['sectiontypename'] == 'main area') {
+      else if ($row['sectiontypename'] == 'Main area') {
             $mainareacode = $row['sectioncode'];
       }
-      else if ($row['sectiontypename'] == 'right sidebar') {
+      else if ($row['sectiontypename'] == 'Right sidebar') {
             $rightbarcode = $row['sectioncode'];
       }
-      else if ($row['sectiontypename'] == 'footer') {
+      else if ($row['sectiontypename'] == 'Footer') {
             $footercode = $row['sectioncode'];
       }
       

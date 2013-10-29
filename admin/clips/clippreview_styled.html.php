@@ -1,14 +1,15 @@
-<?php foreach ($previewedclips as $clip): ?>
-   
+
+    <?php foreach ($previewedclips as $clip): ?>
+
             <!-- 
             <?php echo $clip['codehead']; ?>
-            
+
             <?php echo $clip['headercode']; ?>
             <?php echo $clip['leftbarcode']; ?>
             <?php echo $clip['mainareacode']; ?>
             <?php echo $clip['rightbarcode']; ?>
             <?php echo $clip['footercode']; ?>
-            
+
             <?php echo $clip['codefoot']; ?>
             -->
 
