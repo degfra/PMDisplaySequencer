@@ -53,100 +53,78 @@
                 CKEDITOR.disableAutoInline = true;
     
                 CKEDITOR.inline( 'headerEditor',
-			{
+                            {
+                                // Removes the maximize plugin as it's not usable
+				// in a shared toolbar.
                                 extraPlugins: 'sharedspace',
+                                // Removes the resizer as it's not usable in a
+				// shared elements path.
                                 removePlugins : 'floatingspace,resize',
-				//height : '20',
+
                                 sharedSpaces :
 				{
 					top : 'sharedToolbar',
 					bottom : 'sharedPath'
 				}
-                       }//,
-                       //document.getElementById( 'inline1' ).innerHTML
-
-				// Removes the maximize plugin as it's not usable
-				// in a shared toolbar.
-				// Removes the resizer as it's not usable in a
-				// shared elements path.
-			);
+                            }
+				
+                            );
 
 		CKEDITOR.inline( 'leftSidebarEditor',
-			{
+                            {
                                 extraPlugins: 'sharedspace',
                                 removePlugins : 'maximize,resize',
-				//height : '605',
+				
 				sharedSpaces :
 				{
 					top : 'sharedToolbar',
 					bottom : 'sharedPath'
 				}
-                        }//,
-                       //document.getElementById( 'inline1' ).innerHTML
+                            }
 
-				// Removes the maximize plugin as it's not usable
-				// in a shared toolbar.
-				// Removes the resizer as it's not usable in a
-				// shared elements path.
-			);
+                            );
 
 		CKEDITOR.inline( 'mainEditor',
-			{
+                            {
                                 extraPlugins: 'sharedspace',
                                 removePlugins : 'maximize,resize',
-				//height : '605',
+				
 				sharedSpaces :
 				{
 					top : 'sharedToolbar',
-					bottom : 'sharedPath',
+					bottom : 'sharedPath'
 				}
-                        }//,
-                       //document.getElementById( 'inline1' ).innerHTML
-
-				// Removes the maximize plugin as it's not usable
-				// in a shared toolbar.
-                                // Removes the resizer as it's not usable in a
-				// shared elements path.
-			 );
+                            }
+			
+                            );
 		
 		CKEDITOR.inline( 'rightSidebarEditor',
-				{
+                            {
                                 extraPlugins: 'sharedspace',
                                 removePlugins : 'floatingspace,resize',
-				//height : '605',
+				
 				sharedSpaces :
 				{
 					top : 'sharedToolbar',
-					bottom : 'sharedPath',
+					bottom : 'sharedPath'
 				}
-                                }//,
-                       //document.getElementById( 'inline1' ).innerHTML
-
-				// Removes the maximize plugin as it's not usable
-				// in a shared toolbar.
-                                // Removes the resizer as it's not usable in a
-                                // shared elements path.	
-				);
+                            }
+			
+                            );
 
 		CKEDITOR.inline( 'footerEditor',
-				{
+                            {
                                 extraPlugins: 'sharedspace',
                                 removePlugins : 'floatingspace,resize',
-				//height : '605',
+				
 					sharedSpaces :
 					{
 						top : 'sharedToolbar',
-						bottom : 'sharedPath',
-					},
-
-					// Removes the maximize plugin as it's not usable
-					// in a shared toolbar.
-                                        // Removes the resizer as it's not usable in a
-                                        // shared elements path.	
-				}//,
-                       //document.getElementById( 'inline1' ).innerHTML
-                                
-                                );
+						bottom : 'sharedPath'
+					}
+                            }	
+			
+                            );
                                 
 	//]]>
 	</script>

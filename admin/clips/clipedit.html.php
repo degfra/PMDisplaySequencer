@@ -1,25 +1,37 @@
-<?php foreach ($previewedclips as $clip): ?>
-   
-            <!-- 
-            <?php echo $clip['codehead']; ?>
+<?php foreach ($clips as $clip): ?>
+      
+    <!-- code head -->
+    <?php include '../../templates/edit_tpl/codehead_edit_tpl.html.php'; ?>
             
-            <?php echo $clip['headercode']; ?>
-            <?php echo $clip['leftbarcode']; ?>
-            <?php echo $clip['mainareacode']; ?>
-            <?php echo $clip['rightbarcode']; ?>
-            <?php echo $clip['footercode']; ?>
+
+    <!-- header -->
+    <?php if ($clip['headername'] != null) { ?>
+        <?php include '../../templates/edit_tpl/header_edit_tpl.html.php'; ?>
+    <?php } ?>
+                        
+    <!-- left sidebar -->
+    <?php if ($clip['leftbarname'] != null) { ?>
+        <?php include '../../templates/edit_tpl/leftsidebar_edit_tpl.html.php'; ?>
+    <?php } ?>
+
+    <!-- main content area -->
+    <?php if ($clip['mainareaname'] != null) { ?>
+        <?php include '../../templates/edit_tpl/mainarea_edit_tpl.html.php'; ?>
+    <?php } ?>        
+                            
+    <!-- right sidebar -->
+    <?php if ($clip['rightbarname'] != null) { ?>
+        <?php include '../../templates/edit_tpl/rightsidebar_edit_tpl.html.php'; ?>
+    <?php } ?>
+                        
+    <!-- footer -->    
+    <?php if ($clip['footername'] != null) { ?>
+        <?php include '../../templates/edit_tpl/footer_edit_tpl.html.php'; ?>
+    <?php } ?>
+    
             
-            <?php echo $clip['codefoot']; ?>
-            -->
-
-            <?php include '../../templates/editor_tpl/codehead_edit_tpl.html.php'; ?>
-
-            <?php include '../../templates/editor_tpl/header_edit_tpl.html.php'; ?>
-            <?php include '../../templates/editor_tpl/leftsidebar_edit_tpl.html.php'; ?>
-            <?php include '../../templates/editor_tpl/mainarea_edit_tpl.html.php'; ?>
-            <?php include '../../templates/editor_tpl/rightsidebar_edit_tpl.html.php'; ?>
-            <?php include '../../templates/editor_tpl/footer_edit_tpl.html.php'; ?>
-
-            <?php include '../../templates/editor_tpl/codefoot_edit_tpl.html.php'; ?>
+    <!-- code foot -->
+    <?php include '../../templates/edit_tpl/codefoot_edit_tpl.html.php'; ?>
+            
 
 <?php endforeach; ?>

@@ -89,6 +89,16 @@ if (isset($_POST['action']) and $_POST['action'] == 'Add') {
                 $mainsectionname = "Clip " . $lastclipid . " " . $name;
                 $mainsectioncode = $sectiontype['sectiontypecode'];
                 
+            } else if ($name == 'Main area 1 sidebar') {
+                $main1sectiontypeid = $sectiontype['id'];
+                $main1sectionname = "Clip " . $lastclipid . " " . $name;
+                $main1sectioncode = $sectiontype['sectiontypecode'];
+                
+            } else if ($name == 'Main area 2 sidebars') {
+                $main2sectiontypeid = $sectiontype['id'];
+                $main2sectionname = "Clip " . $lastclipid . " " . $name;
+                $main2sectioncode = $sectiontype['sectiontypecode'];
+                
             } else if ($name == 'Right sidebar') {
                 $rightbarsectiontypeid = $sectiontype['id'];
                 $rightbarsectionname = "Clip " . $lastclipid . " " . $name;
@@ -115,7 +125,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Add') {
             $layoutsections[] = array(
                 'headersection' => 'header',
                 'leftbarsection' => 'leftbar',
-                'mainareasection' => 'mainarea',
+                'mainareasection' => 'mainarea_2_bars',
                 'rightbarsection' => 'rightbar',
                 'footersection' => 'footer'
             );
@@ -124,7 +134,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Add') {
             $layoutsections[] = array(
                 'headersection' => 'header',
                 'leftbarsection' => 'leftbar',
-                'mainareasection' => 'mainarea',
+                'mainareasection' => 'mainarea_1_bar',
                 'rightbarsection' => null,
                 'footersection' => 'footer'
             );
@@ -142,7 +152,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Add') {
             $layoutsections[] = array(
                 'headersection' => 'header',
                 'leftbarsection' => null,
-                'mainareasection' => 'mainarea',
+                'mainareasection' => 'mainarea_1_bar',
                 'rightbarsection' => 'rightbar',
                 'footersection' => 'footer'
             );
@@ -185,15 +195,35 @@ if (isset($_POST['action']) and $_POST['action'] == 'Add') {
 
                     $s->execute();
                 }
-                if ($layoutsection['mainareasection'] != null) {
+                if ($layoutsection['mainareasection'] != null ) {
+                    if ($layoutsection['mainareasection'] == 'mainarea') {
                     
-                    $s->bindValue(':sectiontypeid', $mainsectiontypeid);
-                    $s->bindValue(':sectionname', $mainsectionname);
-                    $s->bindValue(':sectiontypecode', $mainsectioncode);
+                        $s->bindValue(':sectiontypeid', $mainsectiontypeid);
+                        $s->bindValue(':sectionname', $mainsectionname);
+                        $s->bindValue(':sectiontypecode', $mainsectioncode);
 
-                    $s->bindValue(':clipid', $lastclipid);
+                        $s->bindValue(':clipid', $lastclipid);
 
-                    $s->execute();
+                        $s->execute();
+                    } else if ($layoutsection['mainareasection'] == 'mainarea_1_bar') {
+                    
+                        $s->bindValue(':sectiontypeid', $main1sectiontypeid);
+                        $s->bindValue(':sectionname', $main1sectionname);
+                        $s->bindValue(':sectiontypecode', $main1sectioncode);
+
+                        $s->bindValue(':clipid', $lastclipid);
+
+                        $s->execute();
+                    } else if ($layoutsection['mainareasection'] == 'mainarea_2_bars') {
+                    
+                        $s->bindValue(':sectiontypeid', $main2sectiontypeid);
+                        $s->bindValue(':sectionname', $main2sectionname);
+                        $s->bindValue(':sectiontypecode', $main2sectioncode);
+
+                        $s->bindValue(':clipid', $lastclipid);
+
+                        $s->execute();
+                    }
                 }
                 if ($layoutsection['rightbarsection'] != null) {
                     
@@ -209,7 +239,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Add') {
                     
                     $s->bindValue(':sectiontypeid', $footersectiontypeid);
                     $s->bindValue(':sectionname', $footersectionname);
-                    $s->bindValue(':sectiontypecode', $footersectioncode);
+                    $s->bindValue(':sectiontypecode', $footersectioncode);                    
 
                     $s->bindValue(':clipid', $lastclipid);
 
@@ -228,16 +258,16 @@ if (isset($_POST['action']) and $_POST['action'] == 'Add') {
     exit();
 }
 
-/* * ******** PREVIEW CLIP ********** */
+/* * ******** PREVIEW OR EDIT CLIP ********** */
 
-if (isset($_GET['action']) and $_GET['action'] == 'Preview') {
+if (isset($_GET['action']) and ($_GET['action'] == 'Preview' || $_GET['action'] == 'Edit' )) {
     include '../../includes/db.inc.php';
     // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
 
     try {
         $sql = 'SELECT 
                 section.sectioncode, 
-                sectiontype.id, sectiontype.sectiontypename, sectiontype.sectiontypecode,
+                sectiontype.id, sectiontype.sectiontypewidth, sectiontype.sectiontypename, sectiontype.sectiontypecode,
                 cliplayout.id, cliplayout.cliplayoutcssref,
                 clip.*
                             FROM clip
@@ -259,26 +289,40 @@ if (isset($_GET['action']) and $_GET['action'] == 'Preview') {
 
     foreach ($s as $row) {
 
-        if ($row['sectiontypename'] == 'codehead') {
-            $codehead = $row['sectioncode'];
-        }
-
         if ($row['sectiontypename'] == 'Header') {
+            $headername = $row['sectiontypename'];
             $headercode = $row['sectioncode'];
+            $headerwidth = $row['sectiontypewidth'];
         } else if ($row['sectiontypename'] == 'Left sidebar') {
+            $leftbarname = $row['sectiontypename'];
             $leftbarcode = $row['sectioncode'];
+            $leftbarwidth = $row['sectiontypewidth'];
         } else if ($row['sectiontypename'] == 'Main area') {
+            $mainareaname = $row['sectiontypename'];
             $mainareacode = $row['sectioncode'];
+            $mainareawidth = $row['sectiontypewidth'];
+        } else if ($row['sectiontypename'] == 'Main area 1 sidebar') {
+            $mainareaname = $row['sectiontypename'];
+            $mainareacode = $row['sectioncode'];
+            $mainareawidth = $row['sectiontypewidth'];
+        } else if ($row['sectiontypename'] == 'Main area 2 sidebars') {
+            $mainareaname = $row['sectiontypename'];
+            $mainareacode = $row['sectioncode'];
+            $mainareawidth = $row['sectiontypewidth'];
         } else if ($row['sectiontypename'] == 'Right sidebar') {
+            $rightbarname = $row['sectiontypename'];
             $rightbarcode = $row['sectioncode'];
+            $rightbarwidth = $row['sectiontypewidth'];
         } else if ($row['sectiontypename'] == 'Footer') {
+            $footername = $row['sectiontypename'];
             $footercode = $row['sectioncode'];
-        } else if ($row['sectiontypename'] == 'codefoot') {
-            $codefoot = $row['sectioncode'];
+            $footerwidth = $row['sectiontypewidth'];
+            
         }
+        
     }
 
-    $previewedclips[] = array(
+    $clips[] = array(
         'id' => $row['id'],
         'clipname' => $row['clipname'],
         'cliplayoutcssref' => $row['cliplayoutcssref'],
@@ -286,93 +330,51 @@ if (isset($_GET['action']) and $_GET['action'] == 'Preview') {
         'clipOrderNumber' => $row['clipOrderNumber'],
         'nextClipUri' => $row['nextClipUri'],
         'clipbackgroundcolor' => $row['clipbackgroundcolor'],
-        'codehead' => $codehead,
+
+        'headername' => $headername,
         'headercode' => $headercode,
+        'headerwidth' => $headerwidth,
+        
+        'leftbarname' => $leftbarname,
         'leftbarcode' => $leftbarcode,
+        'leftbarwidth' =>$leftbarwidth,
+        
+        'mainareaname' => $mainareaname,
         'mainareacode' => $mainareacode,
+        'mainareawidth' => $mainareawidth,
+        
+        'rightbarname' => $rightbarname,
         'rightbarcode' => $rightbarcode,
+        'rightbarwidth' => $rightbarwidth,
+        
+        'footername' => $footername,
         'footercode' => $footercode,
-        'codefoot' => $codefoot
+        'footerwidth' => $footerwidth    
+        
     );
 
-    //include 'clippreview.html.php';
-    include 'clippreview_styled.html.php';
-    exit();
-}
-
-
-/* * ******** EDIT CLIP ********** */
-
-if (isset($_GET['action']) and $_GET['action'] == 'Edit') {
-    include '../../includes/db.inc.php';
-    // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
-
-    try {
-        $sql = 'SELECT 
-                section.sectioncode, 
-                sectiontype.id, sectiontype.sectiontypename, sectiontype.sectiontypecode,
-                cliplayout.id, cliplayout.cliplayoutcssref,
-                clip.*
-                            FROM clip
-                            JOIN section ON clip.id = section.clipid
-                            JOIN sectiontype ON sectiontype.id = section.sectiontypeid
-                            JOIN cliplayout ON cliplayout.id = clip.cliplayoutid
-                            WHERE clip.id = :clip_id'
-        ;
-
-        $s = $pdo->prepare($sql);
-        $s->bindValue(':clip_id', $_GET['clip_id']);
-        $s->execute();
-    } catch (PDOException $error) {
-        $error = $error->getMessage();   //getTraceAsString();   //'Error removing joke from categories!';
-        include 'error.html.php';
+    if ($_GET['action'] == 'Preview') {
+        //include 'clippreview.html.php';
+        include 'clippreview_styled.html.php';
         exit();
     }
-
-
-    foreach ($s as $row) {
-
-        if ($row['sectiontypename'] == 'codehead') {
-            $codehead = $row['sectioncode'];
-        }
-
-        if ($row['sectiontypename'] == 'Header') {
-            $headercode = $row['sectioncode'];
-        } else if ($row['sectiontypename'] == 'Left sidebar') {
-            $leftbarcode = $row['sectioncode'];
-        } else if ($row['sectiontypename'] == 'Main area') {
-            $mainareacode = $row['sectioncode'];
-        } else if ($row['sectiontypename'] == 'Right sidebar') {
-            $rightbarcode = $row['sectioncode'];
-        } else if ($row['sectiontypename'] == 'Footer') {
-            $footercode = $row['sectioncode'];
-        } else if ($row['sectiontypename'] == 'codefoot') {
-            $codefoot = $row['sectioncode'];
-        }
+    else if ($_GET['action'] == 'Edit') {
+        include 'clipedit.html.php';
+        exit();
     }
-
-    $previewedclips[] = array(
-        'id' => $row['id'],
-        'clipname' => $row['clipname'],
-        'cliplayoutcssref' => $row['cliplayoutcssref'],
-        'clipDurationInSeconds' => $row['clipDurationInSeconds'],
-        'clipOrderNumber' => $row['clipOrderNumber'],
-        'nextClipUri' => $row['nextClipUri'],
-        'clipbackgroundcolor' => $row['clipbackgroundcolor'],
-        'codehead' => $codehead,
-        'headercode' => $headercode,
-        'leftbarcode' => $leftbarcode,
-        'mainareacode' => $mainareacode,
-        'rightbarcode' => $rightbarcode,
-        'footercode' => $footercode,
-        'codefoot' => $codefoot
-    );
-
-    include 'clipedit.html.php';
-    exit();
 }
+
 
 /* * ************** UDATE CLIP AND RELATED SECTIONS ****************** */
+
+if (isset($_POST['action']) and $_POST['action'] == 'Update') {
+    include '../../includes/db.inc.php';
+    // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
+    
+    
+    
+    
+}
 
 
 /* * ************** DISPLAY CLIPS LIST **************** */
