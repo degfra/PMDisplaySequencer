@@ -34,6 +34,13 @@
                 window.focus();
 
             }
+            /*
+            function updateClip() {
+                
+                window.open("?clip_id=<?php echo $clip['id']; ?>&action=Update");
+                window.focus();
+
+            }*/
         </script>
 
         <!-- CSS
@@ -64,6 +71,7 @@
         </div>
         <div id="sharedToolbar"></div>
 
-        <form name="templateConfigForm" method="post" action="Update">
+        <form  action="?Update" method="post">
+        <!--<form  action="" method="POST">-->
 
             <div class="container">

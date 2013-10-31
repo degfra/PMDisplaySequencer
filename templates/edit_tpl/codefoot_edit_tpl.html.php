@@ -1,15 +1,18 @@
 </div><!-- container -->
 	
-	<input type="submit" value="1. Appliquer les changements" style=" position: absolute; left: 970px; top: 120px;"/>
-	<input type="button" value="2. Aperçu du Clip" 
-						style=" position: absolute; left: 970px; top: 160px;"
-						onClick="javascript: previewClip()"/>
-        
-	<label for='backgroundColor' name="backgroundColor" style=" position: absolute; left: 970px; top: 230px; font-size: 100%;" >Choisir la couleur de fond :</label>
+        <label for='backgroundColor' name="backgroundColor" style=" position: absolute; left: 970px; top: 230px; font-size: 100%;" >Choisir la couleur de fond :</label>
 	<input name="backgroundColor" class="color" value="<?php echo $clip['clipbackgroundcolor'];?>"
 				style=" position: absolute; left: 970px; top: 250px;" />
-	
-	</form>
+        <input type="hidden" id="clip_id" name="clip_id" value="<?php echo $clip['id']; ?>" />
+        
+        <input type="submit" value="1. Update" 
+						style=" position: absolute; left: 970px; top: 120px;"
+						onClick="javascript: updateClip()"/>
+	<input type="button" value="2. Preview in other tab" 
+						style=" position: absolute; left: 970px; top: 160px;"
+						onClick="javascript: previewClip()"/>       
+        
+    </form>
 
 	<div style=" font-size: 100%; position: absolute; left: 970px; top: 300px;" >
 	
@@ -52,6 +55,7 @@
                 // Turn off automatic editor creation first.
                 CKEDITOR.disableAutoInline = true;
     
+                if (document.getElementById( 'headerEditor' )) {
                 CKEDITOR.inline( 'headerEditor',
                             {
                                 // Removes the maximize plugin as it's not usable
@@ -69,8 +73,10 @@
                             }
 				
                             );
-
-		CKEDITOR.inline( 'leftSidebarEditor',
+                }
+		
+                if (document.getElementById( 'leftSidebarEditor' )) {
+                CKEDITOR.inline( 'leftSidebarEditor',
                             {
                                 extraPlugins: 'sharedspace',
                                 removePlugins : 'maximize,resize',
@@ -83,8 +89,10 @@
                             }
 
                             );
+                }
 
-		CKEDITOR.inline( 'mainEditor',
+		if (document.getElementById( 'mainEditor' )) {
+                CKEDITOR.inline( 'mainEditor',
                             {
                                 extraPlugins: 'sharedspace',
                                 removePlugins : 'maximize,resize',
@@ -97,8 +105,10 @@
                             }
 			
                             );
+                }
 		
-		CKEDITOR.inline( 'rightSidebarEditor',
+		if (document.getElementById( 'rightSidebarEditor' )) {
+                CKEDITOR.inline( 'rightSidebarEditor',
                             {
                                 extraPlugins: 'sharedspace',
                                 removePlugins : 'floatingspace,resize',
@@ -111,8 +121,10 @@
                             }
 			
                             );
+                }
 
-		CKEDITOR.inline( 'footerEditor',
+		if (document.getElementById( 'footerEditor' )) {
+                CKEDITOR.inline( 'footerEditor',
                             {
                                 extraPlugins: 'sharedspace',
                                 removePlugins : 'floatingspace,resize',
@@ -125,6 +137,7 @@
                             }	
 			
                             );
+                }
                                 
 	//]]>
 	</script>
