@@ -333,7 +333,6 @@ if (isset($_GET['Next_Clip'])){
 
 /* * ************** UPDATE CLIP AND RELATED SECTIONS ****************** */
 
-//if (isset($_POST['action']) and $_POST['action'] == 'Update') {
 if (isset($_GET['action']) and $_GET['action'] == 'Update') {
     include '../../includes/db.inc.php';
     // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
