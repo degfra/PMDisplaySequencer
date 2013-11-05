@@ -2,6 +2,10 @@
 
 include_once '../../includes/magicquotes.inc.php';
 //include_once $_SERVER['DOCUMENT_ROOT'] . /includes/magicquotes.inc.php';
+include_once '../../includes/exposeClipWithSections-function.inc.php';
+
+/************ GLOBAL VARIABLES OF THIS CONTROLLER ********** */
+$clips;
 
 /************ CREATE NEW CLIP AND RELATED SECTIONS ********** */
 
@@ -281,12 +285,12 @@ if (isset($_GET['action']) and ($_GET['action'] == 'Preview' || $_GET['action'] 
         $s->execute();
     } catch (PDOException $error) {
         $error = $error->getMessage();   //getTraceAsString();   //'Error removing joke from categories!';
-        include 'error.html.php';
+        include '../../includes/error.html.php';
         exit();
     }
 
-
-    foreach ($s as $row) {
+    exposeClipWithSections($s);
+    /*foreach ($s as $row) {
 
         if ($row['sectiontypename'] == 'Header') {
             $headername = $row['sectiontypename'];
@@ -350,21 +354,38 @@ if (isset($_GET['action']) and ($_GET['action'] == 'Preview' || $_GET['action'] 
         'footercode' => $footercode,
         'footerwidth' => $footerwidth    
         
-    );
+    ); */
 
     if ($_GET['action'] == 'Preview') {
         //include 'clippreview.html.php';
-        include 'clippreview_styled.html.php';
+        include '../../templates/preview_tpl/clippreview_styled.html.php';
         exit();
     }
     else if ($_GET['action'] == 'Edit') {
-        include 'clipedit.html.php';
+        include '../../templates/edit_tpl/clipedit.html.php';
         exit();
     }
 }
 
 
-/* * ************** UDATE CLIP AND RELATED SECTIONS ****************** */
+if (isset($_GET['Next_Clip'])){
+    
+    /*********** IF SINGLE CLIP ***********/
+    
+    $clips = array(
+        'clipid' => $_GET['clip_id'],
+        'cliplayoutcssref' => $_GET['cliplayoutcssref'],
+        'clipname' => $_GET['clipname'],
+        'clipduration' => $_GET['clipDuration']
+    );
+
+    include '../../templates/preview_tpl/endofclippreview.html.php';
+    exit();
+    
+}
+
+
+/* * ************** UPDATE CLIP AND RELATED SECTIONS ****************** */
 
 //if (isset($_POST['action']) and $_POST['action'] == 'Update') {
 if (isset($_GET['Update'])) {
@@ -475,8 +496,8 @@ if (isset($_GET['Update'])) {
         exit();
     }
 
-
-    foreach ($s as $row) {
+    exposeClipWithSections($s);
+   /* foreach ($s as $row) {
 
         if ($row['sectiontypename'] == 'Header') {
             $headername = $row['sectiontypename'];
@@ -539,16 +560,59 @@ if (isset($_GET['Update'])) {
         'footername' => $footername,
         'footercode' => $footercode,
         'footerwidth' => $footerwidth  
-    );
+    ); */
 
     //header('Location: .');
     //exit();
-    include 'clipedit.html.php';
+    include '../../templates/edit_tpl/clipedit.html.php';
     exit(); 
     
 }
        
 
+if (isset($_GET['action']) and $_GET['action'] == 'Delete')
+{
+    include'../../includes/db.inc.php';
+    // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';  
+    
+    /*********** DELETE CLIP AND ALL IT'S SECTIONS ***********/
+    
+    /********** FIRST : DELETE ALL SECTIONS OF THIS CLIP ***********/
+    
+    try 
+    {
+       $sql = 'DELETE FROM section WHERE clipid = :clip_id';
+       $s = $pdo->prepare($sql);
+       $s->bindValue(':clip_id', $_GET['clip_id']);
+       $s->execute();
+    }
+    catch (PDOException $error)
+    {
+       $error = $error->getMessage();   //getTraceAsString();   //'Error removing joke from categories!';
+       include 'error.html.php';
+       exit(); 
+    }
+    
+    /********** SECOND : DELETE THIS CLIP ***********/
+    try 
+    {
+        $sql = 'DELETE FROM clip WHERE id = :clip_id';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':clip_id', $_GET['clip_id']);
+        $s->execute();
+    }
+    catch (PDOException $error)
+    {
+       $error = $error->getMessage();   //getTraceAsString();   //'Error deleting jokes!';
+       include 'error.html.php';
+       exit(); 
+    }
+    
+    header('Location: .');
+    exit();
+    
+    
+}
 
 
 /* * ************** DISPLAY CLIPS LIST **************** */

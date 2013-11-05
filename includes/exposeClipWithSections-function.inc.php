@@ -1,40 +1,10 @@
 <?php
 
-include_once '../../includes/magicquotes.inc.php';
-//include_once $_SERVER['DOCUMENT_ROOT'] . /includes/magicquotes.inc.php';
+function exposeClipWithSections() {
+    
+    global $s,
+           $clips;
 
-    /********** PREVIEW CLIP ***********/
-
-if (isset($_GET['action']) and $_GET['action'] == 'Preview')
-{
-    include '../../includes/db.inc.php';
-    // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
-    
-    try {
-        $sql = 'SELECT 
-                section.sectioncode, 
-                sectiontype.id, sectiontype.sectiontypewidth, sectiontype.sectiontypename, sectiontype.sectiontypecode,
-                cliplayout.id, cliplayout.cliplayoutcssref,
-                clip.*
-                            FROM clip
-                            JOIN section ON clip.id = section.clipid
-                            JOIN sectiontype ON sectiontype.id = section.sectiontypeid
-                            JOIN cliplayout ON cliplayout.id = clip.cliplayoutid
-                            WHERE clip.id = :clip_id'
-        ;
-       
-       $s = $pdo->prepare($sql);
-       $s->bindValue(':clip_id', $_GET['clip_id']);
-       $s->execute();
-    }
-    catch (PDOException $error)
-    {
-       $error = $error->getMessage();   //getTraceAsString();   //'Error removing joke from categories!';
-       include '../../includes/error.html.php';
-       exit(); 
-    }
-    
-    
     foreach ($s as $row) {
 
         if ($row['sectiontypename'] == 'Header') {
@@ -97,44 +67,8 @@ if (isset($_GET['action']) and $_GET['action'] == 'Preview')
         
         'footername' => $footername,
         'footercode' => $footercode,
-        'footerwidth' => $footerwidth    
-        
+        'footerwidth' => $footerwidth  
     );
-    
-    include '../../templates/preview_tpl/clippreview_styled.html.php';
-    exit();
-    
 }
-    
-
-/**************** DISPLAY CLIPS LIST *****************/
-
-include '../../includes/db.inc.php';
-// include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
-
-try 
-{
-    $result = $pdo->query('SELECT * FROM clip');
-}
-catch (PDOException $error)
-{
-    $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';
-    include '../../includes/error.html.php';
-    exit();
-}
-
-while ($row = $result->fetch())
-{
-    $clips[] = array(    
-        'id'    => $row['id'],
-        'clipname'  => $row['clipname'],
-        'clipdate' => $row['clipdate'] //,
-      ); 
-    
-}
-
-include 'cliplist.html.php';
-exit();
-
 
 ?>

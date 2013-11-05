@@ -30,19 +30,20 @@
         <script>
             function countDown() {
                 if (count <= 0) {
-                    document.clipSaveForm.submit();
+                    document.clipPreviewForm.submit(action='nextClip');
                 } else {
                     count--;
                     //document.getElementById("timer").innerHTML = " Il reste : " + count
                     +" secondes. ";
                     setTimeout("countDown()", 1000);
                 }
+              
             }
         </script>
 
         <!-- CSS
-  ================================================== 
-        <link rel="stylesheet" href="../../css/animate.min.css">  -->
+  ==================================================   -->
+        <link rel="stylesheet" href="../../css/animate.min.css">
         <link rel="stylesheet" href="../../css/base.css">
         <link rel="stylesheet" href="../../css/skeleton_2sidebars_1920.css">
         <?php echo $clip['cliplayoutcssref']; ?>
@@ -56,6 +57,6 @@
         <!-- Primary Page Layout
         ================================================== -->
 
-        <form name='clipSaveForm' method='post' action='saveClip'>
+        <form name="clipPreviewForm" action="?Next_Clip" method="post">
 
             <div class="container" style="background-color:<?php echo $clip['clipbackgroundcolor'];?>">  <!-- style="<?php echo $clip['clipbackgroundcolor']; ?> -->

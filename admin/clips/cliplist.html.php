@@ -40,6 +40,7 @@
                     <!-- <input type="hidden" name="action" value="Preview" > -->
                     <input type="submit" name="action" value="Preview">
                     <input type="submit" name="action" value="Edit">
+                    <input type="submit" name="action" value="Delete">
                 </form>
 
             </blockquote>

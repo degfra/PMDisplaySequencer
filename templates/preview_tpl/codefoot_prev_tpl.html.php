@@ -1,20 +1,25 @@
 
 
-<label for='clipname' style=' position: relative; left: 102%; top: -25%;' >Saisir le nom du Clip :</label>
-<input type='text' name='clipname' style=' position: relative; left: 102%; top: -23%'/>
-<input type='submit' value='Sauvegarder le Clip' style=' position: relative; left: 102%; top: -20%;'/>
-<!---->	
-</div><!--container-->
+<input type='hidden' name='clipname' value="<?php htmlout($clip['clipname']); ?>" style=' position: relative; left: 102%; top: -23%'/>
+<input name='clipDuration' type='hidden' value="<?php htmlout($clip['clipDurationInSeconds']); ?>" />
+<input name='clipOrderNumber'type="hidden" value="<?php htmlout($clip['clipOrderNumber']); ?>" />
+<input name='nextClipUri'type="hidden" value="<?php htmlout($clip['nextClipUri']); ?>" />
+<input type="hidden" id="clip_id" name="clip_id" value="<?php echo $clip['id']; ?>" />
 
-<input id='clipDuration' type='hidden' value="<?php htmlout($clip['clipDurationInSeconds']); ?>" />
-<input id='clipOrderNumber'type="hidden" value="<?php htmlout($clip['clipOrderNumber']); ?>" />
-<input id='nextClipUri'type="hidden" value="<?php htmlout($clip['nextClipUri']); ?>" />
-
-
+<input type='submit' value="Next_Clip" style=' position: relative; left: 102%; top: -30%; '/>	
 </form>
 
+</div><!--container-->
+
+<div style=" font-size: 100%; position: absolute; left: 970px; top: 600px;" >
+    Your update is saved automatically.<br>
+    Total duration : <?php htmlout($clip['clipDurationInSeconds']); ?> seconds
+    <br> <br>
+    Press F11 for FULL SCREEN
+</div>
+
 <script type="text/javascript">
-    var count = document.clipSaveForm.clipDuration.value;
+    var count = document.clipPreviewForm.clipDuration.value;
     countDown();
 </script>
 

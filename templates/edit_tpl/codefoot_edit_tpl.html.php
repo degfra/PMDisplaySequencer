@@ -1,16 +1,17 @@
 </div><!-- container -->
 	
+        
+        <input type="submit" value="1. Update (auto-save) " 
+						style=" position: absolute; left: 970px; top: 120px;"
+						onClick="javascript: updateClip()"/> 
+	<input type="button" value="2. Preview in other tab" 
+						style=" position: absolute; left: 970px; top: 160px;"
+						onClick="javascript: previewClip()"/> 
+        
         <label for='backgroundColor' name="backgroundColor" style=" position: absolute; left: 970px; top: 230px; font-size: 100%;" >Choisir la couleur de fond :</label>
 	<input name="backgroundColor" class="color" value="<?php echo $clip['clipbackgroundcolor'];?>"
 				style=" position: absolute; left: 970px; top: 250px;" />
         <input type="hidden" id="clip_id" name="clip_id" value="<?php echo $clip['id']; ?>" />
-        
-        <input type="submit" value="1. Update" 
-						style=" position: absolute; left: 970px; top: 120px;"
-						onClick="javascript: updateClip()"/>
-	<input type="button" value="2. Preview in other tab" 
-						style=" position: absolute; left: 970px; top: 160px;"
-						onClick="javascript: previewClip()"/>       
         
     </form>
 
@@ -40,7 +41,11 @@
 
 		<strong>Durée et délai d'animation : <br>(Style : en secondes)</strong><br>
 			-moz-animation-duration: 3s; <br>
-			animation-delay: 1.5s; <br>
+			animation-delay: 1.5s; <br><br>
+
+               <input type="button" value="Return to Clips Management" 
+						style=" position: absolute;top: 498px;"
+						onClick="javascript: location='../clips/'"/>
 		
 	</div>
 
