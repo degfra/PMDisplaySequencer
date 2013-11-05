@@ -1,28 +1,26 @@
 </div><!-- container -->
-	
+
+         
+        <input type="submit" name="action" value="Update" 
+		style=" position: absolute; left: 1000px; top: 680px;"/> <!-- onClick="javascript: updateClip()" -->
+	<input type="submit" name="action" value="Preview" 
+		style=" position: absolute; left: 1000px; top: 730px;"/> <!-- onClick="javascript: previewClip()" -->
         
-        <input type="submit" value="1. Update (auto-save) " 
-						style=" position: absolute; left: 970px; top: 120px;"
-						onClick="javascript: updateClip()"/> 
-	<input type="button" value="2. Preview in other tab" 
-						style=" position: absolute; left: 970px; top: 160px;"
-						onClick="javascript: previewClip()"/> 
-        
-        <label for='backgroundColor' name="backgroundColor" style=" position: absolute; left: 970px; top: 230px; font-size: 100%;" >Choisir la couleur de fond :</label>
+        <label for='backgroundColor' name="backgroundColor" style=" position: absolute; left: 970px; top: 500px; font-size: 100%;" >Choisir la couleur de fond :</label>
 	<input name="backgroundColor" class="color" value="<?php echo $clip['clipbackgroundcolor'];?>"
-				style=" position: absolute; left: 970px; top: 250px;" />
+				style=" position: absolute; left: 970px; top: 520px;" />
         <input type="hidden" id="clip_id" name="clip_id" value="<?php echo $clip['id']; ?>" />
         
     </form>
 
-	<div style=" font-size: 100%; position: absolute; left: 970px; top: 300px;" >
-	
+	<div style=" font-size: 100%; position: absolute; left: 970px; top: 120px;" >
+                <!--
 		<strong>Typographie : style CSS de bloc obligatoire</strong><br>
 			font-size: 100%;  <br><br>
 		<strong>Typographie : exemples de remplacement de la taille</strong><br>
 			font-size: 140%;  <br>
 			font-size: 70%;  <br><br>
-		
+		-->
 		<strong>Effets d'animation : <br>(class CSS à configurer en dernier)</strong><br>
 			animated fadeInLeftBig <br>
 			animated fadeInRightBig <br>
@@ -42,9 +40,13 @@
 		<strong>Durée et délai d'animation : <br>(Style : en secondes)</strong><br>
 			-moz-animation-duration: 3s; <br>
 			animation-delay: 1.5s; <br><br>
+               
+                <p style=" position: absolute; top: 572px;"><strong>1.  </trong></p>
+                
+                <p style=" position: absolute; top: 622px;"><strong>2.  </trong></p>
 
                <input type="button" value="Return to Clips Management" 
-						style=" position: absolute;top: 498px;"
+						style=" position: absolute;top: 677px;"
 						onClick="javascript: location='../clips/'"/>
 		
 	</div>

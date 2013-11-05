@@ -4,7 +4,9 @@ include_once '../../includes/magicquotes.inc.php';
 //include_once $_SERVER['DOCUMENT_ROOT'] . /includes/magicquotes.inc.php';
 include_once '../../includes/exposeClipWithSections-function.inc.php';
 
-/************ GLOBAL VARIABLES OF THIS CONTROLLER ********** */
+/* GLOBAL VARIABLES OF THIS CONTROLLER */
+
+$s;
 $clips;
 
 /************ CREATE NEW CLIP AND RELATED SECTIONS ********** */
@@ -287,9 +289,9 @@ if (isset($_GET['action']) and ($_GET['action'] == 'Preview' || $_GET['action'] 
         $error = $error->getMessage();   //getTraceAsString();   //'Error removing joke from categories!';
         include '../../includes/error.html.php';
         exit();
-    }
+    } 
 
-    exposeClipWithSections($s);
+    exposeClipWithSections();
 
     if ($_GET['action'] == 'Preview') {
         //include 'clippreview.html.php';
@@ -307,40 +309,50 @@ if (isset($_GET['Next_Clip'])){
     
     /*********** IF SINGLE CLIP ***********/
     
-    $clips = array(
-        'clipid' => $_GET['clip_id'],
-        'cliplayoutcssref' => $_GET['cliplayoutcssref'],
-        'clipname' => $_GET['clipname'],
-        'clipduration' => $_GET['clipDuration']
-    );
-
-    include '../../templates/preview_tpl/endofclippreview.html.php';
-    exit();
+    if ($_POST['singleClip']) { 
     
+        $clips = array(
+            'clipid' => $_POST['clip_id'],
+            'cliplayoutcssref' => $_POST['cliplayoutcssref'],
+            'clipname' => $_POST['clipname'],
+            'clipduration' => $_POST['clipDuration'],
+        );
+        
+        if ($_POST['updated']) { 
+            include '../../templates/preview_tpl/endofeditpreview.html.php';
+            exit();
+        } 
+        else {
+            include '../../templates/preview_tpl/endofclippreview.html.php';
+            exit();
+        }
+        
+    }
 }
 
 
 /* * ************** UPDATE CLIP AND RELATED SECTIONS ****************** */
 
 //if (isset($_POST['action']) and $_POST['action'] == 'Update') {
-if (isset($_GET['Update'])) {
+if (isset($_GET['action']) and $_GET['action'] == 'Update') {
     include '../../includes/db.inc.php';
     // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
     
     // UPDATE CLIP'S BACKGROUND COLOR
     $hexa = '#';
-    $color = $_POST['backgroundColor'];
+    $color = $_GET['backgroundColor'];
     $clipbackgroundcolor = $hexa . $color;
     
     try {
         
         $sql = 'UPDATE clip SET
-                clipbackgroundcolor = :clipbackgroundcolor
+                clipbackgroundcolor = :clipbackgroundcolor,
+                updated = 1
                 WHERE clip.id = :clip_id';
         
         $s = $pdo->prepare($sql);
         $s->bindValue(':clipbackgroundcolor', $clipbackgroundcolor);
-        $s->bindValue(':clip_id', $_POST['clip_id']);
+        $s->bindValue(':clip_id', $_GET['clip_id']);
         $s->execute();
         
     } catch (PDOException $error) {
@@ -360,7 +372,7 @@ if (isset($_GET['Update'])) {
                     WHERE clip.id = :clip_id';
         
         $s = $pdo->prepare($sql);
-        $s->bindValue(':clip_id', $_POST['clip_id']);
+        $s->bindValue(':clip_id', $_GET['clip_id']);
         $s->execute();
         
         } catch (PDOException $error) {
@@ -380,23 +392,23 @@ if (isset($_GET['Update'])) {
 
             if (strpos($clipsection['sectionname'], 'Header') !== FALSE ) {               
                 $st->bindValue(':sectionid', $clipsection['id']);
-                $st->bindValue(':sectioncode', $_POST['headerEditor']);
+                $st->bindValue(':sectioncode', $_GET['headerEditor']);
                 $st->execute();              
             } else if (strpos($clipsection['sectionname'], 'Left') !== FALSE ) {               
                 $st->bindValue(':sectionid', $clipsection['id']);
-                $st->bindValue(':sectioncode', $_POST['leftSidebarEditor']);
+                $st->bindValue(':sectioncode', $_GET['leftSidebarEditor']);
                 $st->execute();
             } else if (strpos($clipsection['sectionname'], 'Main') !== FALSE ) {               
                 $st->bindValue(':sectionid', $clipsection['id']);
-                $st->bindValue(':sectioncode', $_POST['mainEditor']);
+                $st->bindValue(':sectioncode', $_GET['mainEditor']);
                 $st->execute();
             } else if (strpos($clipsection['sectionname'], 'Right') !== FALSE ) {               
                 $st->bindValue(':sectionid', $clipsection['id']);
-                $st->bindValue(':sectioncode', $_POST['rightSidebarEditor']);
+                $st->bindValue(':sectioncode', $_GET['rightSidebarEditor']);
                 $st->execute();
             } else if (strpos($clipsection['sectionname'], 'Footer') !== FALSE ) {               
                 $st->bindValue(':sectionid', $clipsection['id']);
-                $st->bindValue(':sectioncode', $_POST['footerEditor']);
+                $st->bindValue(':sectioncode', $_GET['footerEditor']);
                 $st->execute();
             }
 
@@ -423,15 +435,15 @@ if (isset($_GET['Update'])) {
         ;
 
         $s = $pdo->prepare($sql);
-        $s->bindValue(':clip_id', $_POST['clip_id']);
+        $s->bindValue(':clip_id', $_GET['clip_id']);
         $s->execute();
     } catch (PDOException $error) {
         $error = $error->getMessage();   //getTraceAsString();   //'Error removing joke from categories!';
-        include 'error.html.php';
+        include '../../includes/error.html.php';
         exit();
-    }
+    } 
 
-    exposeClipWithSections($s);
+    exposeClipWithSections();
 
     //header('Location: .');
     //exit();
@@ -439,14 +451,42 @@ if (isset($_GET['Update'])) {
     exit(); 
     
 }
-       
+
+
+/* * ************** SAVE CLIP NAME AND UPDATE STATUS ****************** */
+
+if (isset($_POST['clipname'])) {
+    include '../../includes/db.inc.php';
+    // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
+    
+    // UPDATE CLIP'S NAME ANS UPDATED STATUS
+    
+    try {
+        
+        $sql = 'UPDATE clip SET
+                clipname = :clipname,
+                updated = 0
+                WHERE clip.id = :clip_id';
+        
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':clipname', $_POST['clipname']);
+        $s->bindValue(':clip_id', $_POST['clip_id']);
+        $s->execute();
+        
+    } catch (PDOException $error) {
+            $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';
+            include '../../includes/error.html.php';
+            exit();
+    }
+    
+}
+
+/*********** DELETE CLIP AND ALL IT'S SECTIONS ***********/
 
 if (isset($_GET['action']) and $_GET['action'] == 'Delete')
 {
     include'../../includes/db.inc.php';
     // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';  
-    
-    /*********** DELETE CLIP AND ALL IT'S SECTIONS ***********/
     
     /********** FIRST : DELETE ALL SECTIONS OF THIS CLIP ***********/
     

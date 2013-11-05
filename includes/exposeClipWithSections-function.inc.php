@@ -2,8 +2,8 @@
 
 function exposeClipWithSections() {
     
-    global $s,
-           $clips;
+    global  $s,
+            $clips;
 
     foreach ($s as $row) {
 
@@ -48,6 +48,8 @@ function exposeClipWithSections() {
         'clipOrderNumber' => $row['clipOrderNumber'],
         'nextClipUri' => $row['nextClipUri'],
         'clipbackgroundcolor' => $row['clipbackgroundcolor'],
+        'singleClip' => $row['singleClip'],
+        'updated' => $row['updated'],
 
         'headername' => $headername,
         'headercode' => $headercode,

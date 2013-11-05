@@ -4,6 +4,8 @@
 <input name='clipDuration' type='hidden' value="<?php htmlout($clip['clipDurationInSeconds']); ?>" />
 <input name='clipOrderNumber'type="hidden" value="<?php htmlout($clip['clipOrderNumber']); ?>" />
 <input name='nextClipUri'type="hidden" value="<?php htmlout($clip['nextClipUri']); ?>" />
+<input name='singleClip'type="hidden" value="<?php htmlout($clip['singleClip']); ?>" />
+<input name='updated'type="hidden" value="<?php htmlout($clip['updated']); ?>" />
 <input type="hidden" id="clip_id" name="clip_id" value="<?php echo $clip['id']; ?>" />
 
 <input type='submit' value="Next_Clip" style=' position: relative; left: 102%; top: -30%; '/>	

@@ -71,7 +71,7 @@
         </div>
         <div id="sharedToolbar"></div>
 
-        <form  action="?Update" method="post">
-        <!--<form  action="" method="POST">-->
+        <!-- <form  action="?Update" method="post"> -->
+        <form  action="" method="get">
 
             <div class="container">
