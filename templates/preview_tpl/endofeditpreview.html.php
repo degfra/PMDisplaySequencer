@@ -8,7 +8,9 @@
             
             function returnToEditor() {
                 
-                window.location.assign("?clip_id=<?php echo $_POST['clip_id']; ?>&action=Edit");
+                //window.location.assign("?clip_id=<?php echo $_POST['clip_id']; ?>&action=Edit");
+                history.back();
+                history.back();
 
             }
 
@@ -31,7 +33,7 @@
                 <input type="submit" value="Finish editing : save the Clip and return to the List of Clips"/>
 
                <p> <input type="button" 
-                          value="Keep editing : return to the Clip Editor" 
+                          value="Keep editing : return to the Clip Preview" 
                           onclick="javascript: returnToEditor()"/></p>
 
             </form>

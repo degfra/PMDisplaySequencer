@@ -265,10 +265,15 @@ if (isset($_POST['action']) and $_POST['action'] == 'Add') {
 
 /* * ******** PREVIEW OR EDIT CLIP ********** */
 
-if (isset($_GET['action']) and ($_GET['action'] == 'Preview' || $_GET['action'] == 'Edit' )) {
+//if (isset($_GET['action']) and ($_GET['action'] == 'Preview' || $_GET['action'] == 'Edit' )) {
+if (isset($_POST['action']) and ($_POST['action'] == 'Preview' || $_POST['action'] == 'Edit' )) {
     include '../../includes/db.inc.php';
     // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
 
+    $returntoeditorbutton = '<p><input type="button" style=" position: absolute; left: 970px; top: 700px; "
+                          value="Return to the Clip Editor" 
+                          onclick="javascript: returnToEditor()"/></p>';
+    
     try {
         $sql = 'SELECT 
                 section.sectioncode, 
@@ -283,7 +288,7 @@ if (isset($_GET['action']) and ($_GET['action'] == 'Preview' || $_GET['action'] 
         ;
 
         $s = $pdo->prepare($sql);
-        $s->bindValue(':clip_id', $_GET['clip_id']);
+        $s->bindValue(':clip_id', $_POST['clip_id']);
         $s->execute();
     } catch (PDOException $error) {
         $error = $error->getMessage();   //getTraceAsString();   //'Error removing joke from categories!';
@@ -293,12 +298,12 @@ if (isset($_GET['action']) and ($_GET['action'] == 'Preview' || $_GET['action'] 
 
     exposeClipWithSections();
 
-    if ($_GET['action'] == 'Preview') {
+    if ($_POST['action'] == 'Preview') {
         //include 'clippreview.html.php';
         include '../../templates/preview_tpl/clippreview_styled.html.php';
         exit();
     }
-    else if ($_GET['action'] == 'Edit') {
+    else if ($_POST['action'] == 'Edit') {
         include '../../templates/edit_tpl/clipedit.html.php';
         exit();
     }
@@ -327,19 +332,24 @@ if (isset($_GET['Next_Clip'])){
             exit();
         }
         
+    }else {
+                
+        
+        
     }
+ 
 }
 
 
 /* * ************** UPDATE CLIP AND RELATED SECTIONS ****************** */
 
-if (isset($_GET['action']) and $_GET['action'] == 'Update') {
+if (isset($_POST['action']) and $_POST['action'] == 'Update') {
     include '../../includes/db.inc.php';
     // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
     
     // UPDATE CLIP'S BACKGROUND COLOR
     $hexa = '#';
-    $color = $_GET['backgroundColor'];
+    $color = $_POST['backgroundColor'];
     $clipbackgroundcolor = $hexa . $color;
     
     try {
@@ -351,7 +361,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'Update') {
         
         $s = $pdo->prepare($sql);
         $s->bindValue(':clipbackgroundcolor', $clipbackgroundcolor);
-        $s->bindValue(':clip_id', $_GET['clip_id']);
+        $s->bindValue(':clip_id', $_POST['clip_id']);
         $s->execute();
         
     } catch (PDOException $error) {
@@ -371,7 +381,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'Update') {
                     WHERE clip.id = :clip_id';
         
         $s = $pdo->prepare($sql);
-        $s->bindValue(':clip_id', $_GET['clip_id']);
+        $s->bindValue(':clip_id', $_POST['clip_id']);
         $s->execute();
         
         } catch (PDOException $error) {
@@ -391,23 +401,23 @@ if (isset($_GET['action']) and $_GET['action'] == 'Update') {
 
             if (strpos($clipsection['sectionname'], 'Header') !== FALSE ) {               
                 $st->bindValue(':sectionid', $clipsection['id']);
-                $st->bindValue(':sectioncode', $_GET['headerEditor']);
+                $st->bindValue(':sectioncode', $_POST['headerEditor']);
                 $st->execute();              
             } else if (strpos($clipsection['sectionname'], 'Left') !== FALSE ) {               
                 $st->bindValue(':sectionid', $clipsection['id']);
-                $st->bindValue(':sectioncode', $_GET['leftSidebarEditor']);
+                $st->bindValue(':sectioncode', $_POST['leftSidebarEditor']);
                 $st->execute();
             } else if (strpos($clipsection['sectionname'], 'Main') !== FALSE ) {               
                 $st->bindValue(':sectionid', $clipsection['id']);
-                $st->bindValue(':sectioncode', $_GET['mainEditor']);
+                $st->bindValue(':sectioncode', $_POST['mainEditor']);
                 $st->execute();
             } else if (strpos($clipsection['sectionname'], 'Right') !== FALSE ) {               
                 $st->bindValue(':sectionid', $clipsection['id']);
-                $st->bindValue(':sectioncode', $_GET['rightSidebarEditor']);
+                $st->bindValue(':sectioncode', $_POST['rightSidebarEditor']);
                 $st->execute();
             } else if (strpos($clipsection['sectionname'], 'Footer') !== FALSE ) {               
                 $st->bindValue(':sectionid', $clipsection['id']);
-                $st->bindValue(':sectioncode', $_GET['footerEditor']);
+                $st->bindValue(':sectioncode', $_POST['footerEditor']);
                 $st->execute();
             }
 
@@ -434,7 +444,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'Update') {
         ;
 
         $s = $pdo->prepare($sql);
-        $s->bindValue(':clip_id', $_GET['clip_id']);
+        $s->bindValue(':clip_id', $_POST['clip_id']);
         $s->execute();
     } catch (PDOException $error) {
         $error = $error->getMessage();   //getTraceAsString();   //'Error removing joke from categories!';

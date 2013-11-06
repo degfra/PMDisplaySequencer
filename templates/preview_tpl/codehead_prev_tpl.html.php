@@ -28,9 +28,10 @@
         <script type="text/javascript" src="../../js/clipTimer.js"></script> 
 
         <script>
+            
             function countDown() {
                 if (count <= 0) {
-                    document.clipPreviewForm.submit(action='nextClip');
+                    document.clipPreviewForm.submit();
                 } else {
                     count--;
                     //document.getElementById("timer").innerHTML = " Il reste : " + count
@@ -39,6 +40,15 @@
                 }
               
             }
+            
+            function returnToEditor() {
+                
+                //window.location.assign("?clip_id=<?php echo $_POST['clip_id']; ?>&action=Edit");
+                history.back();
+                history.back();
+
+            }
+            
         </script>
 
         <!-- CSS

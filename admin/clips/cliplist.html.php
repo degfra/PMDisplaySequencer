@@ -29,7 +29,7 @@
         <?php foreach ($clips as $clip): ?>
             <blockquote >
                  
-                <form action="" method="get">
+                <form action="" method="post">
                     <?php echo $clip['id']; ?> : 
                     <?php htmlout($clip['cliplayoutid']) ?> : 
                     <?php echo htmlout($clip['clipname'], ENT_QUOTES, 'UTF-8'); ?>
