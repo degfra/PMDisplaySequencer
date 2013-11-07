@@ -4,10 +4,7 @@ include_once '../../includes/magicquotes.inc.php';
 //include_once $_SERVER['DOCUMENT_ROOT'] . /includes/magicquotes.inc.php';
 include_once '../../includes/exposeClipWithSections-function.inc.php';
 
-/* GLOBAL VARIABLES OF THIS CONTROLLER */
-
-$s;
-$clips;
+//global $clips;
 
 /************ CREATE NEW CLIP AND RELATED SECTIONS ********** */
 
@@ -267,13 +264,13 @@ if (isset($_POST['action']) and $_POST['action'] == 'Add') {
 
 //if (isset($_GET['action']) and ($_GET['action'] == 'Preview' || $_GET['action'] == 'Edit' )) {
 if (isset($_POST['action']) and ($_POST['action'] == 'Preview' || $_POST['action'] == 'Edit' )) {
-    include '../../includes/db.inc.php';
+    //include '../../includes/db.inc.php';
     // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
 
     $returntoeditorbutton = '<p><input type="button" style=" position: absolute; left: 970px; top: 700px; "
                           value="Return to the Clip Editor" 
-                          onclick="javascript: returnToEditor()"/></p>';
-    
+                          onclick="javascript: history.back()"/></p>';
+    /*
     try {
         $sql = 'SELECT 
                 section.sectioncode, 
@@ -294,7 +291,7 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview' || $_POST['action
         $error = $error->getMessage();   //getTraceAsString();   //'Error removing joke from categories!';
         include '../../includes/error.html.php';
         exit();
-    } 
+    } */
 
     exposeClipWithSections();
 
@@ -314,9 +311,9 @@ if (isset($_GET['Next_Clip'])){
     
     /*********** IF SINGLE CLIP ***********/
     
-    if ($_POST['singleClip']) { 
+    if ($_POST['singleClip'] || ($_POST['nextClipId'] == 0)) { 
     
-        $clips = array(
+        $clips[] = array(
             'clipid' => $_POST['clip_id'],
             'cliplayoutcssref' => $_POST['cliplayoutcssref'],
             'clipname' => $_POST['clipname'],
@@ -331,13 +328,14 @@ if (isset($_GET['Next_Clip'])){
             include '../../templates/preview_tpl/endofclippreview.html.php';
             exit();
         }
-        
-    }else {
+  
+    } else {
                 
+        exposeClipWithSections();
         
-        
+        include '../../templates/preview_tpl/clippreview_styled.html.php';
+        exit();
     }
- 
 }
 
 
@@ -430,6 +428,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
     }
     
     // FETCH ALL UPDATED SECTION CODES AND EXPOSE THEM TO REDISPLAY IN EDITOR
+    /*
     try {
         $sql = 'SELECT 
                 section.sectioncode, 
@@ -450,7 +449,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
         $error = $error->getMessage();   //getTraceAsString();   //'Error removing joke from categories!';
         include '../../includes/error.html.php';
         exit();
-    } 
+    } */
 
     exposeClipWithSections();
 
@@ -509,7 +508,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'Delete')
     catch (PDOException $error)
     {
        $error = $error->getMessage();   //getTraceAsString();   //'Error removing joke from categories!';
-       include 'error.html.php';
+       include '../../includes/error.html.php';
        exit(); 
     }
     
@@ -524,7 +523,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'Delete')
     catch (PDOException $error)
     {
        $error = $error->getMessage();   //getTraceAsString();   //'Error deleting jokes!';
-       include 'error.html.php';
+       include '../../includes/error.html.php';
        exit(); 
     }
     

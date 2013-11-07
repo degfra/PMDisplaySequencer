@@ -3,7 +3,8 @@
 <input type='hidden' name='clipname' value="<?php htmlout($clip['clipname']); ?>" /> <!-- style=' position: relative; left: 102%; top: -23%' -->
 <input type='hidden' name='clipDuration' value="<?php htmlout($clip['clipDurationInSeconds']); ?>" />
 <input type="hidden" name='clipOrderNumber'value="<?php htmlout($clip['clipOrderNumber']); ?>" />
-<input type="hidden" name='nextClipUri'value="<?php htmlout($clip['nextClipUri']); ?>" />
+<input type="hidden" name='nextClipId'value="<?php htmlout($clip['nextClipId']); ?>" />
+<input type="hidden" name='isLoop'value="<?php htmlout($clip['isLoop']); ?>" />
 <input type="hidden" name='singleClip'value="<?php htmlout($clip['singleClip']); ?>" />
 <input type="hidden" name='updated'value="<?php htmlout($clip['updated']); ?>" />
 <input type="hidden" id="clip_id" name="clip_id" value="<?php echo $clip['id']; ?>" />

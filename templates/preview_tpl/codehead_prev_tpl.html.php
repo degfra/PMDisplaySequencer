@@ -40,14 +40,13 @@
                 }
               
             }
-            
+            /*
             function returnToEditor() {
                 
                 //window.location.assign("?clip_id=<?php echo $_POST['clip_id']; ?>&action=Edit");
                 history.back();
-                history.back();
 
-            }
+            } */
             
         </script>
 

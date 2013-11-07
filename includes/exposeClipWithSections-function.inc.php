@@ -2,8 +2,38 @@
 
 function exposeClipWithSections() {
     
-    global  $s,
+    include 'db.inc.php';
+    
+    global  //$s,
             $clips;
+    
+    try {
+        $sql = 'SELECT 
+                section.sectioncode, 
+                sectiontype.id, sectiontype.sectiontypewidth, sectiontype.sectiontypename, sectiontype.sectiontypecode,
+                cliplayout.id, cliplayout.cliplayoutcssref,
+                clip.*
+                            FROM clip
+                            JOIN section ON clip.id = section.clipid
+                            JOIN sectiontype ON sectiontype.id = section.sectiontypeid
+                            JOIN cliplayout ON cliplayout.id = clip.cliplayoutid
+                            WHERE clip.id = :clip_id'
+        ;
+
+        $s = $pdo->prepare($sql);
+        if (isset($_POST['nextClipId']) and $_POST['nextClipId'] == 0) {
+            $s->bindValue(':clip_id', $_POST['nextClipId']);
+        } else if (isset($_POST['nextClipId']) and $_POST['nextClipId'] > 0) {
+            $s->bindValue(':clip_id', $_POST['nextClipId']);
+        } else if(isset($_POST['clip_id'])) {
+            $s->bindValue(':clip_id', $_POST['clip_id']);
+        }
+        $s->execute();
+    } catch (PDOException $error) {
+        $error = $error->getMessage();   //getTraceAsString();   //'Error removing joke from categories!';
+        include 'error.html.php';
+        exit();
+    } 
 
     foreach ($s as $row) {
 
@@ -46,8 +76,9 @@ function exposeClipWithSections() {
         'cliplayoutcssref' => $row['cliplayoutcssref'],
         'clipDurationInSeconds' => $row['clipDurationInSeconds'],
         'clipOrderNumber' => $row['clipOrderNumber'],
-        'nextClipUri' => $row['nextClipUri'],
+        'nextClipId' => $row['nextClipId'],
         'clipbackgroundcolor' => $row['clipbackgroundcolor'],
+        'isLoop' => $row['isLoop'],
         'singleClip' => $row['singleClip'],
         'updated' => $row['updated'],
 
