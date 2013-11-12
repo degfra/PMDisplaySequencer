@@ -4,27 +4,29 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Clips</title>
+        <link rel="stylesheet" href="../../css/base.css">
+        <title>DS - Clips</title>
     </head>
-    <body>
-        
-        <h2>Here are all the clips in the database:</h2>
-        <?php foreach ($clips as $clip): ?>
-          <blockquote >
+    <body style="padding: 40px;">
 
-             <form action="" method="get">
+        <h2>Here are all the available clips:</h2>
+        <p>
+            <?php foreach ($clips as $clip): ?>
+
+            <form action="" method="get">
                 <?php echo htmlout($clip['clipname'], ENT_QUOTES, 'UTF-8'); ?>
 
-                 (submitted on : <?php echo htmlout($clip['clipdate'], ENT_QUOTES, 'UTF-8'); ?> ) 
+                (submitted on : <?php echo htmlout($clip['clipdate'], ENT_QUOTES, 'UTF-8'); ?> ) 
                 <input type="hidden" name="clip_id" value="<?php echo $clip['id']; ?>">
 
-                <!-- <input type="hidden" name="action" value="Preview" > -->
                 <input type="submit" name="action" value="Preview">
-                <!-- <input type="submit" name="action" value="Edit"> -->
-             </form>
 
-         </blockquote>
-        
+            </form>
+
         <?php endforeach; ?>
-    </body>
+    </p>
+    <p>
+        <a href="../../">Return to Display Sequencer Home</a>
+    </p>
+</body>
 </html>

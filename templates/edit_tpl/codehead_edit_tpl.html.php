@@ -9,7 +9,7 @@
         <!-- Basic Page Needs
   ================================================== -->
         <meta charset="utf-8" />
-        <title>Edit : <?php echo $clip['clipname']; ?></title>
+        <title>DS - Edit : <?php echo $clip['clipname']; ?></title>
         <!--[if lt IE 9]>
                 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -54,7 +54,7 @@
     </head>
     <!-- <body scroll="no" style="overflow: hidden" leftmargin="0" topmargin="0"
             rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0">  -->
-    <body>
+    <body style="background-color: #fff;">
 
         <!-- Primary Page Layout
         ================================================== -->

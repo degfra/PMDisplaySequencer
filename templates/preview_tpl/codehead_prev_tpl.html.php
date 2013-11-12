@@ -11,7 +11,7 @@
         <!-- Basic Page Needs
   ================================================== -->
         <meta charset="utf-8" />
-        <title>Preview : <?php echo $clip['clipname'] ?></title>
+        <title>DS - Preview : <?php echo $clip['clipname'] ?></title>
         <!--[if lt IE 9]>
                 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -60,8 +60,9 @@
 
 
     </head>
-    <body scroll="no" style="overflow: hidden" leftmargin="0" topmargin="0"
-          rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0">
+    <body scroll="no" style="overflow: hidden; background-color: #fff;" leftmargin="0" topmargin="0"
+          rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0"
+          style="background-color: #fff;">
 
         <!-- Primary Page Layout
         ================================================== -->

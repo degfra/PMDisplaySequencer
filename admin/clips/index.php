@@ -317,7 +317,7 @@ if (isset($_GET['Next_Clip'])){
             'clipid' => $_POST['clip_id'],
             'cliplayoutcssref' => $_POST['cliplayoutcssref'],
             'clipname' => $_POST['clipname'],
-            'clipduration' => $_POST['clipDuration'],
+            'clipDurationInSeconds' => $_POST['clipDuration'],
         );
         
         if ($_POST['updated']) { 

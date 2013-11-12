@@ -6,7 +6,10 @@
         <link rel="stylesheet" href="../../css/base.css">
         <?php echo $_POST['cliplayoutcssref']; ?>
     </head>
-    <body>
+    <body style="padding: 40px;">
+        
+        <h3>End of Clip Preview</h3>
+        
         <div
                 <p><h5>
                     The <?php echo $_POST['clipDuration']?> 

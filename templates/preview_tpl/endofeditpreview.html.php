@@ -17,7 +17,10 @@
         </script>
         <?php echo $_POST['cliplayoutcssref']; ?>
     </head>
-    <body>
+    <body style="padding: 40px;">
+        
+        <h3>End of Clip Editing Preview</h3>
+        
         <div>
             <form name="clipSaveForm" action="?saveClip" method="post"> 
                 <p><h5>
