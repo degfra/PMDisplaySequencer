@@ -8,7 +8,7 @@ include_once '../../includes/exposeClipWithSections-function.inc.php';
 
 /************ CREATE NEW CLIP AND RELATED SECTIONS ********** */
 
-if (isset($_POST['action']) and $_POST['action'] == 'Add') {
+if (isset($_POST['action']) and $_POST['action'] == 'Create') {
 
     include '../../includes/db.inc.php';
     // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
@@ -19,7 +19,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Add') {
                 clipname = :clipname,
                 cliplayoutid = :cliplayoutid,
                 clipbackgroundcolor = "#CCCCCC",
-                clipDurationInSeconds = "4",
+                clipDurationInSeconds = :clipDuration,
                 clipOrderNumber = "1",
                 isLoop = 1,
                 singleClip = 1';
@@ -27,6 +27,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Add') {
         $s = $pdo->prepare($sql);
         $s->bindValue(':clipname', $_POST['clipname']);
         $s->bindValue(':cliplayoutid', $_POST['cliplayout']);
+        $s->bindValue(':clipDuration', $_POST['clipDuration']);
         $s->execute();
     } catch (PDOException $error) {
         $error = $error->getMessage();   //getTraceAsString();   //'Error creating the new clip!';

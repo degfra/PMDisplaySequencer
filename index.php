@@ -1,5 +1,7 @@
 <?php
 
-include 'includes/db.inc.php';
+// include 'includes/db.inc.php';
 
-include 'output.html.php'; 
+include 'welcome.html.php';
+
+?>

@@ -6,14 +6,14 @@
 	<input type="submit" name="action" value="Preview" 
 		style=" position: absolute; left: 1000px; top: 730px;"/> <!-- onClick="javascript: previewClip()" -->
         
-        <label for='backgroundColor' name="backgroundColor" style=" position: absolute; left: 970px; top: 550px; font-size: 100%;" >Choisir la couleur de fond :</label>
+        <label for='backgroundColor' name="backgroundColor" style=" position: absolute; left: 970px; top: 120px; font-size: 100%;" >Choisir la couleur de fond :</label>
 	<input name="backgroundColor" class="color" value="<?php echo $clip['clipbackgroundcolor'];?>"
-				style=" position: absolute; left: 970px; top: 570px;" />
+				style=" position: absolute; left: 970px; top: 140px;" />
         <input type="hidden" id="clip_id" name="clip_id" value="<?php echo $clip['id']; ?>" />
         
     </form>
 
-	<div style=" font-size: 100%; position: absolute; left: 970px; top: 120px;" >
+	<div style=" font-size: 100%; position: absolute; left: 970px; top: 200px;" >
                 <!--
 		<strong>Typographie : style CSS de bloc obligatoire</strong><br>
 			font-size: 100%;  <br><br>
@@ -41,12 +41,12 @@
 			-moz-animation-duration: 3s; <br>
 			animation-delay: 1.5s; <br><br>
                
-                <p style=" position: absolute; top: 572px;"><strong>1.  </trong></p>
+                <p style=" position: absolute; top: 490px;"><strong>1.  </trong></p>
                 
-                <p style=" position: absolute; top: 622px;"><strong>2.  </trong></p>
+                <p style=" position: absolute; top: 540px;"><strong>2.  </trong></p>
 
                <input type="button" value="Return to Clips Management" 
-						style=" position: absolute;top: 677px;"
+						style=" position: absolute;top: 590px;"
 						onClick="javascript: location='../clips/'"/>
 		
 	</div>

@@ -14,6 +14,7 @@
         <form action="" method="post">
             <label for="sequencename">Sequence name : </label>
             <input type="text" id="sequencename" name="sequencename"/>
+            &nbsp;
             <!--
                         <label for="clipDuration">Clip duration in seconds : </label>
                         <input type="text" id="clipDuration" name="clipDuration" value="4"/> 
@@ -29,8 +30,8 @@
                             </select>
                         </div>
             -->
-            <label><input type= "checkbox" name="isLoop" checked="" /> Loop</label>
-
+            <label><input type= "checkbox" name="isLoop" /> Loop</label>
+            <br>
             <input type="submit" name="action" value="Create" /> 
         </form>
     </p>

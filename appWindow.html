@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script>
+            function setScreenSize()
+            {
+                window.resizeTo(200, 200);
+                myWindow = window.open(
+                        "http://localhost/PMDisplaySequencer/welcome.html.php", 
+                        "", 200, 200);
+                window.close();
+            }
+        </script>
+    </head>
+    <body onload="setScreenSize();">
+    </body>
+</html>

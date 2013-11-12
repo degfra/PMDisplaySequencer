@@ -8,19 +8,27 @@
         <title>DS - Manage Clips</title>
     </head>
     <body style="padding: 40px;">
+        
+        <div style="position: absolute; left: 800px; top: 40px;" >
+            <a href="../../admin/">Return to DS Management</a>
+            | 
+            <a href="../../">Return to DS Home</a>
+        </div>
 
         <h3>Add a new Clip :</h3>
         <p>    
         <form action="" method="post">
             <label for="clipname">Clip name : </label>
             <input type="text" id="clipname" name="clipname"/>
-
+            &nbsp;
             <label for="clipDuration">Clip duration in seconds : </label>
-            <input type="text" id="clipDuration" name="clipDuration" value="4"/> 
+            <input type="text" id="clipDuration" name="clipDuration" value="4" 
+                   style="width: 30px;"/> 
 
             <div>
                 <label for="cliplayout">Note : all clip layouts have a header and a footer</label>
-                <select name="cliplayout" id="cliplayout">
+                &nbsp;
+                <select name="cliplayout" id="cliplayout" style="width: 200px;">
                     <option value="">Chose a layout</option>
                     <?php foreach ($cliplayouts as $cliplayout): ?>
                         <option value="<?php htmlout($cliplayout['id']); ?>">
@@ -28,7 +36,7 @@
                     <?php endforeach; ?>
                 </select>
             </div>
-            <input type="submit" name="action" value="Add" /> 
+            <input type="submit" name="action" value="Create" /> 
         </form>
     </p>
 
@@ -52,12 +60,6 @@
             </li>
         <?php endforeach; ?>
     </ul>
-
-    <p>
-        <a href="../../admin/">Return to DS Management</a>
-        <br><br>
-        <a href="../../">Return to DS Home</a>
-    </p>
 
 </body>
 </html>
