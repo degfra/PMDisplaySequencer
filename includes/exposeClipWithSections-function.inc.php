@@ -6,6 +6,16 @@ function exposeClipWithSections() {
     
     global  //$s,
             $clips;
+            $firstClipId;
+            $nextClipId;
+    
+    if ($firstClipId != NULL) {
+        $clipId = $firstClipId;
+        $nextClipId = $nextClipId;
+    } /*else {
+        $clipId = $_POST['clip_id'];
+        $nextClipId = $_POST['nextClipId'];
+    } */
     
     try {
         $sql = 'SELECT 
@@ -25,12 +35,15 @@ function exposeClipWithSections() {
             $s->bindValue(':clip_id', $_POST['nextClipId']);
         } else if (isset($_POST['nextClipId']) and $_POST['nextClipId'] > 0) {
             $s->bindValue(':clip_id', $_POST['nextClipId']);
-        } else if(isset($_POST['clip_id'])) {
-            $s->bindValue(':clip_id', $_POST['clip_id']);
+        } else if (isset($_POST['clip_id'])) { // } else if (isset($_POST['clip_id'])) {   // $nextClipId) and $nextClipId == 0)
+            $s->bindValue(':clip_id', $_POST['clip_id']); // $_POST['clip_id'] // $clipId
+        } else if (isset($clipId)) {
+            $s->bindValue(':clip_id', $clipId);
         }
+            
         $s->execute();
     } catch (PDOException $error) {
-        $error = $error->getMessage();   //getTraceAsString();   //'Error removing joke from categories!';
+        $error = $error->getTraceAsString(); //getTraceAsString(); //'Error removing joke from categories!'; // getMessage();
         include 'error.html.php';
         exit();
     } 

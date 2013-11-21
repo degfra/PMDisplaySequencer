@@ -29,7 +29,7 @@
             
             $list_1 = $list_2;
             
-            echo $list_1[0];
+           // echo $list_1[0];
             
             $list_3 = array(
                 0 =>'Jill',
@@ -41,9 +41,9 @@
             
             //$list_1[0][0] = $list_3;
             
-            echo $list_1[1];
+            //echo $list_1[1];
             
-            echo "<br><br>";
+            //echo "<br><br>";
             
             /*$sequenceclips = array( array( clipname => 'Clip1',
                                              clip_id => '1',
@@ -58,14 +58,27 @@
             
             $clips1 = array( clipname => 'Clip1',
                              clip_id => '1',
-                             sequence_id => 'seq3');
+                             sequence_id => 'seq1');
             
             $clips2 = array( clipname => 'Clip2',
                              clip_id => '2',
-                             sequence_id => 'seq3');
+                             sequence_id => 'seq1');
             
             $clips3 = array( clipname => 'Clip3',
                              clip_id => '3',
+                             sequence_id => 'seq1');
+            
+            
+            $clips4 = array( clipname => 'Clip4',
+                             clip_id => '4',
+                             sequence_id => 'seq3');
+            
+            $clips5 = array( clipname => 'Clip5',
+                             clip_id => '5',
+                             sequence_id => 'seq3');
+            
+            $clips6 = array( clipname => 'Clip6',
+                             clip_id => '6',
                              sequence_id => 'seq3');
             
             /*$sequenceclips = array( $clips1,
@@ -73,18 +86,57 @@
                                     $clips3                    
             ); */
             
-            $sequenceclips = array();
+            $sequences = array();
             
-            array_push($sequenceclips, $clips1);
-            array_push($sequenceclips, $clips2);
-            array_push($sequenceclips, $clips3);
+                $sequence1 = array( sequence_id => '1',
+                                    sequencename => 'Clips_1_to_3');
+
+                $sequence2 = array( sequence_id => '3',
+                                    sequencename => 'Clips_4_to_6');
+
+                array_push($sequences, $sequence1);
+                array_push($sequences, $sequence2);
             
+            $clipsequences = array(); // 1 for each sequence
+            
+                $sequenceclips[0] = array();
+            
+                    array_push($sequenceclips[0], $clips1);
+                    array_push($sequenceclips[0], $clips2);
+                    array_push($sequenceclips[0], $clips3);
+
+                array_push($clipsequences, $sequenceclips[0]);
+            
+                $sequenceclips[1] = array();
+            
+                    array_push($sequenceclips[1], $clips4);
+                    array_push($sequenceclips[1], $clips5);
+                    array_push($sequenceclips[1], $clips6);
+            
+                array_push($clipsequences, $sequenceclips[1]);
+            
+            //echo $sequenceclips[0][1][clipname];
+            //echo "<br>";
                 
-            for ($row = 0 ; $row < 3; $row++) {
+            for ($i = 0 ; $i < count($sequences); $i++) {
                 
-                echo $sequenceclips[$row][clipname];
-                echo "<br>";
+                echo "<strong>";
+
+                    echo "Sequence ".$sequences[$i][sequence_id].": ".$sequences[$i][sequencename];
+                    echo "<br>";
+                echo "</strong>";
+                
+                foreach ($sequenceclips[$i] as $row) {
+                
+                echo "<small>";
+                    echo $row[clip_id].": ";
+                    echo $row[clipname]." from ";
+                    echo $row[sequence_id];
+                    echo "<br>";
+                echo"</small>";
                         
+                }
+                echo "<br>";
             }
             
             
