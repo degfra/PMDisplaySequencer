@@ -1,13 +1,13 @@
 <?php
 
-function exposeClipWithSections() {
+function exposeClipWithSections($firstClipId) {
     
     include 'db.inc.php';
     
     global  //$s,
             $clips;
-            $firstClipId;
-            $nextClipId;
+            //$firstClipId;
+            //$nextClipId;
     
     if ($firstClipId != NULL) {
         $clipId = $firstClipId;
@@ -37,7 +37,7 @@ function exposeClipWithSections() {
             $s->bindValue(':clip_id', $_POST['nextClipId']);
         } else if (isset($_POST['clip_id'])) { // } else if (isset($_POST['clip_id'])) {   // $nextClipId) and $nextClipId == 0)
             $s->bindValue(':clip_id', $_POST['clip_id']); // $_POST['clip_id'] // $clipId
-        } else if (isset($clipId)) {
+        } else if (!isset($_POST['clip_id'])) {
             $s->bindValue(':clip_id', $clipId);
         }
             

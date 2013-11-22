@@ -3,6 +3,7 @@
 include_once '../../includes/magicquotes.inc.php';
 //include_once $_SERVER['DOCUMENT_ROOT'] . /includes/magicquotes.inc.php';
 include_once '../../includes/exposeClipWithSections-function.inc.php';
+include_once '../../includes/displayNextClip-function.inc.php';
 
 /* * ************** PREVIEW A SEQUENCE **************** */
 include '../../includes/db.inc.php';
@@ -10,52 +11,82 @@ include '../../includes/db.inc.php';
 
 if (isset($_POST['action']) and ($_POST['action'] == 'Preview')) {
    
-  
-  try {
-
-    $sql = 'SELECT
-            clip.id as clipId, clip.nextClipId,
-            sequence.id as sequenceId
-
-            FROM sequence
-            JOIN clipsequence ON sequence.id = clipsequence.sequenceid
-            JOIN clip ON clip.id = clipsequence.clipid
-            WHERE sequence.id =:sequence_id';
-
-    $s = $pdo->prepare($sql);
-    $s->bindValue(':sequence_id', $_POST['sequence_id']);
-    $s->execute();
+  /*if(isset($_POST['clip_id'])) {
+      
+    exposeClipWithSections();
+      
+  } else { */
     
-  } catch (PDOException $error) {
-    $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';
-    include '../../includes/error.html.php';
-    exit();
-  }
+    try {
 
-  foreach ($s as $row) {
+      $sql = 'SELECT
+              clip.id as clipId, clip.nextClipId,
+              sequence.id as sequenceId
 
-    $clips[] = array(
-    'clip_id' => $row['clipId'],
-    'nextClipId' => $row['nextClipId']
-    );
-    
-  } 
-  
-  /*foreach ($clips as $clip) {
-      if ($clip['clip_id'] == 1) {
-      $firstClipId = $clip['clip_id'];
+              FROM sequence
+              JOIN clipsequence ON sequence.id = clipsequence.sequenceid
+              JOIN clip ON clip.id = clipsequence.clipid
+              WHERE sequence.id =:sequence_id';
+
+      $s = $pdo->prepare($sql);
+      $s->bindValue(':sequence_id', $_POST['sequence_id']);
+      $s->execute();
+
+    } catch (PDOException $error) {
+      $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';
+      include '../../includes/error.html.php';
+      exit();
     }
-  }*/
-  
-  $firstClipId = $clips[0]['clip_id'];
-  $nextClipId = $clips[0]['nextClipId'];
+
+    foreach ($s as $row) {
+
+      $sequenceclips[] = array(
+      'clip_id' => $row['clipId'],
+      'nextClipId' => $row['nextClipId']
+      );
+
+    } 
+
+    $firstClipId = $sequenceclips[0]['clip_id'];
+
+    exposeClipWithSections($firstClipId);
     
-  exposeClipWithSections();
+    include '../../templates/preview_tpl/clippreview_styled.html.php';
+    exit();
+
   
-  include '../../templates/preview_tpl/clippreview_styled.html.php';
-  exit();
+} else if (isset($_GET['Next_Clip'])) {
+    
+     if ($_POST['nextClipId'] == 0) {        // $_POST['singleClip'] || 
+    
+        $clips[] = array(
+            'clipid' => $_POST['clip_id'],
+            'cliplayoutcssref' => $_POST['cliplayoutcssref'],
+            'clipname' => $_POST['clipname'],
+            'clipDurationInSeconds' => $_POST['clipDuration'],
+        );
+        
+        if ($_POST['updated']) { 
+            include '../../templates/preview_tpl/endofeditpreview.html.php';
+            exit();
+        } 
+        else {
+            include '../../templates/preview_tpl/endofclippreview.html.php';
+            exit();
+        }
   
+    } else {
+                
+        exposeClipWithSections();
+        
+        include '../../templates/preview_tpl/clippreview_styled.html.php';
+        exit();
+    } 
+    
+    //displayNextClip();
+    
 }
+  
  
 /* * ************** DISPLAY SEQUENCES LIST **************** */
 

@@ -3,6 +3,7 @@
 include_once '../../includes/magicquotes.inc.php';
 //include_once $_SERVER['DOCUMENT_ROOT'] . /includes/magicquotes.inc.php';
 include_once '../../includes/exposeClipWithSections-function.inc.php';
+include_once '../../includes/displayNextClip-function.inc.php';
 
 //global $clips;
 
@@ -308,11 +309,11 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview' || $_POST['action
 }
 
 
-if (isset($_GET['Next_Clip'])){
+if (isset($_GET['Next_Clip'])) {
     
     /*********** IF SINGLE CLIP ***********/
     
-    if ($_POST['singleClip'] || ($_POST['nextClipId'] == 0)) { 
+     if ($_POST['nextClipId'] == 0) {        // $_POST['singleClip'] || 
     
         $clips[] = array(
             'clipid' => $_POST['clip_id'],
@@ -336,7 +337,10 @@ if (isset($_GET['Next_Clip'])){
         
         include '../../templates/preview_tpl/clippreview_styled.html.php';
         exit();
-    }
+    } 
+    
+  //displayNextClip();
+    
 }
 
 
