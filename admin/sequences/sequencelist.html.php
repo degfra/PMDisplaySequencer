@@ -43,8 +43,8 @@
                     <a href="javascript: quickPreview();" title="TODO: Quick Preview">
                     <!--<?php echo htmlout($clip['clipname'], ENT_QUOTES, 'UTF-8'); ?></a>-->
                     <?php echo htmlout($sequenceclips[$i][$j]['clipname'], ENT_QUOTES, 'UTF-8'); ?></a>
-                    
                 </small>
+                
                 <input type="hidden" name="clip_id_<?php echo $i ?>_<?php echo $j ?>" value="<?php echo $sequenceclips[$i][$j]['clip_id']; ?>">
                 <?php endfor; //endforeach; ?>
                 <br>

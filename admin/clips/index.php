@@ -272,6 +272,14 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview' || $_POST['action
     $returntoeditorbutton = '<p><input type="button" style=" position: absolute; left: 970px; top: 700px; "
                           value="Return to the Clip Editor" 
                           onclick="javascript: history.back()"/></p>';
+    
+    $returntosequencesbutton = '<p><input type="button"
+                          value="Return to the Sequences" 
+                          onclick="javascript: location = ../sequences/"/></p>';
+    
+    $returntoclipsbutton = '<p><input type="button"
+                          value="Return to the Sequences" 
+                          onclick="javascript: location = ../clips/"/></p>';
     /*
     try {
         $sql = 'SELECT 
@@ -302,7 +310,7 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview' || $_POST['action
         include '../../templates/preview_tpl/clippreview_styled.html.php';
         exit();
     }
-    else if ($_POST['action'] == 'Edit') {
+    else if ($_POST['action'] == 'Edit' ||  $_GET['?Edit']) {
         include '../../templates/edit_tpl/clipedit.html.php';
         exit();
     }

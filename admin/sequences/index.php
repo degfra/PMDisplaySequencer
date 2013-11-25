@@ -20,12 +20,14 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview')) {
     try {
 
       $sql = 'SELECT
-              clip.id as clipId, clip.nextClipId,
-              sequence.id as sequenceId
+              clip.id, clip.clipname,
+              sequence.id,
+              sequenceclip.inSequenceClipid, sequenceclip.sequenceid,
+              sequenceclip.inSequenceNextClipId, sequenceclip.inSequenceClipOrderNumber
 
               FROM sequence
-              JOIN clipsequence ON sequence.id = clipsequence.sequenceid
-              JOIN clip ON clip.id = clipsequence.clipid
+              JOIN sequenceclip ON sequence.id = sequenceclip.sequenceid
+              JOIN clip ON clip.id = sequenceclip.inSequenceClipid
               WHERE sequence.id =:sequence_id';
 
       $s = $pdo->prepare($sql);
@@ -41,8 +43,8 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview')) {
     foreach ($s as $row) {
 
       $sequenceclips[] = array(
-      'clip_id' => $row['clipId'],
-      'nextClipId' => $row['nextClipId']
+      'clip_id' => $row['inSequenceClipid'],
+      'nextClipId' => $row['inSequenceNextClipId']
       );
 
     } 
@@ -54,16 +56,18 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview')) {
     include '../../templates/preview_tpl/clippreview_styled.html.php';
     exit();
 
-  
+
+    /* * ************** DISPLAY THE NEXT CLIP IN A SEQUENCE **************** */
 } else if (isset($_GET['Next_Clip'])) {
     
-     if ($_POST['nextClipId'] == 0) {        // $_POST['singleClip'] || 
+     if ($_POST['singleClip'] == 1) {        // ($_POST['singleClip'] == 1) || // ($_POST['nextClipId'] == 0)
     
         $clips[] = array(
             'clipid' => $_POST['clip_id'],
             'cliplayoutcssref' => $_POST['cliplayoutcssref'],
             'clipname' => $_POST['clipname'],
             'clipDurationInSeconds' => $_POST['clipDuration'],
+            'singleClip' => $_POST['singleClip'],
         );
         
         if ($_POST['updated']) { 
@@ -132,8 +136,8 @@ for ($i = 0; $i < count($sequences); $i++) {
                     sequence.id as sequenceId
 
                         FROM sequence
-                        JOIN clipsequence ON sequence.id = clipsequence.sequenceid
-                        JOIN clip ON clip.id = clipsequence.clipid
+                        JOIN sequenceclip ON sequence.id = sequenceclip.sequenceid
+                        JOIN clip ON clip.id = sequenceclip.inSequenceClipid
                         WHERE sequence.id =:sequence_id';
 
         $s = $pdo->prepare($sql);

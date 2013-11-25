@@ -10,7 +10,6 @@
                 
                 //window.location.assign("?clip_id=<?php echo $_POST['clip_id']; ?>&action=Edit");
                 history.back();
-                history.back();
 
             }
 
@@ -38,6 +37,7 @@
                <p> <input type="button" 
                           value="Keep editing : return to the Clip Preview" 
                           onclick="javascript: returnToEditor()"/></p>
+               <!--   onClick="javascript: location='../clips/?Edit'" -->
 
             </form>
         </div>

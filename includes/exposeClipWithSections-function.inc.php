@@ -11,7 +11,7 @@ function exposeClipWithSections($firstClipId) {
     
     if ($firstClipId != NULL) {
         $clipId = $firstClipId;
-        $nextClipId = $nextClipId;
+        //$nextClipId = $nextClipId;
     } /*else {
         $clipId = $_POST['clip_id'];
         $nextClipId = $_POST['nextClipId'];
@@ -19,26 +19,35 @@ function exposeClipWithSections($firstClipId) {
     
     try {
         $sql = 'SELECT 
+                clip.id, clip.clipname, clip.clipbackgroundcolor, clip.updated, clip.isLoop,
                 section.sectioncode, 
-                sectiontype.id, sectiontype.sectiontypewidth, sectiontype.sectiontypename, sectiontype.sectiontypecode,
+                sectiontype.id, sectiontype.sectiontypename, sectiontype.sectiontypewidth, 
                 cliplayout.id, cliplayout.cliplayoutcssref,
-                clip.*
+                sequenceclip.*
                             FROM clip
                             JOIN section ON clip.id = section.clipid
                             JOIN sectiontype ON sectiontype.id = section.sectiontypeid
                             JOIN cliplayout ON cliplayout.id = clip.cliplayoutid
-                            WHERE clip.id = :clip_id'
+                            JOIN sequenceclip ON clip.id = sequenceclip.inSequenceClipid
+                            WHERE clip.id = :clip_id and sequenceclip.singleClipSequence = :single_clip
+                            
+                            GROUP BY section.id'
         ;
 
         $s = $pdo->prepare($sql);
         if (isset($_POST['nextClipId']) and $_POST['nextClipId'] == 0) {
             $s->bindValue(':clip_id', $_POST['nextClipId']);
+            $s->bindValue(':single_clip', 0);
         } else if (isset($_POST['nextClipId']) and $_POST['nextClipId'] > 0) {
             $s->bindValue(':clip_id', $_POST['nextClipId']);
+            $s->bindValue(':single_clip', 0);
         } else if (isset($_POST['clip_id'])) { // } else if (isset($_POST['clip_id'])) {   // $nextClipId) and $nextClipId == 0)
             $s->bindValue(':clip_id', $_POST['clip_id']); // $_POST['clip_id'] // $clipId
+            $s->bindValue(':single_clip', 1);
         } else if (!isset($_POST['clip_id'])) {
             $s->bindValue(':clip_id', $clipId);
+            $s->bindValue(':single_clip', $_POST['singleClip']);
+            
         }
             
         $s->execute();
@@ -84,15 +93,15 @@ function exposeClipWithSections($firstClipId) {
     }
     
     $clips[] = array(
-        'id' => $row['id'],
+        'id' => $row['inSequenceClipId'],
         'clipname' => $row['clipname'],
         'cliplayoutcssref' => $row['cliplayoutcssref'],
-        'clipDurationInSeconds' => $row['clipDurationInSeconds'],
-        'clipOrderNumber' => $row['clipOrderNumber'],
-        'nextClipId' => $row['nextClipId'],
+        'clipDurationInSeconds' => $row['inSequenceClipDurationInSeconds'],
+        'clipOrderNumber' => $row['inSequenceClipOrderNumber'],
+        'nextClipId' => $row['inSequenceNextClipId'],
         'clipbackgroundcolor' => $row['clipbackgroundcolor'],
         'isLoop' => $row['isLoop'],
-        'singleClip' => $row['singleClip'],
+        'singleClip' => $row['singleClipSequence'],
         'updated' => $row['updated'],
 
         'headername' => $headername,
