@@ -1,6 +1,7 @@
 <?php
 
-function exposeClipWithSections($firstClipId) {
+function exposeClipWithSections($firstClipId, $firstClipOrderNumber, 
+                                $sequenceId, $singleClipSequence) {
     
     include 'db.inc.php';
     
@@ -8,15 +9,46 @@ function exposeClipWithSections($firstClipId) {
             $clips;
             //$firstClipId;
             //$nextClipId;
+    $firstClipId = $firstClipId;
+    $firstClipOrderNumber = $firstClipOrderNumber;
+    $sequenceId = $sequenceId;
+    $singleClipSequence = $singleClipSequence;
     
-    if ($firstClipId != NULL) {
+    /*if ($firstClipId != NULL and $clipsequence != NULL) {
         $clipId = $firstClipId;
         //$nextClipId = $nextClipId;
-    } /*else {
+    } else {
         $clipId = $_POST['clip_id'];
         $nextClipId = $_POST['nextClipId'];
     } */
     
+    // Get the id of the sequence of the clip
+    try {
+        
+        $sql = 'SELECT 
+                sequenceclip.sequenceid,
+                clip.id
+                
+                FROM clip
+                JOIN sequenceclip ON clip.id = sequenceclip.inSequenceClipId
+                WHERE clip.id = :clip_id';
+        
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':clip_id', $_POST['clip_id']);
+        
+        $s->execute();
+        
+    } catch (PDOException $error) {
+        $error = $error->getMessage(); //getTraceAsString(); //'Error removing joke from categories!'; // getMessage();
+        include 'error.html.php';
+        exit();
+    }
+        
+        foreach ($s as $row) {
+            $sequenceid = $row['sequenceid'];
+        }
+    
+        // Get the sections of the clip
     try {
         $sql = 'SELECT 
                 clip.id, clip.clipname, clip.clipbackgroundcolor, clip.updated, clip.isLoop,
@@ -29,12 +61,32 @@ function exposeClipWithSections($firstClipId) {
                             JOIN sectiontype ON sectiontype.id = section.sectiontypeid
                             JOIN cliplayout ON cliplayout.id = clip.cliplayoutid
                             JOIN sequenceclip ON clip.id = sequenceclip.inSequenceClipid
-                            WHERE clip.id = :clip_id and sequenceclip.singleClipSequence = :single_clip
+                            WHERE clip.id = :clip_id 
+                              and sequenceclip.sequenceid = :sequence_id
                             
-                            GROUP BY section.id'
-        ;
+                            GROUP BY section.id';
 
         $s = $pdo->prepare($sql);
+        
+        // IN CASE OF A SEQUENCE WITH A SINGLE CLIP
+        if ($singleClipSequence == 1) {
+            $s->bindValue(':clip_id', $_POST['clip_id']);
+        
+        // IN CASE OF A SEQUENCE WITH MULTIPLE CLIPS : FOR THW FIRST CLIP
+        } else if ($singleClipSequence == 0 and $firstClipOrderNumber == 1) {
+            $s->bindValue(':clip_id', $_POST[$firstClipId]);
+        
+        } else if ($singleClipSequence == 0 and $_POST['nextClipId'] > 0)  {
+            $s->bindValue(':clip_id', $_POST['nextClipId']);
+        
+        // IN CASE OF A SEQUENCE WITH MULTIPLE CLIPS : FOR THE LAST CLIP
+        } else if ($singleClipSequence == 0 and $_POST['nextClipId'] == 0) {
+            $s->bindValue(':clip_id', $_POST['clip_id']);
+        }
+        
+        $s->bindValue(':sequence_id', $firstClipSequenceId);
+            
+        /*
         if (isset($_POST['nextClipId']) and $_POST['nextClipId'] == 0) {
             $s->bindValue(':clip_id', $_POST['nextClipId']);
             $s->bindValue(':single_clip', 0);
@@ -48,11 +100,11 @@ function exposeClipWithSections($firstClipId) {
             $s->bindValue(':clip_id', $clipId);
             $s->bindValue(':single_clip', $_POST['singleClip']);
             
-        }
+        }*/
             
         $s->execute();
     } catch (PDOException $error) {
-        $error = $error->getTraceAsString(); //getTraceAsString(); //'Error removing joke from categories!'; // getMessage();
+        $error = $error->getMessage(); //getTraceAsString(); //'Error removing joke from categories!'; // getMessage();
         include 'error.html.php';
         exit();
     } 

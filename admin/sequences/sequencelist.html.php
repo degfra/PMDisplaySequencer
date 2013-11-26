@@ -45,7 +45,10 @@
                     <?php echo htmlout($sequenceclips[$i][$j]['clipname'], ENT_QUOTES, 'UTF-8'); ?></a>
                 </small>
                 
-                <input type="hidden" name="clip_id_<?php echo $i ?>_<?php echo $j ?>" value="<?php echo $sequenceclips[$i][$j]['clip_id']; ?>">
+                <input type="hidden" name="clip_id_<?php echo $i ?>_<?php echo $j ?>" 
+                       value="<?php echo $sequenceclips[$i][$j]['clip_id']; ?>">
+                <input type="hidden" name="nextClipId"<?php echo $i ?>_<?php echo $j ?>" 
+                       value="<?php echo $sequenceclips[$i][$j]['nextClipId']; ?>">
                 <?php endfor; //endforeach; ?>
                 <br>
                 

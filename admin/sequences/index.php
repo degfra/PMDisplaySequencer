@@ -21,9 +21,10 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview')) {
 
       $sql = 'SELECT
               clip.id, clip.clipname,
-              sequence.id,
+              sequence.id as sequenceId,
               sequenceclip.inSequenceClipid, sequenceclip.sequenceid,
-              sequenceclip.inSequenceNextClipId, sequenceclip.inSequenceClipOrderNumber
+              sequenceclip.inSequenceNextClipId, sequenceclip.inSequenceClipOrderNumber,
+              sequenceclip.singleClipSequence
 
               FROM sequence
               JOIN sequenceclip ON sequence.id = sequenceclip.sequenceid
@@ -44,14 +45,21 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview')) {
 
       $sequenceclips[] = array(
       'clip_id' => $row['inSequenceClipid'],
-      'nextClipId' => $row['inSequenceNextClipId']
+      'nextClipId' => $row['inSequenceNextClipId'],
+      'clipOrderNumber' => $row['inSequenceClipOrderNumber'],
+      'singleClipSequence' => $row['singleClipSequence'],
+      'sequence_id' => $row['sequenceId']
       );
 
     } 
 
-    $firstClipId = $sequenceclips[0]['clip_id'];
+    $firstClipId = $sequenceclips[0]['clip_id']; 
+    $firstClipOrderNumber = $sequenceclips[0]['inSequenceClipOrderNumber'];
+    $singleClipSequence = $sequenceclips[0]['singleClipSequence'];
+    $sequenceId = $sequenceclips[0]['sequenceId'];
 
-    exposeClipWithSections($firstClipId);
+    exposeClipWithSections($firstClipId, $firstClipOrderNumber, 
+                           $sequenceId, $singleClipSequence);
     
     include '../../templates/preview_tpl/clippreview_styled.html.php';
     exit();

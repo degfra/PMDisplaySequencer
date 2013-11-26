@@ -52,6 +52,7 @@
 
                     (added : <?php echo htmlout($clip['clipdate'], ENT_QUOTES, 'UTF-8'); ?> ) 
                     <input type="hidden" name="clip_id" value="<?php echo $clip['id']; ?>">
+                    <input type="hidden" name="nextClipId" value="<?php echo $clip['nextClipId']; ?>">
 
                     <input type="submit" name="action" value="Preview">
                     <input type="submit" name="action" value="Edit">
