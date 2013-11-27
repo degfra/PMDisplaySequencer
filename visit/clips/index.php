@@ -113,8 +113,14 @@ if (isset($_GET['action']) and $_GET['action'] == 'Preview')
 if (isset($_POST['action']) and ($_POST['action'] == 'Preview' )) {
     //include '../../includes/db.inc.php';
     // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
+    
+    $firstClipId = 0;
+    $firstClipOrderNumber = 0;
+    $sequenceId = 0;
+    $singleClipSequence = 0;
 
-    exposeClipWithSections();
+    exposeClipWithSections($firstClipId, $firstClipOrderNumber, 
+                                $sequenceId, $singleClipSequence);
 
     if ($_POST['action'] == 'Preview') {
         //include 'clippreview.html.php';

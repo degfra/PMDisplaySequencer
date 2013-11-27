@@ -5,13 +5,13 @@ function exposeClipWithSections($firstClipId, $firstClipOrderNumber,
     
     include 'db.inc.php';
     
-    global  $clips, $sequenceId, $singleClipSequence;
+    global  $clips;
             //$firstClipId;
             //$nextClipId;
-    /*$firstClipId = $firstClipId;
+    $firstClipId = $firstClipId;
     $firstClipOrderNumber = $firstClipOrderNumber;
     $sequenceId = $sequenceId;
-    $singleClipSequence = $singleClipSequence;*/
+    $singleClipSequence = $singleClipSequence;
     
     /*if ($firstClipId != NULL and $clipsequence != NULL) {
         $clipId = $firstClipId;

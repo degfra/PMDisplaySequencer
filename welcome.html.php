@@ -11,7 +11,7 @@
     <body style="padding: 40px;">
         <h2>Welcome to Display Sequencer (DS)</h2>
         
-        <div>
+        <!--<div>
             <?php 
             
             $list_1 = array(
@@ -38,23 +38,6 @@
             );
             
             $list_1[0] = $list_3;
-            
-            //$list_1[0][0] = $list_3;
-            
-            //echo $list_1[1];
-            
-            //echo "<br><br>";
-            
-            /*$sequenceclips = array( array( clipname => 'Clip1',
-                                             clip_id => '1',
-                                             sequence_id => 'seq3'),
-                                      array( clipname => 'Clip2',
-                                             clip_id => '2',
-                                             sequence_id => 'seq3'),
-                                      array( clipname => 'Clip3',
-                                             clip_id => '3',
-                                             sequence_id => 'seq3')
-                                ); */
             
             $clips1 = array( clipname => 'Clip1',
                              clip_id => '1',
@@ -141,7 +124,7 @@
             
             
             ?>
-        </div>
+        </div> -->
         
         <p>
         <ul>

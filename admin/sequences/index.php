@@ -59,7 +59,7 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview')) {
     $singleClipSequence = $sequenceclips[0]['singleClipSequence'];
     $sequenceId = $sequenceclips[0]['sequence_id'];
     
-    global $sequenceId, $singleClipSequence;
+    //global $sequenceId, $singleClipSequence;
 
     exposeClipWithSections($firstClipId, $firstClipOrderNumber, 
                            $sequenceId, $singleClipSequence);
@@ -98,8 +98,14 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview')) {
             exit();
             
         } else {
+            
+            $firstClipId = 0;
+            $firstClipOrderNumber = 0;
+            $sequenceId = 0;
+            $singleClipSequence = 0;
                 
-            exposeClipWithSections();
+            exposeClipWithSections($firstClipId, $firstClipOrderNumber, 
+                                $sequenceId, $singleClipSequence);
 
             include '../../templates/preview_tpl/clippreview_styled.html.php';
             exit();
