@@ -6,7 +6,7 @@
 	<input type="submit" name="action" value="Preview" 
 		style=" position: absolute; left: 1000px; top: 730px;"/> <!-- onClick="javascript: previewClip()" -->
         
-        <label for='backgroundColor' name="backgroundColor" style=" position: absolute; left: 970px; top: 120px; font-size: 100%;" >Choisir la couleur de fond :</label>
+        <label for='backgroundColor' name="backgroundColor" style=" position: absolute; left: 970px; top: 120px; font-size: 80%;" >Choisir la couleur de fond :</label>
 	<input name="backgroundColor" class="color" value="<?php echo $clip['clipbackgroundcolor'];?>"
 				style=" position: absolute; left: 970px; top: 140px;" />
         <input type="hidden" id="clip_id" name="clip_id" value="<?php echo $clip['id']; ?>" />
@@ -15,7 +15,7 @@
         
     </form>
 
-	<div style=" font-size: 100%; position: absolute; left: 970px; top: 200px;" >
+	<div style=" font-size: 80%; position: absolute; left: 970px; top: 200px;" >
                 <!--
 		<strong>Typographie : style CSS de bloc obligatoire</strong><br>
 			font-size: 100%;  <br><br>

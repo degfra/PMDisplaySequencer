@@ -3,7 +3,6 @@
 include_once '../../includes/magicquotes.inc.php';
 //include_once $_SERVER['DOCUMENT_ROOT'] . /includes/magicquotes.inc.php';
 include_once '../../includes/exposeClipWithSections-function.inc.php';
-include_once '../../includes/displayNextClip-function.inc.php';
 
 //global $clips;
 
@@ -269,40 +268,6 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview' || $_POST['action
     //include '../../includes/db.inc.php';
     // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
 
-    $returntoeditorbutton = '<p><input type="button" style=" position: absolute; left: 970px; top: 700px; "
-                          value="Return to the Clip Editor" 
-                          onclick="javascript: history.back()"/></p>';
-    
-    $returntosequencesbutton = '<p><input type="button"
-                          value="Return to the Sequences" 
-                          onclick="javascript: location = ../sequences/"/></p>';
-    
-    $returntoclipsbutton = '<p><input type="button"
-                          value="Return to the Sequences" 
-                          onclick="javascript: location = ../clips/"/></p>';
-    /*
-    try {
-        $sql = 'SELECT 
-                section.sectioncode, 
-                sectiontype.id, sectiontype.sectiontypewidth, sectiontype.sectiontypename, sectiontype.sectiontypecode,
-                cliplayout.id, cliplayout.cliplayoutcssref,
-                clip.*
-                            FROM clip
-                            JOIN section ON clip.id = section.clipid
-                            JOIN sectiontype ON sectiontype.id = section.sectiontypeid
-                            JOIN cliplayout ON cliplayout.id = clip.cliplayoutid
-                            WHERE clip.id = :clip_id'
-        ;
-
-        $s = $pdo->prepare($sql);
-        $s->bindValue(':clip_id', $_POST['clip_id']);
-        $s->execute();
-    } catch (PDOException $error) {
-        $error = $error->getMessage();   //getTraceAsString();   //'Error removing joke from categories!';
-        include '../../includes/error.html.php';
-        exit();
-    } */
-
     exposeClipWithSections();
 
     if ($_POST['action'] == 'Preview') {
@@ -440,30 +405,6 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
         }
         
     }
-    
-    // FETCH ALL UPDATED SECTION CODES AND EXPOSE THEM TO REDISPLAY IN EDITOR
-    /*
-    try {
-        $sql = 'SELECT 
-                section.sectioncode, 
-                sectiontype.id, sectiontype.sectiontypewidth, sectiontype.sectiontypename, sectiontype.sectiontypecode,
-                cliplayout.id, cliplayout.cliplayoutcssref,
-                clip.*
-                            FROM clip
-                            JOIN section ON clip.id = section.clipid
-                            JOIN sectiontype ON sectiontype.id = section.sectiontypeid
-                            JOIN cliplayout ON cliplayout.id = clip.cliplayoutid
-                            WHERE clip.id = :clip_id'
-        ;
-
-        $s = $pdo->prepare($sql);
-        $s->bindValue(':clip_id', $_POST['clip_id']);
-        $s->execute();
-    } catch (PDOException $error) {
-        $error = $error->getMessage();   //getTraceAsString();   //'Error removing joke from categories!';
-        include '../../includes/error.html.php';
-        exit();
-    } */
 
     exposeClipWithSections();
 

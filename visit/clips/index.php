@@ -2,8 +2,9 @@
 
 include_once '../../includes/magicquotes.inc.php';
 //include_once $_SERVER['DOCUMENT_ROOT'] . /includes/magicquotes.inc.php';
+include_once '../../includes/exposeClipWithSections-function.inc.php';
 
-    /********** PREVIEW CLIP ***********/
+    /********** PREVIEW CLIP **********
 
 if (isset($_GET['action']) and $_GET['action'] == 'Preview')
 {
@@ -104,10 +105,25 @@ if (isset($_GET['action']) and $_GET['action'] == 'Preview')
     include '../../templates/preview_tpl/clippreview_styled.html.php';
     exit();
     
-}
-    
+} */
 
-/**************** DISPLAY CLIPS LIST *****************/
+/* * ******** PREVIEW CLIP ********** */
+
+//if (isset($_GET['action']) and ($_GET['action'] == 'Preview' || $_GET['action'] == 'Edit' )) {
+if (isset($_POST['action']) and ($_POST['action'] == 'Preview' )) {
+    //include '../../includes/db.inc.php';
+    // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
+
+    exposeClipWithSections();
+
+    if ($_POST['action'] == 'Preview') {
+        //include 'clippreview.html.php';
+        include '../../templates/preview_tpl/clippreview_styled.html.php';
+        exit();
+    }
+}  
+
+/**************** DISPLAY CLIPS LIST ****************
 
 include '../../includes/db.inc.php';
 // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
@@ -131,6 +147,53 @@ while ($row = $result->fetch())
         'clipdate' => $row['clipdate'] //,
       ); 
     
+}
+
+include 'cliplist.html.php';
+exit(); */
+
+/* * ************** DISPLAY CLIPS LIST **************** */
+
+include '../../includes/db.inc.php';
+// include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
+
+try {
+    $result = $pdo->query('SELECT id, cliplayoutname FROM cliplayout');
+} catch (PDOException $error) {
+    $error = 'Error fetching clip layouts from database!';
+    include '../../includes/error.html.php';
+    exit();
+}
+
+foreach ($result as $row) {
+    $cliplayouts[] = array(
+        'id' => $row['id'],
+        'cliplayoutname' => $row['cliplayoutname']
+    );
+}
+
+try {
+    $result = $pdo->query('SELECT clip.*, sequenceclip.sequenceid, sequenceclip.singleClipSequence
+                           FROM clip
+                           JOIN sequenceclip ON clip.id = sequenceclip.inSequenceClipId
+                           WHERE sequenceclip.singleClipSequence = 1
+                           GROUP BY clip.id');
+} catch (PDOException $error) {
+    $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';
+    include '../../includes/error.html.php';
+    exit();
+}
+
+while ($row = $result->fetch()) {
+    $clips[] = array(
+        'id' => $row['id'],
+        'clipname' => $row['clipname'],
+        'clipdate' => $row['clipdate'],
+        'cliplayoutid' => $row['cliplayoutid'],
+        'nextClipId' => $row['nextClipId'],
+        'sequence_id' => $row['sequenceid'],
+        'singleClip' => $row['singleClipSequence']
+    );
 }
 
 include 'cliplist.html.php';
