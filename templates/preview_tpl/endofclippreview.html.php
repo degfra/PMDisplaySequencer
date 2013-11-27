@@ -13,32 +13,33 @@
         <div
             <p><h5>
                 The <?php echo $_POST['clipDuration'] ?> 
-                seconds preview of '<?php echo $_POST['clipname'] ?>' 
+                seconds preview of '<?php echo $_POST['clipname'] ?>'
                 has come to an end.<br>
                 There isn't any 'Next Clip' since this clip is not part 
                 of any sequence yet.
             </h5></p>
 
-        <p><input type="button" value="Return to Clips Management" 
+        <!--<p><input type="button" value="Return to Clips Management" 
                   onClick="
-                      <?php if ($clip['singleClip'] == 0) {
+                      <?php if ($_POST['singleClip'] == 0) {
                          echo("javascript: location = '../sequences/'");
-                      } else if ($clip['singleClip'] == 1) {
+                      } else if ($_POST['singleClip'] == 1) {
                           echo("javascript: location = '../clips/'");
                       }
-                      ?>"/></p>
+                      ?>"/></p>-->
 
-        <!--<?php
-        if ($clip['singleClip'] == 1) {
-            //echo $returntosequencesbutton;
-            echo ('<p><input type="button" value="Return to Clips Management" 
-                  onClick="javascript: location = ../sequences/"/></p>');
-        } else  {
-            //echo $returntoclipsbutton;
-            echo ('<p><input type="button" value="Return to Clips Management" 
-                  onClick="javascript: location = ../clips/"/></p>');
-        }
-        ?>-->
+        <?php
+        if ($_POST['singleClip'] == 0 ) { ?>
+
+            <p><input type="button" value="Return to Sequences Management" 
+                  onClick="javascript: location = '../sequences/'"/></p>
+        <?php 
+        } else if ($_POST['singleClip'] == 1 and $_POST['clipOrderNumber'] == 1) { ?>
+
+            <p><input type="button" value="Return to Clips Management" 
+                  onClick="javascript: location = '../clips/'"/></p>
+        <?php } ?>
+       
     </div>
 </body>
 </html>

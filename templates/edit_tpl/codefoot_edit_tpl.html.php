@@ -10,6 +10,8 @@
 	<input name="backgroundColor" class="color" value="<?php echo $clip['clipbackgroundcolor'];?>"
 				style=" position: absolute; left: 970px; top: 140px;" />
         <input type="hidden" id="clip_id" name="clip_id" value="<?php echo $clip['id']; ?>" />
+        <input type="hidden" id="sequence_id" name="sequence_id" value="<?php echo $_POST['sequence_id']; ?>" />
+        <input type="hidden" id="singleClip" name="singleClip" value="<?php echo $_POST['singleClip']; ?>" />
         
     </form>
 

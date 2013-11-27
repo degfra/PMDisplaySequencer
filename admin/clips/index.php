@@ -373,6 +373,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
         $s = $pdo->prepare($sql);
         $s->bindValue(':clipbackgroundcolor', $clipbackgroundcolor);
         $s->bindValue(':clip_id', $_POST['clip_id']);
+        //$s->bindValue(':sequence_id', $_POST['sequence_id']);
         $s->execute();
         
     } catch (PDOException $error) {
@@ -568,7 +569,11 @@ foreach ($result as $row) {
 }
 
 try {
-    $result = $pdo->query('SELECT * FROM clip');
+    $result = $pdo->query('SELECT clip.*, sequenceclip.sequenceid, sequenceclip.singleClipSequence
+                           FROM clip
+                           JOIN sequenceclip ON clip.id = sequenceclip.inSequenceClipId
+                           WHERE sequenceclip.singleClipSequence = 1
+                           GROUP BY clip.id');
 } catch (PDOException $error) {
     $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';
     include '../../includes/error.html.php';
@@ -580,7 +585,10 @@ while ($row = $result->fetch()) {
         'id' => $row['id'],
         'clipname' => $row['clipname'],
         'clipdate' => $row['clipdate'],
-        'cliplayoutid' => $row['cliplayoutid']
+        'cliplayoutid' => $row['cliplayoutid'],
+        'nextClipId' => $row['nextClipId'],
+        'sequence_id' => $row['sequenceid'],
+        'singleClip' => $row['singleClipSequence']
     );
 }
 

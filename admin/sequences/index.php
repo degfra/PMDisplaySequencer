@@ -17,6 +17,7 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview')) {
       
   } else { */
     
+    // GET THE FIRST CLIP IN THE SEQUENCE AND REQUIRED SEQUENCE ATTRIBUTES
     try {
 
       $sql = 'SELECT
@@ -54,9 +55,11 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview')) {
     } 
 
     $firstClipId = $sequenceclips[0]['clip_id']; 
-    $firstClipOrderNumber = $sequenceclips[0]['inSequenceClipOrderNumber'];
+    $firstClipOrderNumber = $sequenceclips[0]['clipOrderNumber'];
     $singleClipSequence = $sequenceclips[0]['singleClipSequence'];
-    $sequenceId = $sequenceclips[0]['sequenceId'];
+    $sequenceId = $sequenceclips[0]['sequence_id'];
+    
+    global $sequenceId, $singleClipSequence;
 
     exposeClipWithSections($firstClipId, $firstClipOrderNumber, 
                            $sequenceId, $singleClipSequence);
@@ -88,11 +91,20 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview')) {
         }
   
     } else {
-                
-        exposeClipWithSections();
         
-        include '../../templates/preview_tpl/clippreview_styled.html.php';
-        exit();
+        if ($_POST['nextClipId'] == 0) {
+            
+            include '../../templates/preview_tpl/endofclippreview.html.php';
+            exit();
+            
+        } else {
+                
+            exposeClipWithSections();
+
+            include '../../templates/preview_tpl/clippreview_styled.html.php';
+            exit();
+            
+        }
     } 
     
     //displayNextClip();
@@ -109,7 +121,12 @@ include '../../includes/db.inc.php';
 // GET AN ARRAY OF ALL SEQUENCES
 
 try {
-    $result = $pdo->query('SELECT * FROM sequence');
+    $result = $pdo->query(
+            'SELECT * 
+             FROM sequence
+             JOIN sequenceclip ON sequence.id = sequenceclip.sequenceid
+             WHERE sequenceclip.singleClipSequence = 0
+             GROUP BY sequence.id');
     
 } catch (PDOException $error) {
     $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';
@@ -141,7 +158,8 @@ for ($i = 0; $i < count($sequences); $i++) {
 
         $sql = 'SELECT 
                     clip.id as clipId, clip.clipname, clip.nextClipId, 
-                    sequence.id as sequenceId
+                    sequence.id as sequenceId,
+                    sequenceclip.singleClipSequence
 
                         FROM sequence
                         JOIN sequenceclip ON sequence.id = sequenceclip.sequenceid
@@ -164,7 +182,8 @@ for ($i = 0; $i < count($sequences); $i++) {
             'sequence_id' => $sequenceclip['sequenceId'],
             'clip_id' => $sequenceclip['clipId'],
             'clipname' => $sequenceclip['clipname'],
-            'nextClipId' => $sequenceclip['nextClipId']
+            'nextClipId' => $sequenceclip['nextClipId'],
+            'singleClip' => $sequenceclip['singleClipSequence']
         );
     }
     

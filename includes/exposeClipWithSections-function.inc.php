@@ -5,14 +5,13 @@ function exposeClipWithSections($firstClipId, $firstClipOrderNumber,
     
     include 'db.inc.php';
     
-    global  //$s,
-            $clips;
+    global  $clips, $sequenceId, $singleClipSequence;
             //$firstClipId;
             //$nextClipId;
-    $firstClipId = $firstClipId;
+    /*$firstClipId = $firstClipId;
     $firstClipOrderNumber = $firstClipOrderNumber;
     $sequenceId = $sequenceId;
-    $singleClipSequence = $singleClipSequence;
+    $singleClipSequence = $singleClipSequence;*/
     
     /*if ($firstClipId != NULL and $clipsequence != NULL) {
         $clipId = $firstClipId;
@@ -20,7 +19,7 @@ function exposeClipWithSections($firstClipId, $firstClipOrderNumber,
     } else {
         $clipId = $_POST['clip_id'];
         $nextClipId = $_POST['nextClipId'];
-    } */
+    } 
     
     // Get the id of the sequence of the clip
     try {
@@ -46,7 +45,7 @@ function exposeClipWithSections($firstClipId, $firstClipOrderNumber,
         
         foreach ($s as $row) {
             $sequenceid = $row['sequenceid'];
-        }
+        } */
     
         // Get the sections of the clip
     try {
@@ -70,21 +69,27 @@ function exposeClipWithSections($firstClipId, $firstClipOrderNumber,
         
         // IN CASE OF A SEQUENCE WITH A SINGLE CLIP
         if ($singleClipSequence == 1) {
+            $s->bindValue(':clip_id', $firstClipId);
+            $s->bindValue(':sequence_id', $sequenceId);
+        
+        } else if ($_POST['singleClip'] == 1) {
             $s->bindValue(':clip_id', $_POST['clip_id']);
+            $s->bindValue(':sequence_id', $_POST['sequence_id']);
         
         // IN CASE OF A SEQUENCE WITH MULTIPLE CLIPS : FOR THW FIRST CLIP
         } else if ($singleClipSequence == 0 and $firstClipOrderNumber == 1) {
-            $s->bindValue(':clip_id', $_POST[$firstClipId]);
+            $s->bindValue(':clip_id', $firstClipId);
+            $s->bindValue(':sequence_id', $sequenceId);
         
-        } else if ($singleClipSequence == 0 and $_POST['nextClipId'] > 0)  {
+        } else if ($_POST['singleClip'] == 0 and $_POST['nextClipId'] > 0)  {
             $s->bindValue(':clip_id', $_POST['nextClipId']);
+            $s->bindValue(':sequence_id', $_POST['sequence_id']);
         
         // IN CASE OF A SEQUENCE WITH MULTIPLE CLIPS : FOR THE LAST CLIP
         } else if ($singleClipSequence == 0 and $_POST['nextClipId'] == 0) {
-            $s->bindValue(':clip_id', $_POST['clip_id']);
-        }
-        
-        $s->bindValue(':sequence_id', $firstClipSequenceId);
+            $s->bindValue(':clip_id', $_POST['nextClipId']);
+            $s->bindValue(':sequence_id', $_POST['sequence_id']);
+        }        
             
         /*
         if (isset($_POST['nextClipId']) and $_POST['nextClipId'] == 0) {
