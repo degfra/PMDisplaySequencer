@@ -50,7 +50,7 @@ function exposeClipWithSections($firstClipId, $firstClipOrderNumber,
         // Get the sections of the clip
     try {
         $sql = 'SELECT 
-                clip.id, clip.clipname, clip.clipbackgroundcolor, clip.updated, clip.isLoop,
+                clip.id, clip.clipname, clip.clipbackgroundcolor, clip.updated,
                 section.sectioncode, 
                 sectiontype.id, sectiontype.sectiontypename, sectiontype.sectiontypewidth, 
                 cliplayout.id, cliplayout.cliplayoutcssref,

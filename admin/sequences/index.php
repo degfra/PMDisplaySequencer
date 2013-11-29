@@ -163,7 +163,7 @@ for ($i = 0; $i < count($sequences); $i++) {
     try {
 
         $sql = 'SELECT 
-                    clip.id as clipId, clip.clipname, clip.nextClipId, 
+                    clip.id as clipId, clip.clipname, 
                     sequence.id as sequenceId,
                     sequenceclip.singleClipSequence
 

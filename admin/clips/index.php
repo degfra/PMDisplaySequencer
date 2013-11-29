@@ -12,22 +12,23 @@ if (isset($_POST['action']) and $_POST['action'] == 'Create') {
 
     include '../../includes/db.inc.php';
     // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
-
+    
+    // SAVE THE CONFIGURABLE CLIP ATTRIBUTES
     try {
 
         $sql = 'INSERT into clip SET
                 clipname = :clipname,
                 cliplayoutid = :cliplayoutid,
-                clipbackgroundcolor = "#CCCCCC",
-                clipDurationInSeconds = :clipDuration,
-                clipOrderNumber = "1",
+                clipbackgroundcolor = "#CCCCCC"';
+                /*clipDurationInSeconds = :clipDuration,
+                clipOrderNumber = "1"'
                 isLoop = 1,
-                singleClip = 1';
+                singleClip = 1' */
 
         $s = $pdo->prepare($sql);
         $s->bindValue(':clipname', $_POST['clipname']);
         $s->bindValue(':cliplayoutid', $_POST['cliplayout']);
-        $s->bindValue(':clipDuration', $_POST['clipDuration']);
+       // $s->bindValue(':clipDuration', $_POST['clipDuration']);
         $s->execute();
     } catch (PDOException $error) {
         $error = $error->getMessage();   //getTraceAsString();   //'Error creating the new clip!';
@@ -36,8 +37,52 @@ if (isset($_POST['action']) and $_POST['action'] == 'Create') {
     }
 
     $lastclipid = $pdo->lastInsertId();
+    $defaultSequenceName = "Single Clip " . $lastclipid . " Sequence";
+    
+    // CREATE THE DEFAULT SEQUENCE FOR THIS NEW CLIP
+    try {
+        
+        $sql = 'INSERT into sequence SET
+                sequencename = :sequencename,
+                sequenceupdated = 0,
+                isLoop = 0,
+                sequenceDurationInSeconds = 0';
+        
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':sequencename', $defaultSequenceName);
+        $s->execute();        
+        
+    } catch (PDOException $error) {
+        $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';
+        include '../../includes/error.html.php';
+        exit();
+    }
+    
+    $lastsequenceid = $pdo->lastInsertId();
+    
+    // CREATE THE SEQUENCECLIP ENTRY
+    try {
+        
+        $sql = 'INSERT into sequenceclip SET
+                sequenceid = :lastsequenceid,
+                inSequenceClipId = :lastclipid,
+                inSequenceNextClipId = 0,
+                inSequenceClipOrderNumber = 1,
+                inSequenceClipDurationInSeconds = 4,
+                singleClipSequence = 1';
+        
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':lastsequenceid', $lastsequenceid);
+        $s->bindValue(':lastclipid', $lastclipid);
+        $s->execute();    
+        
+    } catch (PDOException $error) {
+        $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';
+        include '../../includes/error.html.php';
+        exit();
+    }
 
-    // FETCH THE TYPE OF LAYOUT
+    // FETCH THE TYPE OF CLIP LAYOUT
     try {
         $sql = 'SELECT 
                 cliplayout.cliplayoutname,
@@ -267,6 +312,10 @@ if (isset($_POST['action']) and $_POST['action'] == 'Create') {
 if (isset($_POST['action']) and ($_POST['action'] == 'Preview' || $_POST['action'] == 'Edit' )) {
     //include '../../includes/db.inc.php';
     // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
+    
+    $returntoeditorbutton = '<p><input type="button" style=" position: absolute; left: 970px; top: 700px; "
+                          value="Return to the Clip Editor" 
+                          onclick="javascript: history.back()"/></p>';
 
     $firstClipId = 0;
     $firstClipOrderNumber = 0;
@@ -290,7 +339,7 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview' || $_POST['action
 
 if (isset($_GET['Next_Clip'])) {
     
-    /*********** IF SINGLE CLIP ***********/
+    /*********** IF SINGLE CLIP **********/
     
      if ($_POST['nextClipId'] == 0) {        // $_POST['singleClip'] || 
     
@@ -320,7 +369,7 @@ if (isset($_GET['Next_Clip'])) {
     
   //displayNextClip();
     
-}
+} 
 
 
 /* * ************** UPDATE CLIP AND RELATED SECTIONS ****************** */
@@ -516,11 +565,13 @@ foreach ($result as $row) {
 }
 
 try {
-    $result = $pdo->query('SELECT clip.*, sequenceclip.sequenceid, sequenceclip.singleClipSequence
+    $result = $pdo->query('SELECT clip.*, 
+                           sequenceclip.sequenceid, sequenceclip.singleClipSequence,
+                           sequenceclip.inSequenceNextClipId
                            FROM clip
                            JOIN sequenceclip ON clip.id = sequenceclip.inSequenceClipId
-                           WHERE sequenceclip.singleClipSequence = 1
-                           GROUP BY clip.id');
+                           
+                           GROUP BY clip.id'); // WHERE sequenceclip.singleClipSequence = 1
 } catch (PDOException $error) {
     $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';
     include '../../includes/error.html.php';
@@ -533,7 +584,7 @@ while ($row = $result->fetch()) {
         'clipname' => $row['clipname'],
         'clipdate' => $row['clipdate'],
         'cliplayoutid' => $row['cliplayoutid'],
-        'nextClipId' => $row['nextClipId'],
+        'nextClipId' => $row['inSequenceNextClipId'],
         'sequence_id' => $row['sequenceid'],
         'singleClip' => $row['singleClipSequence']
     );
