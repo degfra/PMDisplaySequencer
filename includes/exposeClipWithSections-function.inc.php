@@ -53,7 +53,7 @@ function exposeClipWithSections($firstClipId, $firstClipOrderNumber,
                 clip.id, clip.clipname, clip.clipbackgroundcolor, clip.updated,
                 section.sectioncode, 
                 sectiontype.id, sectiontype.sectiontypename, sectiontype.sectiontypewidth, 
-                cliplayout.id, cliplayout.cliplayoutcssref,
+                cliplayout.id as cliplayout_id, cliplayout.cliplayoutcssref,
                 sequenceclip.*
                             FROM clip
                             JOIN section ON clip.id = section.clipid
@@ -152,6 +152,7 @@ function exposeClipWithSections($firstClipId, $firstClipOrderNumber,
     $clips[] = array(
         'id' => $row['inSequenceClipId'],
         'clipname' => $row['clipname'],
+        'cliplayout_id' => $row['cliplayout_id'],
         'cliplayoutcssref' => $row['cliplayoutcssref'],
         'clipDurationInSeconds' => $row['inSequenceClipDurationInSeconds'],
         'clipOrderNumber' => $row['inSequenceClipOrderNumber'],

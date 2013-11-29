@@ -6,16 +6,31 @@
 	<input type="submit" name="action" value="Preview" 
 		style=" position: absolute; left: 1000px; top: 730px;"/> <!-- onClick="javascript: previewClip()" -->
         
-        <label for='backgroundColor' name="backgroundColor" style=" position: absolute; left: 970px; top: 120px; font-size: 80%;" >Choisir la couleur de fond :</label>
+        <label for='cliplayout' name="cliplayout" 
+               style=" position: absolute; left: 970px; top: 120px; 
+                        font-size: 80%;" >Chose another layout :</label>
+        <select name="cliplayout" id="cliplayout" style="width: 200px; 
+                position: absolute; left: 970px; top: 140px; font-size: 80%;">
+                    <option value="<?php echo $_POST['cliplayout_id']; ?>">Keep this layout</option>
+                    <?php foreach ($cliplayouts as $cliplayout): ?>
+                        <option value="<?php htmlout($cliplayout['id']); ?>">
+                            <?php htmlout($cliplayout['cliplayoutname']); ?></option>
+                    <?php endforeach; ?>
+                </select> 
+        
+        <label for='backgroundColor' name="backgroundColor" 
+               style=" position: absolute; left: 970px; top: 180px; 
+                        font-size: 80%;" >Choisir la couleur de fond :</label>
 	<input name="backgroundColor" class="color" value="<?php echo $clip['clipbackgroundcolor'];?>"
-				style=" position: absolute; left: 970px; top: 140px;" />
+				style=" position: absolute; left: 970px; top: 200px;" />
         <input type="hidden" id="clip_id" name="clip_id" value="<?php echo $clip['id']; ?>" />
+        <input type="hidden" id="cliplayout_id" name="cliplayout_id" value="<?php echo $_POST['cliplayout_id']; ?>" />
         <input type="hidden" id="sequence_id" name="sequence_id" value="<?php echo $_POST['sequence_id']; ?>" />
         <input type="hidden" id="singleClip" name="singleClip" value="<?php echo $_POST['singleClip']; ?>" />
         
     </form>
 
-	<div style=" font-size: 80%; position: absolute; left: 970px; top: 200px;" >
+	<div style=" font-size: 80%; position: absolute; left: 970px; top: 250px;" >
                 <!--
 		<strong>Typographie : style CSS de bloc obligatoire</strong><br>
 			font-size: 100%;  <br><br>
@@ -23,7 +38,7 @@
 			font-size: 140%;  <br>
 			font-size: 70%;  <br><br>
 		-->
-		<strong>Effets d'animation : <br>(class CSS à configurer en dernier)</strong><br>
+		<strong>Animation effects : <br>(CSS class to configure last)</strong><br>
 			animated fadeInLeftBig <br>
 			animated fadeInRightBig <br>
 			animated bounceInLeft <br>
@@ -39,13 +54,13 @@
 			animated pulse <br>
 			animated wobble <br> <br>
 
-		<strong>Durée et délai d'animation : <br>(Style : en secondes)</strong><br>
+		<strong>Animation delay : <br>(CSS Style : in seconds)</strong><br>
 			-moz-animation-duration: 3s; <br>
 			animation-delay: 1.5s; <br><br>
                
-                <p style=" position: absolute; top: 490px;"><strong>1.  </trong></p>
+                <p style=" position: absolute; top: 440px;"><strong>1.  </trong></p>
                 
-                <p style=" position: absolute; top: 540px;"><strong>2.  </trong></p>
+                <p style=" position: absolute; top: 490px;"><strong>2.  </trong></p>
 
                <input type="button" value="Return to Clips Management" 
 						style=" position: absolute;top: 590px;"

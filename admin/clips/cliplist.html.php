@@ -26,15 +26,16 @@
                    style="width: 30px;"/> 
 
             <div>
-                <label for="cliplayout">Note : all clip layouts have a header and a footer</label>
+                <label for="cliplayout">Choose a Layout : </label>
                 &nbsp;
                 <select name="cliplayout" id="cliplayout" style="width: 200px;">
-                    <option value="">Chose a layout</option>
+                    <!--<option value="">Chose a layout</option>-->
                     <?php foreach ($cliplayouts as $cliplayout): ?>
                         <option value="<?php htmlout($cliplayout['id']); ?>">
                             <?php htmlout($cliplayout['cliplayoutname']); ?></option>
                     <?php endforeach; ?>
                 </select>
+                <label for="cliplayout"> &nbsp;(Note : all clip layouts have a header and a footer)</label>
             </div>
             <input type="submit" name="action" value="Create" /> 
         </form>
@@ -47,11 +48,12 @@
             <li>             
                 <form action="" method="post">
                     <?php echo $clip['id']; ?> : 
-                    <?php htmlout($clip['cliplayoutid']) ?> : 
+                    <?php htmlout($clip['cliplayout_id']) ?> : 
                     <?php echo htmlout($clip['clipname'], ENT_QUOTES, 'UTF-8'); ?>
 
                     (added : <?php echo htmlout($clip['clipdate'], ENT_QUOTES, 'UTF-8'); ?> ) 
                     <input type="hidden" name="clip_id" value="<?php echo $clip['id']; ?>">
+                    <input type="hidden" name="cliplayout_id" value="<?php echo $clip['cliplayout_id']; ?>" />
                     <input type="hidden" name="nextClipId" value="<?php echo $clip['nextClipId']; ?>">
                     <input type="hidden" name="sequence_id" value="<?php echo $clip['sequence_id']; ?>">
                     <input type="hidden" name="singleClip" value="<?php echo $clip['singleClip']; ?>">

@@ -3,6 +3,7 @@
 include_once '../../includes/magicquotes.inc.php';
 //include_once $_SERVER['DOCUMENT_ROOT'] . /includes/magicquotes.inc.php';
 include_once '../../includes/exposeClipWithSections-function.inc.php';
+include_once '../../includes/listclipsections-function.inc.php';
 
 //global $clips;
 
@@ -20,10 +21,6 @@ if (isset($_POST['action']) and $_POST['action'] == 'Create') {
                 clipname = :clipname,
                 cliplayoutid = :cliplayoutid,
                 clipbackgroundcolor = "#CCCCCC"';
-                /*clipDurationInSeconds = :clipDuration,
-                clipOrderNumber = "1"'
-                isLoop = 1,
-                singleClip = 1' */
 
         $s = $pdo->prepare($sql);
         $s->bindValue(':clipname', $_POST['clipname']);
@@ -86,7 +83,8 @@ if (isset($_POST['action']) and $_POST['action'] == 'Create') {
     try {
         $sql = 'SELECT 
                 cliplayout.cliplayoutname,
-                cliplayoutid FROM clip
+                cliplayoutid 
+                FROM clip
                 JOIN cliplayout ON clip.cliplayoutid = cliplayout.id
                 WHERE clip.id = :lastclipid';
 
@@ -104,7 +102,10 @@ if (isset($_POST['action']) and $_POST['action'] == 'Create') {
             'cliplayoutname' => $row['cliplayoutname']
         );
     }
+    
+    listclipsections($lastclipid, $cliplayouts);
 
+    /*
     //  BUILD LIST OF SECTIONTYPES
 
     try {
@@ -165,9 +166,6 @@ if (isset($_POST['action']) and $_POST['action'] == 'Create') {
         }
     }
 
-    //include 'check_variables.html.php';
-    //exit();
-
     foreach ($cliplayouts as $cliplayout) {
 
         if ($cliplayout['cliplayoutname'] == '2 Sidebars') {
@@ -206,9 +204,6 @@ if (isset($_POST['action']) and $_POST['action'] == 'Create') {
                 'footersection' => 'footer'
             );
         }
-
-        //include 'check_variables.html.php';
-        //exit();
 
         foreach ($layoutsections as $layoutsection) {
             
@@ -301,6 +296,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Create') {
             }
         }
     }
+ */
 
     header('Location: .');
     exit();
@@ -310,7 +306,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Create') {
 
 //if (isset($_GET['action']) and ($_GET['action'] == 'Preview' || $_GET['action'] == 'Edit' )) {
 if (isset($_POST['action']) and ($_POST['action'] == 'Preview' || $_POST['action'] == 'Edit' )) {
-    //include '../../includes/db.inc.php';
+    include '../../includes/db.inc.php';
     // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
     
     $returntoeditorbutton = '<p><input type="button" style=" position: absolute; left: 970px; top: 700px; "
@@ -321,6 +317,23 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview' || $_POST['action
     $firstClipOrderNumber = 0;
     $sequenceId = 0;
     $singleClipSequence = 0;
+    
+    /*
+    try {
+    $result = $pdo->query('SELECT id, cliplayoutname FROM cliplayout');
+    } catch (PDOException $error) {
+        $error = 'Error fetching clip layouts from database!';
+        include '../../includes/error.html.php';
+        exit();
+    }
+
+    foreach ($result as $row) {
+        $cliplayouts[] = array(
+            'id' => $row['id'],
+            'cliplayoutname' => $row['cliplayoutname']
+        );
+    } */
+    
     
     exposeClipWithSections($firstClipId, $firstClipOrderNumber, 
                                 $sequenceId, $singleClipSequence);
@@ -383,15 +396,23 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
     $color = $_POST['backgroundColor'];
     $clipbackgroundcolor = $hexa . $color;
     
+    if ($_POST['cliplayout'] != NULL) {
+        $cliplayoutid = $_POST['cliplayout'];
+    } else if ($_POST['cliplayout'] == NULL) {
+        $cliplayoutid = $_POST['cliplayout_id'];
+    }
+    
     try {
         
         $sql = 'UPDATE clip SET
                 clipbackgroundcolor = :clipbackgroundcolor,
+                cliplayoutid = :cliplayoutid,
                 updated = 1
                 WHERE clip.id = :clip_id';
         
         $s = $pdo->prepare($sql);
         $s->bindValue(':clipbackgroundcolor', $clipbackgroundcolor);
+        $s->bindValue(':cliplayoutid', $cliplayoutid);
         $s->bindValue(':clip_id', $_POST['clip_id']);
         //$s->bindValue(':sequence_id', $_POST['sequence_id']);
         $s->execute();
@@ -401,6 +422,33 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
             include '../../includes/error.html.php';
             exit();
     }
+    
+    $lastclipid = $_POST['clip_id'];
+    
+    
+    // FETCH THE ATTRIBUTES OF THE CLIP'S LAYOUT
+    try {
+        $sql = 'SELECT 
+                cliplayout.cliplayoutname,
+                cliplayout.id 
+                FROM cliplayout';   // WHERE cliplayout.id = :cliplayoutid
+
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':cliplayoutid', $cliplayoutid);
+        $s->execute();
+    } catch (PDOException $error) {
+        $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';
+        include '../../includes/error.html.php';
+        exit();
+    }
+    
+    foreach ($s as $row) {
+        $cliplayouts[] = array(
+            'cliplayoutname' => $row['cliplayoutname']
+        );
+    }
+    
+    listclipsections($lastclipid, $cliplayouts);
     
     // BUILD SUBMITTED CLIP'S LIST OF SECTIONS
     try {
@@ -570,7 +618,7 @@ try {
                            sequenceclip.inSequenceNextClipId
                            FROM clip
                            JOIN sequenceclip ON clip.id = sequenceclip.inSequenceClipId
-                           
+                           WHERE sequenceclip.singleClipSequence = 1
                            GROUP BY clip.id'); // WHERE sequenceclip.singleClipSequence = 1
 } catch (PDOException $error) {
     $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';
@@ -583,7 +631,7 @@ while ($row = $result->fetch()) {
         'id' => $row['id'],
         'clipname' => $row['clipname'],
         'clipdate' => $row['clipdate'],
-        'cliplayoutid' => $row['cliplayoutid'],
+        'cliplayout_id' => $row['cliplayoutid'],
         'nextClipId' => $row['inSequenceNextClipId'],
         'sequence_id' => $row['sequenceid'],
         'singleClip' => $row['singleClipSequence']

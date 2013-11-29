@@ -3,19 +3,40 @@
 include_once '../../includes/magicquotes.inc.php';
 //include_once $_SERVER['DOCUMENT_ROOT'] . /includes/magicquotes.inc.php';
 include_once '../../includes/exposeClipWithSections-function.inc.php';
-include_once '../../includes/displayNextClip-function.inc.php';
+
+/* * ************** CREATE A SEQUENCE **************** */
+include '../../includes/db.inc.php';
+// include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
+
+if (isset($_POST['action']) and ($_POST['action'] == 'Create')) {
+    
+    // SAVE THE CONFIGURABLE SEQUENCE ATTRIBUTES
+    
+    
+    // CREATE A DEFAULT CLIP FOR THIS SEQUENCE
+    
+    
+    //// Save the configurables clip attributes
+    
+    //// Create the sequenceclip entry for this sequence & this clip
+       
+    //// Fetch the type of clip layout
+    
+    //// build the list of section types
+    
+    //// create the related sections for this clip
+    
+    
+    // ADD THE NEW SEQUENCE TO THE SEQUENCELIST
+    
+}
+
 
 /* * ************** PREVIEW A SEQUENCE **************** */
 include '../../includes/db.inc.php';
 // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
 
 if (isset($_POST['action']) and ($_POST['action'] == 'Preview')) {
-   
-  /*if(isset($_POST['clip_id'])) {
-      
-    exposeClipWithSections();
-      
-  } else { */
     
     // GET THE FIRST CLIP IN THE SEQUENCE AND REQUIRED SEQUENCE ATTRIBUTES
     try {
@@ -116,6 +137,31 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview')) {
     //displayNextClip();
     
 }
+
+
+/* * ************** EDIT A SEQUENCE **************** */
+
+// FETCH SEQUENCE ATTRIBUTES
+
+
+// FETCH DEFAULT CLIP ATTRIBUTES AND ITS SECTIONS
+
+
+// FETCH LIST OF AVAILABLE CLIPS
+
+
+// DISPLAY THE sequenceeditform.html.php
+
+
+/* * ************** UPDATE A SEQUENCE **************** */
+
+// SET THE SEQUENCE ATTRIBUTES IN sequence table
+
+// ADD NEW CLIP(S) IN sequenceclip table
+
+// UPDATE THE CLIP ORDER NUMBER FOR ALL CLIPS IN THE SEQUENCE
+
+    //according to the $_POST[array of order numbers]
   
  
 /* * ************** DISPLAY SEQUENCES LIST **************** */
