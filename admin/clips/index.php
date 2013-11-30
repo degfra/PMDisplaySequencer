@@ -318,7 +318,7 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview' || $_POST['action
     $sequenceId = 0;
     $singleClipSequence = 0;
     
-    /*
+    
     try {
     $result = $pdo->query('SELECT id, cliplayoutname FROM cliplayout');
     } catch (PDOException $error) {
@@ -332,7 +332,7 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview' || $_POST['action
             'id' => $row['id'],
             'cliplayoutname' => $row['cliplayoutname']
         );
-    } */
+    } 
     
     
     exposeClipWithSections($firstClipId, $firstClipOrderNumber, 
@@ -427,14 +427,17 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
     
     
     // FETCH THE ATTRIBUTES OF THE CLIP'S LAYOUT
+    
     try {
         $sql = 'SELECT 
                 cliplayout.cliplayoutname,
-                cliplayout.id 
-                FROM cliplayout';   // WHERE cliplayout.id = :cliplayoutid
+                cliplayoutid 
+                FROM clip
+                JOIN cliplayout ON clip.cliplayoutid = cliplayout.id
+                WHERE clip.id = :clip_id';
 
         $s = $pdo->prepare($sql);
-        $s->bindValue(':cliplayoutid', $cliplayoutid);
+        $s->bindValue(':clip_id', $lastclipid);
         $s->execute();
     } catch (PDOException $error) {
         $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';

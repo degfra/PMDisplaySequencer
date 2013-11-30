@@ -1,8 +1,10 @@
 <?php
 
-function listclipsections($cliplayouts) {
+function listclipsections($lastclipid, $cliplayouts) {
     
     include 'db.inc.php';
+    
+     global  $cliplayouts;
 
 //  BUILD LIST OF SECTIONTYPES
 
@@ -106,13 +108,26 @@ function listclipsections($cliplayouts) {
         foreach ($layoutsections as $layoutsection) {
             
             try {
-                
+              
+                if ($_POST['action'] == 'Create'){
+                    
                   $sql = 'INSERT INTO section SET
                   sectiontypeid = :sectiontypeid,
                   sectionname = :sectionname,
                   sectioncode = :sectiontypecode,
 
                   clipid = :clipid';
+                  
+                } else if ($_POST['action'] == 'Update') {
+                    
+                    $sql = 'UPDATE section SET
+                  sectiontypeid = :sectiontypeid,
+                  sectionname = :sectionname,
+                  sectioncode = :sectiontypecode,
+
+                  clipid = :clipid';
+                    
+                }
 
                   $s = $pdo->prepare($sql);
                 
