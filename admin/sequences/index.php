@@ -177,8 +177,8 @@ try {
             'SELECT * 
              FROM sequence
              JOIN sequenceclip ON sequence.id = sequenceclip.sequenceid
-             WHERE sequenceclip.singleClipSequence = 0
-             GROUP BY sequence.id');
+             
+             GROUP BY sequence.id');    // WHERE sequenceclip.singleClipSequence = 0
     
 } catch (PDOException $error) {
     $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';

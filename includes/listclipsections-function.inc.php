@@ -114,7 +114,7 @@ function listclipsections($lastclipid, $cliplayouts) {
                   $sql = 'INSERT INTO section SET
                   sectiontypeid = :sectiontypeid,
                   sectionname = :sectionname,
-                  sectioncode = :sectiontypecode,
+                  sectioncode = :sectiontypecode
 
                   clipid = :clipid';
                   
@@ -123,9 +123,10 @@ function listclipsections($lastclipid, $cliplayouts) {
                     $sql = 'UPDATE section SET
                   sectiontypeid = :sectiontypeid,
                   sectionname = :sectionname,
-                  sectioncode = :sectiontypecode,
+                  sectioncode = :sectiontypecode
 
-                  clipid = :clipid';
+                  WHERE clipid = :clipid
+                  AND sectionname = :sectionname';
                     
                 }
 

@@ -103,9 +103,9 @@ if (isset($_POST['action']) and $_POST['action'] == 'Create') {
         );
     }
     
-    listclipsections($lastclipid, $cliplayouts);
+    // listclipsections($lastclipid, $cliplayouts);
 
-    /*
+    
     //  BUILD LIST OF SECTIONTYPES
 
     try {
@@ -296,7 +296,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Create') {
             }
         }
     }
- */
+ 
 
     header('Location: .');
     exit();
@@ -391,7 +391,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
     include '../../includes/db.inc.php';
     // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
     
-    // UPDATE CLIP'S BACKGROUND COLOR
+    // UPDATE CLIP'S BACKGROUND COLOR AND CLIPLAYOUT TYPE (ID)
     $hexa = '#';
     $color = $_POST['backgroundColor'];
     $clipbackgroundcolor = $hexa . $color;
@@ -421,10 +421,10 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
             $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';
             include '../../includes/error.html.php';
             exit();
-    }
+    } 
     
     $lastclipid = $_POST['clip_id'];
-    
+    // $cliplayoutid is in POST AND in SCOPE
     
     // FETCH THE ATTRIBUTES OF THE CLIP'S LAYOUT
     
@@ -447,13 +447,321 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
     
     foreach ($s as $row) {
         $cliplayouts[] = array(
-            'cliplayoutname' => $row['cliplayoutname']
+            'cliplayoutname' => $row['cliplayoutname'],
+            'cliplayoutid' => $row['cliplayoutid']
         );
     }
+    // $cliplayouts IS IN DB AND IN SCOPE, AND CONTAINS UPDATED cliplyoutname AND cliplayoutid
     
-    listclipsections($lastclipid, $cliplayouts);
+    /* listclipsections($lastclipid, $cliplayouts); */
     
-    // BUILD SUBMITTED CLIP'S LIST OF SECTIONS
+    // BUILD THE LIST OF SECTIONS RELATED TO THE CLIP TO UPDATE
+    /*
+    try {
+        $result = $pdo->query('SELECT * FROM sectiontype');
+    } catch (PDOException $error) {
+        $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';
+        include '../../includes/error.html.php';
+        exit();
+    } */
+    
+    
+    $cliplayoutid = $cliplayouts[0]['cliplayoutid'];
+    
+    try {
+        
+        $sql = 'SELECT cliplayoutsectiontype.*,
+                sectiontype.id, sectiontype.sectiontypename
+  
+                FROM cliplayoutsectiontype
+                JOIN sectiontype ON sectiontype.id = cliplayoutsectiontype.sectiontypeid
+  
+                WHERE cliplayoutid = :cliplayout_id';
+        
+        $s= $pdo->prepare($sql);
+        $s->bindValue(':cliplayout_id', $cliplayoutid);
+        $s->execute();
+        
+    } catch (PDOException $error) {
+        $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';
+        include '../../includes/error.html.php';
+        exit();
+    }
+
+    foreach ($s as $sectiontype) {
+
+        $name = $sectiontype['sectiontypename'];
+
+        try {
+
+            if ($name == 'Header') {
+                $headersectiontypeid = $sectiontype['id'];
+                $headersectionname = "Clip " . $lastclipid . " " . $name;
+                $headersectioncode = $_POST['headerEditor'];
+                
+            } else if ($name == 'Left sidebar') {                
+                $leftbarsectiontypeid = $sectiontype['id'];
+                $leftbarsectionname = "Clip " . $lastclipid . " " . $name;
+                $leftbarsectioncode = $_POST['leftSidebarEditor'];
+                
+            } else if ($name == 'Main area') {
+                $mainsectiontypeid = $sectiontype['id'];
+                $mainsectionname = "Clip " . $lastclipid . " " . $name;
+                $mainsectioncode = $_POST['mainEditor'];
+                
+            } else if ($name == 'Main area 1 sidebar') {
+                $main1sectiontypeid = $sectiontype['id'];
+                $main1sectionname = "Clip " . $lastclipid . " " . $name;
+                $main1sectioncode = $_POST['mainEditor'];
+                
+            } else if ($name == 'Main area 2 sidebars') {
+                $main2sectiontypeid = $sectiontype['id'];
+                $main2sectionname = "Clip " . $lastclipid . " " . $name;
+                $main2sectioncode = $_POST['mainEditor'];
+                
+            } else if ($name == 'Right sidebar') {
+                $rightbarsectiontypeid = $sectiontype['id'];
+                $rightbarsectionname = "Clip " . $lastclipid . " " . $name;
+                $rightbarsectioncode = $_POST['rightSidebarEditor'];
+                
+            } else if ($name == 'Footer') {
+                $footersectiontypeid = $sectiontype['id'];
+                $footersectionname = "Clip " . $lastclipid . " " . $name;
+                $footersectioncode = $_POST['footerEditor'];
+            }
+        } catch (PDOException $error) {
+            $error = $error->getMessage();   //getTraceAsString();   //'Error creating the new clip!'; //getMessage(); 
+            include '../../includes/error.html.php';
+            exit();
+        }
+    }
+    
+    // DETERMINE THE SECTIONS OF THE SUBMITTED NEW CLIPLAYOUT
+    foreach ($cliplayouts as $cliplayout) {
+
+        if ($cliplayout['cliplayoutname'] == '2 Sidebars') {
+            $layoutsections[] = array(
+                'headersection' => 'header',
+                'leftbarsection' => 'leftbar',
+                'mainareasection' => 'mainarea_2_bars',
+                'rightbarsection' => 'rightbar',
+                'footersection' => 'footer'
+            );
+        }
+        if ($cliplayout['cliplayoutname'] == 'Left sidebar') {
+            $layoutsections[] = array(
+                'headersection' => 'header',
+                'leftbarsection' => 'leftbar',
+                'mainareasection' => 'mainarea_1_bar',
+                'rightbarsection' => null,
+                'footersection' => 'footer'
+            );
+        }
+        if ($cliplayout['cliplayoutname'] == 'Main area') {
+            $layoutsections[] = array(
+                'headersection' => 'header',
+                'leftbarsection' => null,
+                'mainareasection' => 'mainarea',
+                'rightbarsection' => null,
+                'footersection' => 'footer'
+            );
+        }
+        if ($cliplayout['cliplayoutname'] == 'Right sidebar') {
+            $layoutsections[] = array(
+                'headersection' => 'header',
+                'leftbarsection' => null,
+                'mainareasection' => 'mainarea_1_bar',
+                'rightbarsection' => 'rightbar',
+                'footersection' => 'footer'
+            );
+        }
+           
+        // DELETE THE SECTIONS NOT PRESENT IN THE NEW LAYOUT
+        // UPDATE THE SECTIONS THAT ARE PRESENT IN THE NEW LAYOUT, 
+        //    ...WITH THE UPDATED SECTIONCODE FROM THE EDIT FORM
+        foreach ($layoutsections as $layoutsection) {
+            
+            try {
+                
+                  $sql = 'UPDATE section SET
+                  sectiontypeid = :sectiontypeid,
+                  sectionname = :sectionname,
+                  sectioncode = :sectiontypecode
+
+                  WHERE clipid = :clipid
+                  AND sectionname = :sectionname';
+
+                  $s = $pdo->prepare($sql);
+                
+                if ($layoutsection['headersection'] != null) {
+                    
+                    $s->bindValue(':sectiontypeid', $headersectiontypeid);
+                    $s->bindValue(':sectionname', $headersectionname);
+                    $s->bindValue(':sectiontypecode', $headersectioncode);
+
+                    $s->bindValue(':clipid', $lastclipid);
+
+                    $s->execute();
+                    
+                } else if ($layoutsection['headersection'] == null) {
+                    
+                    $sql = 'DELETE FROM section 
+                            WHERE sectionname = :sectionname
+                            AND clipid = :clip_id';
+                     
+                    $s = $pdo->prepare($sql);
+                    $s->bindValue(':sectionname', $headersectionname);
+                    $s->bindValue(':clipid', $lastclipid);
+                    $s->execute();
+                }
+                
+                if ($layoutsection['leftbarsection'] != null) {
+                    
+                    $s->bindValue(':sectiontypeid', $leftbarsectiontypeid);
+                    $s->bindValue(':sectionname', $leftbarsectionname);
+                    $s->bindValue(':sectiontypecode', $leftbarsectioncode);
+
+                    $s->bindValue(':clipid', $lastclipid);
+
+                    $s->execute();
+                    
+                } else if ($layoutsection['leftbarsection'] == null) {
+                    
+                    $sql = 'DELETE FROM section 
+                            WHERE sectionname = :sectionname
+                            AND clipid = :clip_id';
+                     
+                    $s = $pdo->prepare($sql);
+                    $s->bindValue(':sectionname', $leftbarsectionname);
+                    $s->bindValue(':clipid', $lastclipid);
+                    $s->execute();
+                }
+                
+                if ($layoutsection['mainareasection'] != null ) {
+                    if ($layoutsection['mainareasection'] == 'mainarea') {
+                    
+                        $s->bindValue(':sectiontypeid', $mainsectiontypeid);
+                        $s->bindValue(':sectionname', $mainsectionname);
+                        $s->bindValue(':sectiontypecode', $mainsectioncode);
+
+                        $s->bindValue(':clipid', $lastclipid);
+
+                        $s->execute();
+                        
+                    } else if ($layoutsection['mainareasection'] == 'mainarea_1_bar') {
+                    
+                        $s->bindValue(':sectiontypeid', $main1sectiontypeid);
+                        $s->bindValue(':sectionname', $main1sectionname);
+                        $s->bindValue(':sectiontypecode',  $main1sectioncode);
+
+                        $s->bindValue(':clipid', $lastclipid);
+
+                        $s->execute();
+                        
+                    } else if ($layoutsection['mainareasection'] == 'mainarea_2_bars') {
+                    
+                        $s->bindValue(':sectiontypeid', $main2sectiontypeid);
+                        $s->bindValue(':sectionname', $main2sectionname);
+                        $s->bindValue(':sectiontypecode', $main2sectioncode);
+
+                        $s->bindValue(':clipid', $lastclipid);
+
+                        $s->execute();
+                    }
+                } 
+                
+                if ($layoutsection['mainareasection'] == null ) {
+                    if ($layoutsection['mainareasection'] == 'mainarea') {
+                        
+                        $sql = 'DELETE FROM section 
+                            WHERE sectionname = :sectionname
+                            AND clipid = :clip_id';
+                     
+                        $s = $pdo->prepare($sql);
+                        $s->bindValue(':sectionname', $mainsectionname);
+                        $s->bindValue(':clipid', $lastclipid);
+                        $s->execute();
+                        
+                        
+                    } else if ($layoutsection['mainareasection'] == 'mainarea_1_bar') {
+
+                        $sql = 'DELETE FROM section 
+                            WHERE sectionname = :sectionname
+                            AND clipid = :clip_id';
+                     
+                        $s = $pdo->prepare($sql);
+                        $s->bindValue(':sectionname', $main1sectionname);
+                        $s->bindValue(':clipid', $lastclipid);
+                        $s->execute();
+                        
+                        
+                    } else if ($layoutsection['mainareasection'] == 'mainarea_2_bars') {
+       
+                        $sql = 'DELETE FROM section 
+                            WHERE sectionname = :sectionname
+                            AND clipid = :clip_id';
+                     
+                        $s = $pdo->prepare($sql);
+                        $s->bindValue(':sectionname', $main2sectionname);
+                        $s->bindValue(':clipid', $lastclipid);
+                        $s->execute();
+                        
+                    }
+                } 
+                    
+                if ($layoutsection['rightbarsection'] != null) {
+                    
+                    $s->bindValue(':sectiontypeid', $rightbarsectiontypeid);
+                    $s->bindValue(':sectionname', $rightbarsectionname);
+                    $s->bindValue(':sectiontypecode', $rightbarsectioncode);
+
+                    $s->bindValue(':clipid', $lastclipid);
+
+                    $s->execute();
+                    
+                } else if ($layoutsection['rightbarsection'] == null) {
+                    
+                    $sql = 'DELETE FROM section 
+                            WHERE sectionname = :sectionname
+                            AND clipid = :clip_id';
+                     
+                    $s = $pdo->prepare($sql);
+                    $s->bindValue(':sectionname', $rightbarsectionname);
+                    $s->bindValue(':clipid', $lastclipid);
+                    $s->execute();
+                }
+                
+                if ($layoutsection['footersection'] != null) {
+                    
+                    $s->bindValue(':sectiontypeid', $footersectiontypeid);
+                    $s->bindValue(':sectionname', $footersectionname);
+                    $s->bindValue(':sectiontypecode', $footersectioncode);                    
+
+                    $s->bindValue(':clipid', $lastclipid);
+
+                    $s->execute();
+                    
+                } else if ($layoutsection['footersection'] == null) {
+                    
+                    $sql = 'DELETE FROM section 
+                            WHERE sectionname = :sectionname
+                            AND clipid = :clip_id';
+                     
+                    $s = $pdo->prepare($sql);
+                    $s->bindValue(':sectionname', $footersectionname);
+                    $s->bindValue(':clipid', $lastclipid);
+                    $s->execute();
+                } 
+                
+            } catch (PDOException $error) {
+                $error = $error->getMessage();   //getTraceAsString();   //'Error creating the new clip!'; //getMessage(); 
+                include '../../includes/error.html.php';
+                exit();
+            }
+        }
+    }
+    
+    // BUILD SUBMITTED CLIP'S LIST OF SECTIONS ? ? ?
     try {
         
         $sql = 'SELECT 

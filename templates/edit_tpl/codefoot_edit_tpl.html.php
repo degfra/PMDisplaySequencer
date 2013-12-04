@@ -63,7 +63,7 @@
                 <p style=" position: absolute; top: 490px;"><strong>2.  </trong></p>
 
                <input type="button" value="Return to Clips Management" 
-						style=" position: absolute;top: 590px;"
+						style=" position: absolute;top: 540px;"
 						onClick="javascript: location='../clips/'"/>
 		
 	</div>
