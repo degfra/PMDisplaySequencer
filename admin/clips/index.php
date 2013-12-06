@@ -430,7 +430,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
                 //'cliplayoutid' => $row['cliplayoutid']
         );
     }
-    // $cliplayouts IS IN DB AND IN SCOPE, AND CONTAINS UPDATED cliplyoutname AND cliplayoutid
+
     // IF A NEW CLIP LAYOUT HAS BEEN SELECTED IN THE EDIT FORM :  ***********************************************
 
     if ($_POST['cliplayout'] != $_POST['cliplayout_id']) {
@@ -661,48 +661,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
 
         // IF THE ORIGINAL CLIP LAYOUT IS KEPT AS IS IN THE EDIT FORM :********************************
         
-    } else if ($_POST['cliplayout'] == $_POST['cliplayout_id']) {
-
-        // FETCH THE SECTIONIDs OF ALL SECTIONS IN THAT CLIP : 
-        // - FOR DETERMINING THE SECTIONS TO UPDATE
-        // - FOR DELETING...
-        /*
-        try {
-
-            $sql = 'SELECT *
-                    FROM section
-                    WHERE section.clipid = :clip_id';
-
-            $s = $pdo->prepare($sql);
-            $s->bindValue(':clip_id', $_POST['clip_id']);
-            $s->execute();
-        } catch (PDOException $error) {
-            $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip sections!';
-            include '../../includes/error.html.php';
-            exit();
-        }
-
-        foreach ($s as $section) {
-
-            $sectiontypeid = $section['sectiontypeid'];
-
-            if ($sectiontypeid == 1) {
-                $headersectionid = $section['id'];
-            } else if ($sectiontypeid == 2) {
-                $leftsidebarsectionid = $section['id'];
-            } else if ($sectiontypeid == 3) {
-                $mainaerasectionid = $section['id'];
-            } else if ($sectiontypeid == 4) {
-                $rightsidebarsectionid = $section['id'];
-            } else if ($sectiontypeid == 5) {
-                $footersectionid = $section['id'];
-            } else if ($sectiontypeid == 6) {
-                $mainarea1sectionid = $section['id'];
-            } else if ($sectiontypeid == 7) {
-                $mainarea2sectionid = $section['id'];
-            }
-        } */
-    } 
+    }
 
     // BUILD SUBMITTED CLIP'S LIST OF SECTIONS ? ? ?
     try {

@@ -7,4 +7,24 @@ CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
+        
+        config.toolbarGroups = [
+            { name: 'document',    groups: [ 'mode', 'document', 'doctools' ] },    
+            { name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+            { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
+            { name: 'links' },
+            { name: 'insert' },
+            //{ name: 'forms' },
+            { name: 'others' },
+            '/',
+            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+            { name: 'tools' },
+            { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ] },
+            '/',
+            { name: 'styles' },
+            { name: 'colors' },
+            //{ name: 'about' }
+            { name: 'Source' },
+        ];
+
 };
