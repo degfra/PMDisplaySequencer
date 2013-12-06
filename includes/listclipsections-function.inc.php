@@ -20,50 +20,43 @@ function listclipsections($lastclipid, $cliplayouts) {
 
     foreach ($result as $sectiontype) {
 
-        $name = $sectiontype['sectiontypename'];
+        $sectiontypename = $sectiontype['sectiontypename'];
 
-        try {
-
-            if ($name == 'Header') {
+            if ($sectiontypename == 'Header') {
                 $headersectiontypeid = $sectiontype['id'];
-                $headersectionname = "Clip " . $lastclipid . " " . $name;
+                $headersectionname = "Clip " . $lastclipid . " " . $sectiontypename;
                 $headersectioncode = $sectiontype['sectiontypecode'];
                 
-            } else if ($name == 'Left sidebar') {                
+            } else if ($sectiontypename == 'Left sidebar') {                
                 $leftbarsectiontypeid = $sectiontype['id'];
-                $leftbarsectionname = "Clip " . $lastclipid . " " . $name;
+                $leftbarsectionname = "Clip " . $lastclipid . " " . $sectiontypename;
                 $leftbarsectioncode = $sectiontype['sectiontypecode'];
                 
-            } else if ($name == 'Main area') {
+            } else if ($sectiontypename == 'Main area') {
                 $mainsectiontypeid = $sectiontype['id'];
-                $mainsectionname = "Clip " . $lastclipid . " " . $name;
+                $mainsectionname = "Clip " . $lastclipid . " " . $sectiontypename;
                 $mainsectioncode = $sectiontype['sectiontypecode'];
                 
-            } else if ($name == 'Main area 1 sidebar') {
+            } else if ($sectiontypename == 'Main area 1 sidebar') {
                 $main1sectiontypeid = $sectiontype['id'];
-                $main1sectionname = "Clip " . $lastclipid . " " . $name;
+                $main1sectionname = "Clip " . $lastclipid . " " . $sectiontypename;
                 $main1sectioncode = $sectiontype['sectiontypecode'];
                 
-            } else if ($name == 'Main area 2 sidebars') {
+            } else if ($sectiontypename == 'Main area 2 sidebars') {
                 $main2sectiontypeid = $sectiontype['id'];
-                $main2sectionname = "Clip " . $lastclipid . " " . $name;
+                $main2sectionname = "Clip " . $lastclipid . " " . $sectiontypename;
                 $main2sectioncode = $sectiontype['sectiontypecode'];
                 
-            } else if ($name == 'Right sidebar') {
+            } else if ($sectiontypename == 'Right sidebar') {
                 $rightbarsectiontypeid = $sectiontype['id'];
-                $rightbarsectionname = "Clip " . $lastclipid . " " . $name;
+                $rightbarsectionname = "Clip " . $lastclipid . " " . $sectiontypename;
                 $rightbarsectioncode = $sectiontype['sectiontypecode'];
                 
-            } else if ($name == 'Footer') {
+            } else if ($sectiontypename == 'Footer') {
                 $footersectiontypeid = $sectiontype['id'];
-                $footersectionname = "Clip " . $lastclipid . " " . $name;
+                $footersectionname = "Clip " . $lastclipid . " " . $sectiontypename;
                 $footersectioncode = $sectiontype['sectiontypecode'];
             }
-        } catch (PDOException $error) {
-            $error = $error->getMessage();   //getTraceAsString();   //'Error creating the new clip!'; //getMessage(); 
-            include '../../includes/error.html.php';
-            exit();
-        }
     }
 
     foreach ($cliplayouts as $cliplayout) {

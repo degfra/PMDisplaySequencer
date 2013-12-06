@@ -13,8 +13,7 @@
                 position: absolute; left: 970px; top: 140px; font-size: 80%;">
                     <option value="<?php echo $_POST['cliplayout_id']; ?>">Keep this layout</option>
                     <?php foreach ($cliplayouts as $cliplayout): ?>
-                        <option value="<?php htmlout($cliplayout['id']); ?>">
-                            <?php htmlout($cliplayout['cliplayoutname']); ?></option>
+                        <option value="<?php htmlout($cliplayout['id']); ?>"><?php htmlout($cliplayout['cliplayoutname']); ?></option>
                     <?php endforeach; ?>
                 </select> 
         

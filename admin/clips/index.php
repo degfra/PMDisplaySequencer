@@ -377,9 +377,9 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
     $color = $_POST['backgroundColor'];
     $clipbackgroundcolor = $hexa . $color;
 
-    if ($_POST['cliplayout'] != NULL) {
+    if ($_POST['cliplayout'] != $_POST['cliplayout_id']) {
         $cliplayoutid = $_POST['cliplayout'];       // THE SUBMITTED NEW CLIPLAYOUT
-    } else if ($_POST['cliplayout'] == NULL) {
+    } else if ($_POST['cliplayout'] == $_POST['cliplayout_id']) {
         $cliplayoutid = $_POST['cliplayout_id'];    // THE CLIP'S ORIGINAL CLIPLAYOUT
     }
 
@@ -431,9 +431,9 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
         );
     }
     // $cliplayouts IS IN DB AND IN SCOPE, AND CONTAINS UPDATED cliplyoutname AND cliplayoutid
-    // IF A NEW CLIP LAYOUT HAS BEEN SELECTED IN THE EDIT FORM :
+    // IF A NEW CLIP LAYOUT HAS BEEN SELECTED IN THE EDIT FORM :  ***********************************************
 
-    if ($_POST['cliplayout'] != NULL) {
+    if ($_POST['cliplayout'] != $_POST['cliplayout_id']) {
 
         // FIRST DELETE ALL THE EXISTING SECTIONS OF THE SUBMITTED CLIP
 
@@ -454,7 +454,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
         try {
 
             $sql = 'SELECT cliplayoutsectiontype.*,
-                    sectiontype.id, sectiontype.sectiontypename
+                    sectiontype.id, sectiontype.sectiontypename, sectiontype.sectiontypecode
 
                     FROM cliplayoutsectiontype
                     JOIN sectiontype ON sectiontype.id = cliplayoutsectiontype.sectiontypeid
@@ -479,31 +479,37 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
             if ($sectiontypename == 'Header') {
                 $headersectiontypeid = $sectiontype['id'];
                 $headersectionname = "Clip " . $lastclipid . " " . $sectiontypename;
-                $headersectioncode = $_POST['headerEditor'];
-            } else if ($sectiontypename == 'Left sidebar') {
+                $headersectioncode = $sectiontype['sectiontypecode'];
+                
+            } else if ($sectiontypename == 'Left sidebar') {                
                 $leftbarsectiontypeid = $sectiontype['id'];
                 $leftbarsectionname = "Clip " . $lastclipid . " " . $sectiontypename;
-                $leftbarsectioncode = $_POST['leftSidebarEditor'];
+                $leftbarsectioncode = $sectiontype['sectiontypecode'];
+                
             } else if ($sectiontypename == 'Main area') {
                 $mainsectiontypeid = $sectiontype['id'];
                 $mainsectionname = "Clip " . $lastclipid . " " . $sectiontypename;
-                $mainsectioncode = $_POST['mainEditor'];
+                $mainsectioncode = $sectiontype['sectiontypecode'];
+                
             } else if ($sectiontypename == 'Main area 1 sidebar') {
                 $main1sectiontypeid = $sectiontype['id'];
                 $main1sectionname = "Clip " . $lastclipid . " " . $sectiontypename;
-                $main1sectioncode = $_POST['mainEditor'];
+                $main1sectioncode = $sectiontype['sectiontypecode'];
+                
             } else if ($sectiontypename == 'Main area 2 sidebars') {
                 $main2sectiontypeid = $sectiontype['id'];
                 $main2sectionname = "Clip " . $lastclipid . " " . $sectiontypename;
-                $main2sectioncode = $_POST['mainEditor'];
+                $main2sectioncode = $sectiontype['sectiontypecode'];
+                
             } else if ($sectiontypename == 'Right sidebar') {
                 $rightbarsectiontypeid = $sectiontype['id'];
                 $rightbarsectionname = "Clip " . $lastclipid . " " . $sectiontypename;
-                $rightbarsectioncode = $_POST['rightSidebarEditor'];
+                $rightbarsectioncode = $sectiontype['sectiontypecode'];
+                
             } else if ($sectiontypename == 'Footer') {
                 $footersectiontypeid = $sectiontype['id'];
                 $footersectionname = "Clip " . $lastclipid . " " . $sectiontypename;
-                $footersectioncode = $_POST['footerEditor'];
+                $footersectioncode = $sectiontype['sectiontypecode'];
             }
         }
 
@@ -633,14 +639,34 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
                 }
             }
         }
+        
+        $_POST['cliplayout_id'] = $cliplayoutid;
+        
+        unset($cliplayouts);
+        
+        try {
+            $result = $pdo->query('SELECT id, cliplayoutname FROM cliplayout');
+        } catch (PDOException $error) {
+            $error = 'Error fetching clip layouts from database!';
+            include '../../includes/error.html.php';
+            exit();
+        }
+        
+        foreach ($result as $row) {
+            $cliplayouts[] = array(
+                'id' => $row['id'],
+                'cliplayoutname' => $row['cliplayoutname']
+            );
+        }
 
-        // IF THE ORIGINAL CLIP LAYOUT IS KEPT AS IS IN THE EDIT FORM :
-    } else if ($_POST['cliplayout'] == NULL) {
+        // IF THE ORIGINAL CLIP LAYOUT IS KEPT AS IS IN THE EDIT FORM :********************************
+        
+    } else if ($_POST['cliplayout'] == $_POST['cliplayout_id']) {
 
         // FETCH THE SECTIONIDs OF ALL SECTIONS IN THAT CLIP : 
         // - FOR DETERMINING THE SECTIONS TO UPDATE
         // - FOR DELETING...
-
+        /*
         try {
 
             $sql = 'SELECT *
@@ -661,29 +687,22 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
             $sectiontypeid = $section['sectiontypeid'];
 
             if ($sectiontypeid == 1) {
-
                 $headersectionid = $section['id'];
             } else if ($sectiontypeid == 2) {
-
                 $leftsidebarsectionid = $section['id'];
             } else if ($sectiontypeid == 3) {
-
                 $mainaerasectionid = $section['id'];
             } else if ($sectiontypeid == 4) {
-
                 $rightsidebarsectionid = $section['id'];
             } else if ($sectiontypeid == 5) {
-
                 $footersectionid = $section['id'];
             } else if ($sectiontypeid == 6) {
-
                 $mainarea1sectionid = $section['id'];
             } else if ($sectiontypeid == 7) {
-
                 $mainarea2sectionid = $section['id'];
             }
-        }
-    }
+        } */
+    } 
 
     // BUILD SUBMITTED CLIP'S LIST OF SECTIONS ? ? ?
     try {
@@ -703,6 +722,8 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
         include '../../includes/error.html.php';
         exit();
     }
+    
+    $newcontentcode = '<h4>New content here</h4>';
 
     foreach ($s as $clipsection) {
 
@@ -715,23 +736,43 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
 
             if (strpos($clipsection['sectionname'], 'Header') !== FALSE) {
                 $st->bindValue(':sectionid', $clipsection['id']);
-                $st->bindValue(':sectioncode', $_POST['headerEditor']);
+                if ($_POST['headerEditor']) {
+                    $st->bindValue(':sectioncode', $_POST['headerEditor']);
+                } else {
+                    $st->bindValue(':sectioncode',$newcontentcode); 
+                }
                 $st->execute();
             } else if (strpos($clipsection['sectionname'], 'Left') !== FALSE) {
                 $st->bindValue(':sectionid', $clipsection['id']);
-                $st->bindValue(':sectioncode', $_POST['leftSidebarEditor']);
+                if ($_POST['leftSidebarEditor']) {
+                    $st->bindValue(':sectioncode', $_POST['leftSidebarEditor']);
+                } else {
+                    $st->bindValue(':sectioncode', $newcontentcode);
+                }
                 $st->execute();
             } else if (strpos($clipsection['sectionname'], 'Main') !== FALSE) {
                 $st->bindValue(':sectionid', $clipsection['id']);
-                $st->bindValue(':sectioncode', $_POST['mainEditor']);
+                if ($_POST['mainEditor']) {
+                    $st->bindValue(':sectioncode', $_POST['mainEditor']);
+                } else {
+                    $st->bindValue(':sectioncode', $newcontentcode);
+                }
                 $st->execute();
             } else if (strpos($clipsection['sectionname'], 'Right') !== FALSE) {
                 $st->bindValue(':sectionid', $clipsection['id']);
-                $st->bindValue(':sectioncode', $_POST['rightSidebarEditor']);
+                if ($_POST['rightSidebarEditor']) {
+                    $st->bindValue(':sectioncode', $_POST['rightSidebarEditor']);
+                } else {
+                    $st->bindValue(':sectioncode', $newcontentcode);
+                }
                 $st->execute();
             } else if (strpos($clipsection['sectionname'], 'Footer') !== FALSE) {
                 $st->bindValue(':sectionid', $clipsection['id']);
-                $st->bindValue(':sectioncode', $_POST['footerEditor']);
+                if ($_POST['footerEditor']) {
+                    $st->bindValue(':sectioncode', $_POST['footerEditor']);
+                } else {
+                    $st->bindValue(':sectioncode', $newcontentcode);
+                }   
                 $st->execute();
             }
         } catch (PDOException $error) {
@@ -740,6 +781,23 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
             exit();
         }
     }
+    
+    unset($cliplayouts);
+    
+    try {
+            $result = $pdo->query('SELECT id, cliplayoutname FROM cliplayout');
+        } catch (PDOException $error) {
+            $error = 'Error fetching clip layouts from database!';
+            include '../../includes/error.html.php';
+            exit();
+        }
+
+        foreach ($result as $row) {
+            $cliplayouts[] = array(
+                'id' => $row['id'],
+                'cliplayoutname' => $row['cliplayoutname']
+            );
+        }
 
     exposeClipWithSections();
 
