@@ -19,7 +19,7 @@
         
         <label for='backgroundColor' name="backgroundColor" 
                style=" position: absolute; left: 970px; top: 180px; 
-                        font-size: 80%;" >Choisir la couleur de fond :</label>
+                        font-size: 80%;" >Choose the background color :</label>
 	<input name="backgroundColor" class="color" value="<?php echo $clip['clipbackgroundcolor'];?>"
 				style=" position: absolute; left: 970px; top: 200px;" />
         <input type="hidden" id="clip_id" name="clip_id" value="<?php echo $clip['id']; ?>" />
@@ -29,7 +29,7 @@
         
     </form>
 
-	<div style=" font-size: 80%; position: absolute; left: 970px; top: 250px;" >
+	<div style=" font-size: 80%; position: absolute; left: 970px; top: 240px;" >
                 <!--
 		<strong>Typographie : style CSS de bloc obligatoire</strong><br>
 			font-size: 100%;  <br><br>
@@ -37,7 +37,7 @@
 			font-size: 140%;  <br>
 			font-size: 70%;  <br><br>
 		-->
-		<strong>Animation effects : <br>(CSS class to configure last)</strong><br>
+		<strong>Set animation effects : <br>(Create a div first <br> and choose these as CSS class)</strong><br>
 			animated fadeInLeftBig <br>
 			animated fadeInRightBig <br>
 			animated bounceInLeft <br>
@@ -53,13 +53,20 @@
 			animated pulse <br>
 			animated wobble <br> <br>
 
-		<strong>Animation delay : <br>(CSS Style : in seconds)</strong><br>
+		<strong>Set animation delay : <br>(CSS Style : in seconds)</strong><br>
 			-moz-animation-duration: 3s; <br>
 			animation-delay: 1.5s; <br><br>
-               
-                <p style=" position: absolute; top: 440px;"><strong>1.  </trong></p>
+                <strong>Upload images :</strong><br>  
                 
-                <p style=" position: absolute; top: 490px;"><strong>2.  </trong></p>
+                <form action="" method="POST" enctype="multipart/form-data"
+                      style=" position: absolute; top: 365px;">
+                    <input type="file" name="image"/>
+                    <input type="submit"/>
+                </form>
+               
+                <p style=" position: absolute; top: 450px;"><strong>1.  </trong></p>
+                
+                <p style=" position: absolute; top: 500px;"><strong>2.  </trong></p>
 
                <input type="button" value="Return to Clips Management" 
 						style=" position: absolute;top: 540px;"
