@@ -6,6 +6,26 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="../../css/base.css">
     <title>DS - Manage Sequences</title>
+    
+    <script>
+        function quickPreview(clipId) {
+            //PopupCenter("/PMDisplaySequencer/admin/clips/?clip_id=" + clipId + "&action=Quickpreview", 'clipPop1',900,700);
+            window.open("/PMDisplaySequencer/admin/clips/?clip_id=" + clipId + "&action=Quickpreview");
+            window.focus();
+        }
+        
+        function PopupCenter(pageURL, title,w,h) {
+                var left = (screen.width/2)-(w/2);
+            var top = (screen.height/2)-(h/2);
+            var targetWin = window.open (pageURL, title, 
+                'toolbar=no, location=no, \n\
+                directories=no, status=no, menubar=no, \n\
+                scrollbars=no, resizable=no, copyhistory=yes, \n\
+                width='+w+', height='+h+', top='+top+', left='+left);
+            } 
+        
+    </script>
+    
 </head>
 <body style="padding: 40px;">
     
@@ -44,8 +64,12 @@
                 <?php for ( $j=0 ; $j < count($sequenceclips[$i]) ; $j++ ): ?> 
                     <small>
                     &nbsp;
-                    <a href="javascript: quickPreview();" title="TODO: Quick Preview">
+                    <!--<a href="#" onmouseover="javascript: quickPreview(<?php echo $sequenceclips[$i][$j]['clip_id']; ?>);">
+                    <?php echo htmlout($sequenceclips[$i][$j]['clipname'], ENT_QUOTES, 'UTF-8'); ?></a>  -->
+                    
+                    <a href="#" onmouseover="PopupCenter('/PMDisplaySequencer/admin/clips/?clip_id=<?php echo $sequenceclips[$i][$j]['clip_id']; ?>&action=Quickpreview', 'clipPop_<?php echo $i ?>_<?php echo $j ?>',600,600);">
                     <?php echo htmlout($sequenceclips[$i][$j]['clipname'], ENT_QUOTES, 'UTF-8'); ?></a>
+                    
                     </small>
 
                     <input type="hidden" name="clip_id_<?php echo $i ?>_<?php echo $j ?>" value="<?php echo $sequenceclips[$i][$j]['clip_id']; ?>">

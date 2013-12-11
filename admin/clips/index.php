@@ -325,7 +325,7 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview' || $_POST['action
 
     exposeClipWithSections($firstClipId, $firstClipOrderNumber, $sequenceId, $singleClipSequence);
 
-    if ($_POST['action'] == 'Preview') {
+    if ($_POST['action'] == 'Preview' || $_GET['action'] == 'Quickpreview' ) {
         //include 'clippreview.html.php';
         include '../../templates/preview_tpl/clippreview_styled.html.php';
         exit();
@@ -333,6 +333,39 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview' || $_POST['action
         include '../../templates/edit_tpl/clipedit.html.php';
         exit();
     }
+}
+
+/********************* QuickPreview of clip in Popup ***************************/
+
+if (isset($_GET['action']) and $_GET['action'] == 'Quickpreview' ) {
+    include '../../includes/db.inc.php';
+    // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
+    
+    $firstClipId = 0;
+    $firstClipOrderNumber = 0;
+    $sequenceId = 0;
+    $singleClipSequence = 0;
+    
+   try {
+        $result = $pdo->query('SELECT id, cliplayoutname FROM cliplayout');
+    } catch (PDOException $error) {
+        $error = 'Error fetching clip layouts from database!';
+        include '../../includes/error.html.php';
+        exit();
+    }
+
+    foreach ($result as $row) {
+        $cliplayouts[] = array(
+            'id' => $row['id'],
+            'cliplayoutname' => $row['cliplayoutname']
+        );
+    }
+
+    exposeClipWithSections($firstClipId, $firstClipOrderNumber, $sequenceId, $singleClipSequence); 
+    
+    include '../../templates/preview_tpl/clippreview_styled.html.php';
+    exit();
+    
 }
 
 
@@ -363,7 +396,6 @@ if (isset($_GET['Next_Clip'])) {
         exit();
     }
 
-    //displayNextClip();
 }
 
 

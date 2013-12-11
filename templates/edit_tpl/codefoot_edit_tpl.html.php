@@ -39,7 +39,7 @@
 		-->
                 
                 <input type="button" 
-                       onclick="PopupCenter('../../filegator/', 'myPop1',900,700);"
+                       onmouseover="PopupCenter('../../filegator/', 'myPop1',900,700);"
                        value="Upload media via FileGator"/>
                 
                  <!--          window.focus();'
