@@ -844,7 +844,7 @@ if(isset($_FILES['image'])){
     $errors[]='File size must be excately 2 MB';
     }				
     if(empty($errors)==true){
-        move_uploaded_file($file_tmp,"../../images/".$file_name);
+        move_uploaded_file($file_tmp,"../../media/".$file_name);
         echo "Success";
     }else{
         print_r($errors);
