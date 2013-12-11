@@ -43,7 +43,7 @@ class gatorconf {
 				'max_filesize' => 2097152, // 2MB
 
 				// allow users to sign up (true/false)
-				'allow_signup' => false,
+				'allow_signup' => true,
 				
 				// use signup activation via email (true/false)
 				'signup_use_activation' => true,
@@ -129,7 +129,7 @@ class gatorconf {
 				'restricted_files' => array('.htaccess'),
 				
 				// mask directories up to the main file repository (true/false)
-				// set this to true if you don't want to use full path iside admin area
+				// set this to true if you don't want to use full path inside admin area
 				'mask_repository_path' => false,
 
 				// encrypt url actions (true/false)

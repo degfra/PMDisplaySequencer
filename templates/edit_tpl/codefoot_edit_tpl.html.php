@@ -37,6 +37,25 @@
 			font-size: 140%;  <br>
 			font-size: 70%;  <br><br>
 		-->
+                
+                <input type="button" 
+                       onclick="PopupCenter('../../filegator/', 'myPop1',900,700);"
+                       value="Upload media via FileGator"/>
+                
+                 <!--          window.focus();'
+                           value="Upload media via FileGator" />
+                "PopupCenter('../../filegator/', 'myPop1',400,400);" href="javascript:void(0);
+                ../../filegator/ -->
+                
+                
+                <!--<strong><a href='javascript:window.open("../../filegator/");
+                           window.focus();'>Upload media via FileGator</a></strong><br>  
+                <form action="" method="POST" enctype="multipart/form-data"
+                      style=" position: absolute; top: 365px;">
+                    <input type="file" name="image"/>
+                    <input type="submit"/>
+                </form> -->
+                <br>
 		<strong>Set animation effects : <br>(Create a div first <br> and choose these as CSS class)</strong><br>
 			animated fadeInLeftBig <br>
 			animated fadeInRightBig <br>
@@ -56,13 +75,6 @@
 		<strong>Set animation delay : <br>(CSS Style : in seconds)</strong><br>
 			-moz-animation-duration: 3s; <br>
 			animation-delay: 1.5s; <br><br>
-                <strong>Upload images :</strong><br>  
-                
-                <form action="" method="POST" enctype="multipart/form-data"
-                      style=" position: absolute; top: 365px;">
-                    <input type="file" name="image"/>
-                    <input type="submit"/>
-                </form>
                
                 <p style=" position: absolute; top: 450px;"><strong>1.  </trong></p>
                 
@@ -88,6 +100,9 @@
                 if (document.getElementById( 'headerEditor' )) {
                 CKEDITOR.inline( 'headerEditor',
                             {
+                                filebrowserBrowseUrl: '../../filegator/index.php',
+                                
+                                
                                 // Removes the maximize plugin as it's not usable
 				// in a shared toolbar.
                                 extraPlugins: 'sharedspace',
@@ -108,6 +123,9 @@
                 if (document.getElementById( 'leftSidebarEditor' )) {
                 CKEDITOR.inline( 'leftSidebarEditor',
                             {
+                                filebrowserBrowseUrl: '../../filegator/index.php',
+                                
+                                
                                 extraPlugins: 'sharedspace',
                                 removePlugins : 'maximize,resize',
 				
@@ -124,6 +142,9 @@
 		if (document.getElementById( 'mainEditor' )) {
                 CKEDITOR.inline( 'mainEditor',
                             {
+                                filebrowserBrowseUrl: '../../filegator/index.php',
+                                
+                                
                                 extraPlugins: 'sharedspace',
                                 removePlugins : 'maximize,resize',
 				
@@ -140,6 +161,9 @@
 		if (document.getElementById( 'rightSidebarEditor' )) {
                 CKEDITOR.inline( 'rightSidebarEditor',
                             {
+                                filebrowserBrowseUrl: '../../filegator/index.php',
+                                
+                                
                                 extraPlugins: 'sharedspace',
                                 removePlugins : 'floatingspace,resize',
 				
@@ -156,6 +180,9 @@
 		if (document.getElementById( 'footerEditor' )) {
                 CKEDITOR.inline( 'footerEditor',
                             {
+                                filebrowserBrowseUrl: '../../filegator/index.php',
+                                
+                                
                                 extraPlugins: 'sharedspace',
                                 removePlugins : 'floatingspace,resize',
 				
