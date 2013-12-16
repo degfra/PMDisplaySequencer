@@ -337,9 +337,14 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview' || $_POST['action
 
 /********************* QuickPreview of clip in Popup ***************************/
 
-if (isset($_GET['action']) and $_GET['action'] == 'Quickpreview' ) {
+//if (isset($_GET['action']) and $_GET['action'] == 'Quickpreview' ) {
+if (isset($_POST['action']) and $_POST['action'] == 'Quickpreview' ) {
     include '../../includes/db.inc.php';
     // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
+    
+    $returntoeditorbutton = '<p><input type="button" style=" position: absolute; left: 970px; top: 700px; "
+                          value="Close this preview window" 
+                          onclick="javascript: window.close()"/></p>';
     
     $firstClipId = 0;
     $firstClipOrderNumber = 0;
