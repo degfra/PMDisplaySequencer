@@ -33,14 +33,15 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Create')) {
 
 
 /* * ************** PREVIEW A SEQUENCE **************** */
-include '../../includes/db.inc.php';
-// include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
+//include '../../includes/db.inc.php';
+include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
 
-if (isset($_POST['action']) and ($_POST['action'] == 'Preview')) {
+if (isset($_POST['action']) and ($_POST['action'] == 'Preview') || $_POST['action'] == 'Quickpreview') {
     
     // GET THE FIRST CLIP IN THE SEQUENCE AND REQUIRED SEQUENCE ATTRIBUTES
-    try {
-
+    if ($_POST['action'] == 'Preview') {
+    
+    try {  
       $sql = 'SELECT
               clip.id, clip.clipname,
               sequence.id as sequenceId,
@@ -62,18 +63,45 @@ if (isset($_POST['action']) and ($_POST['action'] == 'Preview')) {
       include '../../includes/error.html.php';
       exit();
     }
+    
+    } else if ($_POST['action'] == 'Quickpreview') {
+        
+        try {  
+          $sql = 'SELECT
+                  clip.id, clip.clipname,
+                  sequence.id as sequenceId,
+                  sequenceclip.inSequenceClipid, sequenceclip.sequenceid,
+                  sequenceclip.inSequenceNextClipId, sequenceclip.inSequenceClipOrderNumber,
+                  sequenceclip.singleClipSequence
+
+                  FROM sequence
+                  JOIN sequenceclip ON sequence.id = sequenceclip.sequenceid
+                  JOIN clip ON clip.id = sequenceclip.inSequenceClipid
+                  WHERE sequenceclip.inSequenceClipid = :clip_id
+                  AND sequenceclip.singleClipSequence = :single_clip';
+
+          $s = $pdo->prepare($sql);
+          $s->bindValue(':clip_id', $_POST['clip_id']);
+          $s->bindValue(':single_clip', 1);
+          $s->execute();
+
+        } catch (PDOException $error) {
+          $error = $error->getMessage();   //getTraceAsString();   //'Error fetching clip!';
+          include '../../includes/error.html.php';
+          exit();
+        }
+    
+    } 
 
     foreach ($s as $row) {
-
-      $sequenceclips[] = array(
-      'clip_id' => $row['inSequenceClipid'],
-      'nextClipId' => $row['inSequenceNextClipId'],
-      'clipOrderNumber' => $row['inSequenceClipOrderNumber'],
-      'singleClipSequence' => $row['singleClipSequence'],
-      'sequence_id' => $row['sequenceId']
-      );
-
-    } 
+          $sequenceclips[] = array(
+          'clip_id' => $row['inSequenceClipid'],
+          'nextClipId' => 0,
+          'clipOrderNumber' => $row['inSequenceClipOrderNumber'],
+          'singleClipSequence' => 1,
+          'sequence_id' => $row['sequenceId']
+          );
+    }
 
     $firstClipId = $sequenceclips[0]['clip_id']; 
     $firstClipOrderNumber = $sequenceclips[0]['clipOrderNumber'];
@@ -177,7 +205,7 @@ try {
             'SELECT * 
              FROM sequence
              JOIN sequenceclip ON sequence.id = sequenceclip.sequenceid
-             
+             WHERE sequenceclip.singleClipSequence = 0
              GROUP BY sequence.id');    // WHERE sequenceclip.singleClipSequence = 0
     
 } catch (PDOException $error) {
@@ -211,7 +239,8 @@ for ($i = 0; $i < count($sequences); $i++) {
         $sql = 'SELECT 
                     clip.id as clipId, clip.clipname, 
                     sequence.id as sequenceId,
-                    sequenceclip.singleClipSequence
+                    sequenceclip.singleClipSequence,
+                    sequenceclip.InSequenceNextClipId
 
                         FROM sequence
                         JOIN sequenceclip ON sequence.id = sequenceclip.sequenceid
@@ -234,7 +263,7 @@ for ($i = 0; $i < count($sequences); $i++) {
             'sequence_id' => $sequenceclip['sequenceId'],
             'clip_id' => $sequenceclip['clipId'],
             'clipname' => $sequenceclip['clipname'],
-            'nextClipId' => $sequenceclip['nextClipId'],
+            'nextClipId' => $sequenceclip['InSequenceNextClipId'],
             'singleClip' => $sequenceclip['singleClipSequence']
         );
     }

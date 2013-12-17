@@ -393,6 +393,9 @@ if (isset($_GET['Next_Clip'])) {
             include '../../templates/preview_tpl/endofclippreview.html.php';
             exit();
         }
+        
+    /*     * ********* IF CLIP SEQUENCE ********* */
+        
     } else {
 
         exposeClipWithSections();

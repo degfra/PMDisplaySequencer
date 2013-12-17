@@ -57,12 +57,28 @@
         <link rel="stylesheet" href="../../css/skeleton_2sidebars_1920.css">
         <?php echo $clip['cliplayoutcssref']; ?>
         
+        <style> 
+        div#div2
+        {
+        margin:100px;
+        transform:scale(0.5, 0.5);
+        -ms-transform:scale(0.5, 0.5); /* IE 9 */
+        -webkit-transform:scale(0.5, 0.5); /* Safari and Chrome */
+        }
+        </style>
+        
 
 
     </head>
     <body scroll="no" style="overflow: hidden; background-color: #fff;" leftmargin="0" topmargin="0"
           rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0"
           style="background-color: #fff;">
+        
+        <?php   if ($_POST['action'] == 'Quickpreview') {
+        
+                echo('<div id="div2">');
+               }
+        ?>
 
         <!-- Primary Page Layout
         ================================================== -->
