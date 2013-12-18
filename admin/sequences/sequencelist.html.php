@@ -154,7 +154,7 @@
                         <input type="hidden" name="singleClip" value="<?php echo $sequenceclips[$i][$j]['singleClip']; ?>">
                         <input type="hidden" name="sequence_id" value="<?php echo $sequenceclips[$i][$j]['sequence_id']; ?>">
 
-                        <button name="action" value="Quickpreview" onclick='javascript: document.getElementById("<?php echo $formElem; ?>").submit();'><?php echo htmlout($sequenceclips[$i][$j]['clipname'], ENT_QUOTES, 'UTF-8'); ?></button>
+                        <button title="Click to preview the Clip" name="action" value="Quickpreview" onclick='javascript: document.getElementById("<?php echo $formElem; ?>").submit();'><?php echo htmlout($sequenceclips[$i][$j]['clipname'], ENT_QUOTES, 'UTF-8'); ?></button>
                         <!--<input type="submit" name="action" value="<?php echo htmlout($sequenceclips[$i][$j]['clipname'], ENT_QUOTES, 'UTF-8'); ?>"/>-->
 
                     </form>

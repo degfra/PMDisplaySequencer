@@ -34,13 +34,13 @@
             <p><input type="button" value="Return to Sequences Management" 
                   onClick="javascript: location = '../sequences/'"/></p>
         <?php 
-        } else if ($_POST['singleClip'] == 1 and $_POST['clipOrderNumber'] == 1 and $_POST['nextClipId'] == 0) { ?>
+        } else if ($_POST['singleClip'] == 1 and strpos($_SERVER['HTTP_REFERER'], 'sequences')) { ?>
 
             <p><input type="button" value="Close this preview" 
                       onClick="javascript: window.close();"/></p>
         
         <?php
-        } else if ($_POST['singleClip'] == 1 and $_POST['clipOrderNumber'] == 1) { ?> 
+        } else if ($_POST['singleClip'] == 1 and strpos($_SERVER['HTTP_REFERER'], 'clips')) { ?> 
 
             <p><input type="button" value="Return to Clips Management" 
                   onClick="javascript: location = '../clips/'"/></p>
