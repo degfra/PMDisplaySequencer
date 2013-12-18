@@ -74,11 +74,11 @@
           rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0"
           style="background-color: #fff;">
         
-        <?php   if ($_POST['action'] == 'Quickpreview') {
+        <!--<?php   if ($_POST['action'] == 'Quickpreview') {
         
                 echo('<div id="div2">');
                }
-        ?>
+        ?>-->
 
         <!-- Primary Page Layout
         ================================================== -->

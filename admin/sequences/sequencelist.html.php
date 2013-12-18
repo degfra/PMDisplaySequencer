@@ -69,7 +69,7 @@
             var top = (screen.height/2)-(h/2);
             // here we popup the new window, the second attribute have to be the same as the form target attribute
            window.open( "", 
-           "windowName", "width="+w+", height="+h+", left ="+left+", top="+top+", resizable=no, scrollbars=no, toolbar=no, status=no, location=no, status=no, menubar=no" );
+           "windowName", "width="+w+", height="+h+", left ="+left+", top="+top+", resizable=no, scrollbars=no, addressbar=no, toolbar=no, status=no, location=no, status=no, menubar=no" );
             // we submit the form 50 milliseconds after so the browser creates the popup 
             setTimeout("document.getElementById(‘" + formElem + "’).submit();",50); // " + formElem + "
             // we stop the regurar form submit
@@ -132,7 +132,7 @@
                     <!-- <?php echo $formElem; ?> -->
                     <form id="<?php echo $formElem; ?>" 
                           action ="" method ="post" 
-                          target="windowName" onsubmit="return postPopup(<?php echo $formElem; ?>, 600, 485);" 
+                          target="windowName" onsubmit="return postPopup(<?php echo $formElem; ?>, 768, 520);" 
                           style="display: inline">
                         <small>
                         <!--<a href="#" title="Click to preview the Clip" onclick="PopupCenter('/PMDisplaySequencer/admin/clips/?clip_id=<?php echo $sequenceclips[$i][$j]['clip_id']; ?>&action=Quickpreview', 'clipPop_<?php echo $i ?>_<?php echo $j ?>',600,600);">

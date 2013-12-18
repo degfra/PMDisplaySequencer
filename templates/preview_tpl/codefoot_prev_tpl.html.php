@@ -40,11 +40,11 @@
 <script>window.jQuery || document.write("<script src='javascripts/jquery-1.5.1.min.js'>\x3C/script>")</script>
 <script src="../../js/app.js"></script>
 
-<?php   if ($_POST['action'] == 'Quickpreview') {
+<!--<?php   if ($_POST['action'] == 'Quickpreview') {
         
                 echo('</div>');
         }
-?>
+?>-->
 
 <!-- End Document
 ================================================== -->
