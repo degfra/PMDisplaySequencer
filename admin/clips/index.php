@@ -12,7 +12,7 @@ include_once '../../includes/listclipsections-function.inc.php';
 if (isset($_POST['action']) and $_POST['action'] == 'Create') {
 
     include '../../includes/db.inc.php';
-    // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
+    //include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
     // SAVE THE CONFIGURABLE CLIP ATTRIBUTES
     try {
 
@@ -295,7 +295,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Create') {
 //if (isset($_GET['action']) and ($_GET['action'] == 'Preview' || $_GET['action'] == 'Edit' )) {
 if (isset($_POST['action']) and ($_POST['action'] == 'Preview' || $_POST['action'] == 'Edit' )) {
     include '../../includes/db.inc.php';
-    // include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
+    //include $_SERVER['DOCUMENT_ROOT'] .'/includes/db.inc.php';
 
     $returntoeditorbutton = '<p><input type="button" style=" position: absolute; left: 970px; top: 700px; "
                           value="Return to the Clip Editor" 
@@ -798,7 +798,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Update') {
             );
         }
 
-    exposeClipWithSections();
+    exposeClipWithSections($firstClipId, $firstClipOrderNumber, $sequenceId, $singleClipSequence);
 
     //header('Location: .');
     //exit();

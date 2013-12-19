@@ -40,29 +40,6 @@
     </style>
     
     <script type="text/javascript">
-        /*function quickPreview(clipId) {
-            //PopupCenter("/PMDisplaySequencer/admin/clips/?clip_id=" + clipId + "&action=Quickpreview", 'clipPop1',900,700);
-            window.open("/PMDisplaySequencer/admin/clips/?clip_id=" + clipId + "&action=Quickpreview");
-            window.focus();
-        }
-        
-        function PopupCenter(pageURL, title,w,h) {
-                var left = (screen.width/2)-(w/2);
-            var top = (screen.height/2)-(h/2);
-            var targetWin = window.open (pageURL, title, 
-                'toolbar=no, location=no, \n\
-                directories=no, status=no, menubar=no, \n\
-                scrollbars=no, resizable=no, copyhistory=yes, \n\
-                width='+w+', height='+h+', top='+top+', left='+left);
-           // window.focus();
-               // document.forms.quickpreviewform.submit();
-        } 
-        
-        function Quickpreview() {
-            document.forms.quickpreviewform.submit();
-        }*/
-        
-        //var formElem = document.getElementById(‘quickpreviewform’);
         
         function postPopup( formElem, w, h ) {      // formElem 
             var left = (screen.width/2)-(w/2);
@@ -132,7 +109,7 @@
                     <!-- <?php echo $formElem; ?> -->
                     <form id="<?php echo $formElem; ?>" 
                           action ="" method ="post" 
-                          target="windowName" onsubmit="return postPopup(<?php echo $formElem; ?>, 768, 520);" 
+                          target="windowName" onsubmit="return postPopup(<?php echo $formElem; ?>, 778, 520);" 
                           style="display: inline">
                         <small>
                         <!--<a href="#" title="Click to preview the Clip" onclick="PopupCenter('/PMDisplaySequencer/admin/clips/?clip_id=<?php echo $sequenceclips[$i][$j]['clip_id']; ?>&action=Quickpreview', 'clipPop_<?php echo $i ?>_<?php echo $j ?>',600,600);">
