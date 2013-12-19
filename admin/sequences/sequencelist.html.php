@@ -104,7 +104,7 @@
                 <br>
             </form>    
                 <?php for ( $j=0 ; $j < count($sequenceclips[$i]) ; $j++ ): ?> 
-                    
+                   |
                     <?php $formElem = "quickpreviewform_". $i . "_" . $j ;?>
                     <!-- <?php echo $formElem; ?> -->
                     <form id="<?php echo $formElem; ?>" 
@@ -135,10 +135,10 @@
                         <!--<input type="submit" name="action" value="<?php echo htmlout($sequenceclips[$i][$j]['clipname'], ENT_QUOTES, 'UTF-8'); ?>"/>-->
 
                     </form>
-                 
+                  
                 
                 <?php endfor;?>
-                
+                 |
                 <br>
  
             
