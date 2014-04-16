@@ -76,7 +76,7 @@ function exposeClipWithSections($firstClipId, $firstClipOrderNumber,
             $s->bindValue(':clip_id', $_POST['clip_id']);
             $s->bindValue(':sequence_id', $_POST['sequence_id']);
         
-        // IN CASE OF A SEQUENCE WITH MULTIPLE CLIPS : FOR THW FIRST CLIP
+        // IN CASE OF A SEQUENCE WITH MULTIPLE CLIPS : FOR THE FIRST CLIP
         } else if ($singleClipSequence == 0 and $firstClipOrderNumber == 1) {
             $s->bindValue(':clip_id', $firstClipId);
             $s->bindValue(':sequence_id', $sequenceId);
