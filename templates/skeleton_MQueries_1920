@@ -1,0 +1,31 @@
+/* #Media Queries
+================================================== */
+
+	/* Smaller than standard FullHD 1920 (devices and browsers) */
+	@media only screen and (max-width: 1919px) and (max-height: 1078px) {}
+
+	/* DeskTop/LapTop from standard 1600 to standard 1920 (devices and browsers)  */
+	@media only screen and (min-width: 1600px) and (max-width: 1919px) and (max-height: 1078px) {}
+    
+    	/* DeskTop/LapTop from standard 1440 to standard 1600 (devices and browsers)  */
+	@media only screen and (min-width: 1440px) and (max-width: 1599px) and (max-height: 1078px) {}
+    
+    	/* DeskTop/LapTop from standard 1280 to standard 1440 (devices and browsers)  */
+	@media only screen and (min-width: 1280px) and (max-width: 1439px) and (max-height: 1151px) {}
+	 
+	
+	/* DeskTop/LapTop from standard 960 to standard 1280 (devices and browsers)  */
+	@media only screen and (min-width: 960px) and (max-width: 1179px) and (max-height: 1023px) {}
+	/*@media only screen and (max-width: 959px) {} */ 
+
+	/* Tablet Portrait size to standard 960 (devices and browsers) */
+	@media only screen and (min-width: 768px) and (max-width: 959px) and (max-height: 767px) {}
+
+	/* All Mobile Sizes (devices and browser) */
+	@media only screen and (max-width: 767px) {}
+
+	/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
+	@media only screen and (min-width: 480px) and (max-width: 767px) {}
+
+	/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+	@media only screen and (max-width: 479px) {}

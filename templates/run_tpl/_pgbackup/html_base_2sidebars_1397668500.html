@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> 	
+
+<html lang="en"> <!--<![endif]-->
+    <head>
+
+        <!-- Basic Page Needs
+  ================================================== -->
+        <meta charset="utf-8" />
+        <title>DS - Preview : <?php echo $clip['clipname'] ?></title>
+        <!--[if lt IE 9]>
+                <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+        <!-- Mobile Specific Metas
+  ================================================== -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+        <!-- JS
+  ================================================== -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="../../js/modernizr.js"></script>
+        <script src="../../js/ckeditor/ckeditor.js"></script>
+        <script type="text/javascript" src="../../js/clipTimer.js"></script> 
+
+        <script>
+            
+            function countDown() {
+                if (count <= 0) {
+                    document.clipPreviewForm.submit();
+                } else {
+                    count--;
+                    //document.getElementById("timer").innerHTML = " Il reste : " + count
+                    +" secondes. ";
+                    setTimeout("countDown()", 1000);
+                }
+              
+            }
+            /*
+            function returnToEditor() {
+                
+                //window.location.assign("?clip_id=<?php echo $_POST['clip_id']; ?>&action=Edit");
+                history.back();
+
+            } */
+            
+        </script>
+
+        <!-- CSS
+  ==================================================   -->
+        <link rel="stylesheet" href="../../css/animate.min.css">
+        <link rel="stylesheet" href="../../css/base.css">
+        <link rel="stylesheet" href="../../css/skeleton_2sidebars_1920_1.css">
+        <?php echo $clip['cliplayoutcssref']; ?>
+        
+        <!--<style> 
+        div#div2
+        {
+        margin:100px;
+        transform:scale(0.5, 0.5);
+        -ms-transform:scale(0.5, 0.5); /* IE 9 */
+        -webkit-transform:scale(0.5, 0.5); /* Safari and Chrome */
+        }
+        </style> -->
+        
+
+
+    </head>
+    <body scroll="no" style="overflow: hidden; background-color: #93BFCC;" leftmargin="0" topmargin="0"
+          rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0">
+
+        <!-- Primary Page Layout
+        ================================================== -->
+
+        <!--<form name="clipPreviewForm" action="?Next_Clip" method="post"> -->
+
+            <div class="container" style="background-color:#93BFCC">  <!-- style="<?php echo $clip['clipbackgroundcolor']; ?> -->
+                
+                <!-- Header  
+                ================================ 
+                <div id="header" class="<?php echo $clip['headerwidth'];?>" 
+                    style="background-color:<?php echo $clip['clipbackgroundcolor'];?>">
+                <?php echo $clip['headercode']; ?>
+                </div> -->
+                <div id="header" class="sixteen columns" 
+                     style="background-color:#93BFCC">
+                    <p>Header</p>
+                </div>
+
+                <!-- Left sidebar  
+                ================================
+                <div id="leftsidebar" class="<?php echo $clip['leftbarwidth'];?>" 
+                    style="background-color:<?php echo $clip['clipbackgroundcolor'];?>">	
+                    <?php echo $clip['leftbarcode']; ?>
+                </div> -->
+                <div id="leftsidebar" class="three columns" 
+                    style="background-color:#93BFCC">	
+                    <p>Left sidebar</p>
+                </div>
+
+                <!-- Main area  
+                ================================
+                <div id="main" class="<?php echo $clip['mainareawidth'];?>" align='center' 
+                    style="background-color:<?php echo $clip['clipbackgroundcolor'];?>">
+                   <?php echo $clip['mainareacode']; ?>
+               </div> -->
+                <div id="main" class="ten columns" align='center' 
+                    style="background-color:#93BFCC">
+                    <p>Main content area with 2 sidebars</p>
+                </div>
+
+                <!-- Right sidebar  
+                ================================
+                <div id="rightsidebar" class="<?php echo $clip['rightbarwidth'];?>" 
+                    style="background-color:<?php echo $clip['clipbackgroundcolor'];?>">	
+                    <?php echo $clip['rightbarcode']; ?>
+                </div> -->
+                <div id="rightsidebar" class="three columns" 
+                    style="background-color:#93BFCC">	
+                    <p>Right sidebar</p>
+                </div>
+
+                <!-- Footer  
+                ================================
+                <div id="footer" class="<?php echo $clip['footerwidth'];?>" 
+                    style="background-color:<?php echo $clip['clipbackgroundcolor'];?>">	
+                   <?php echo $clip['footercode']; ?>
+                </div> -->
+                <div id="footer" class="sixteen columns" 
+                    style="background-color:#93BFCC">	
+                    <p>Footer</p>
+                </div>
+
+            </div><!--container-->
+            
+            <!-- <input type='hidden' name='clipname' value="<?php htmlout($clip['clipname']); ?>" /> <!-- style=' position: relative; left: 102%; top: -23%' -->
+            <!--     <input type='hidden' name='clipDuration' value="<?php htmlout($clip['clipDurationInSeconds']); ?>" />
+                <input type="hidden" name='clipOrderNumber'value="<?php htmlout($clip['clipOrderNumber']); ?>" />
+                <input type="hidden" name='nextClipId'value="<?php htmlout($clip['nextClipId']); ?>" />
+                <input type="hidden" name='isLoop'value="<?php htmlout($clip['isLoop']); ?>" />
+                <input type="hidden" name='singleClip'value="<?php htmlout($clip['singleClip']); ?>" />
+                <input type="hidden" name='updated'value="<?php htmlout($clip['updated']); ?>" />
+                <input type="hidden" id="clip_id" name="clip_id" value="<?php echo $clip['id']; ?>" />
+                <input type="hidden" id="sequence_id" name="sequence_id" value="<?php echo $_POST['sequence_id']; ?>" />
+
+                <input type='submit' value="Next_Clip" style=' position: absolute; left: 970px; top: 650px;'/>	-->
+
+            
+        
+        <!-- </form> -->
+
+        <!--<div style=" font-size: 100%; position: absolute; left: 970px; top: 500px;" >
+            Your update is saved automatically.<br>
+            Total duration : <?php htmlout($clip['clipDurationInSeconds']); ?> seconds
+            <br> <br>
+            Press F11 for FULL SCREEN
+        </div> -->
+
+        <script type="text/javascript">
+            var count = document.clipPreviewForm.clipDuration.value;
+            countDown();
+        </script>
+
+        <!-- JS
+        ================================================== -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
+        <script>window.jQuery || document.write("<script src='javascripts/jquery-1.5.1.min.js'>\x3C/script>")</script>
+        <script src="../../js/app.js"></script>
+
+<!-- End Document
+================================================== -->
+</body>
+</html>     

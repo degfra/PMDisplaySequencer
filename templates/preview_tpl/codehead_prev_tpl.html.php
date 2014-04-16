@@ -57,7 +57,7 @@
         <link rel="stylesheet" href="../../css/skeleton_2sidebars_1920.css">
         <?php echo $clip['cliplayoutcssref']; ?>
         
-        <style> 
+        <!--<style> 
         div#div2
         {
         margin:100px;
@@ -65,7 +65,7 @@
         -ms-transform:scale(0.5, 0.5); /* IE 9 */
         -webkit-transform:scale(0.5, 0.5); /* Safari and Chrome */
         }
-        </style>
+        </style> -->
         
 
 

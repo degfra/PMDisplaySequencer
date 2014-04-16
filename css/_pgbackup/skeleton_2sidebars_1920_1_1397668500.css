@@ -75,7 +75,7 @@
 	/* DeskTop/LapTop from standard 1440 up to FullHD size 1920 (devices and browsers)   
 ================================================== */
 
-	@media only screen and (max-width: 1919px) and (max-height: 1078px) {
+	@media only screen and (min-width: 1440px) and (max-width: 1919px) and (max-height: 1078px) {
     .container                                  { width: 1440px; height: 900px ; font: 24px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;}
     .container .column,
     .container .columns                         { float: left; display: inline; margin-left: 14px; margin-right: 14px; }
@@ -185,8 +185,8 @@
 
     /* Note: Design for a width of 768px */
 
-    @media only screen and (min-width: 768px) and (max-width: 959px) and (max-height: 767px) {
-        .container                                  { width: 768px; height: 520px ; font: 14px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    @media only screen and (min-width: 768px) and (max-width: 959px) and (max-height: 1366px) {
+        .container                                  { width: 768px; height: 1366px ; font: 14px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif; }
         .container .column,
         .container .columns                         { margin-left: 9px; margin-right: 9px;  }
         .column.alpha, .columns.alpha               { margin-left: 0; margin-right: 9px; }
